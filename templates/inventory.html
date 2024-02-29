@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .filters-inventory {
+            margin-top: -27px;
+            margin-left: 190px;
+            padding-left: 50px;
+        }
+
+        .search {
+            display: flex;
+            justify-content: center;
+            justify-content: space-evenly;
+
+        }
+
+        .pad-15 {
+            padding-top: 48px;
+        }
+
+        .grid1 {
+            display: grid;
+        }
+
+        .search input {
+            width: 300px;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        .container1 {
+            /* margin-top: 10px; */
+            margin: 50px;
+            margin-left: 100px;
+            width: 1300px;
+            border: 2px solid black;
+        }
+        table,
+        td {
+            border: 1px solid black;
+            /* border-collapse: collapse; */
+            width: 1000px;
+            text-align: center;
+        }
+        td {
+            height: 40px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        table {
+            width: 100%;
+            border: 2px solid black;
+        }
+
+        th {
+            border: 2px solid black;
+            border-collapse: collapse;
+            background-color: #96D4D4;
+            width: 1100px;
+            /* width: max-content; */
+            height: 40px;
+            text-align: center;
+            /* width:100% */
+            white-space: nowrap;
+        }
+        .matter {
+            overflow-x: scroll;
+            overflow-y: scroll;
+            width: 1300px;
+            /* margin-left: 200px; */
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/item_details">Item Details</a></li>
+            <li><a href="/inventory">Inventory</a></li>
+            <li><a href="/purchase_orders">Purchase Orders</a></li>
+            <li><a href="/lookup_details">Lookup Details</a></li>
+        </ul>
+    </div>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid mb-3 pt-3">
+            <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
+            <a class="navbar-brand" href="/main">Home</a>
+            <a class="navbar-brand" href="/logout">Logout</a>
+        </div>
+    </nav>
+    <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <div class="filters-inventory" id="filters">
+        <button class="toggle-btn" onclick="toggleSearchBar()">open</button>
+        <div class="box1">
+            <div class="search">
+                <div class="grid1">
+                    Inventory Number: <input type="text" name="search" id="search_inventory_id"
+                        placeholder="Inventory Number">
+                    Install Location: <input type="text" name="search" id="search_install_location"
+                        placeholder="Install Location">
+                    Project Code: <input type="text" name="search" id="search_project_code" placeholder="Project Code">
+                    Quantity: <input type="text" name="search" id="search_quantity" placeholder="Quantity">
+                    IP Address: <input type="text" name="search" id="search_ip_address" placeholder="IP Address">
+                </div>
+                <div class="grid1">
+                    Subnet Mask: <input type="text" name="search" id="search_subnet_mask" placeholder="Subnet Mask">
+                    Gateway: <input type="text" name="search" id="search_gateway" placeholder="Gateway">
+                    Comments: <input type="text" name="search" id="search_comments" placeholder="Comments">
+                    Last PO Num: <input type="text" name="search" id="search_last_po_num" placeholder="Last PO Num">
+                    Last PO Price: <input type="text" name="search" id="search_last_po_price"
+                        placeholder="Last PO Price">
+                </div>
+            </div>
+            <div class="pad-15">
+                <center>
+                    <button onclick="fetchInventory(),toggleSearchBar()" class="button">Search</button>
+                    <button class="additem"> Add Items</button>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="container1">
+        <div id="inventoryDataContainer" class="matter">
+            <table>
+                <tr>
+                    <th>Sno.</th>
+                    <th>INSTALL LOCATION</th>
+                    <th>PROJECT CODE</th>
+                    <th>QUANTITY</th>
+                    <th>IP ADDRESS</th>
+                    <th>SUBNET MASK</th>
+                    <th>GATEWAY</th>
+                    <th>COMMENTS</th>
+                    <th>LAST PO NUM</th>
+                    <th>LAST PO PRICE</th>
+                    <th>RENEWAL DATE</th>
+                    <th>NOTES</th>
+                    <th>CREATION DATE</th>
+                    <th>CREATED BY</th>
+                    <th>LAST UPDATE DATE</th>
+                    <th>LAST UPDATED BY</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/index.js"></script>
+
+    <script>
+        function fetchInventory(){
+            var inventory_id = document.getElementById("search_inventory_id").value;
+            var install_location = document.getElementById("search_install_location").value;
+            var project_code = document.getElementById("search_project_code").value;
+            var quantity = document.getElementById("search_quantity").value;
+            var ip_address = document.getElementById("search_ip_address").value;
+            var subnet_mask = document.getElementById("search_subnet_mask").value;
+            var gateway = document.getElementById("search_gateway").value;
+            var comments = document.getElementById("search_comments").value;
+            var last_po_num = document.getElementById("search_last_po_num").value;
+            var last_po_price = document.getElementById("search_last_po_price").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update the content of the data container with the fetched item data
+                    document.getElementById("inventoryDataContainer").innerHTML = xhr.responseText;
+                }
+            };
+            var url = `/get_inventory_data?inventory_id=${encodeURIComponent(inventory_id)}&install_location=${encodeURIComponent(install_location)}&project_code=${encodeURIComponent(project_code)}&quantity=${encodeURIComponent(quantity)}&ip_address=${encodeURIComponent(ip_address)}&subnet_mask=${encodeURIComponent(subnet_mask)}&gateway=${encodeURIComponent(gateway)}&comments=${encodeURIComponent(comments)}&last_po_num=${encodeURIComponent(last_po_num)}&last_po_price=${encodeURIComponent(last_po_price)}`;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        function toggleSearchBar() {
+            var searchBar = document.querySelector('.search');
+            searchBar.style.display = (searchBar.style.display === 'none') ? 'flex' : 'none';
+        }
+    </script>
+</body>
+
+</html>

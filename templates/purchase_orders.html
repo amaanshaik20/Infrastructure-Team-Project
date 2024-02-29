@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/item_details">Item Details</a></li>
+            <li><a href="/inventory">Inventory</a></li>
+            <li><a href="/purchase_orders">Purchase Orders</a></li>
+            <li><a href="/lookup_details">Lookup Details</a></li>
+        </ul>
+    </div>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid mb-3 pt-3">
+            <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
+            <a class="navbar-brand" href="/main">Home</a>
+            <a class="navbar-brand"  href="/logout">Logout</a>
+        </div>
+    </nav>
+    <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <div class="center">Purchase Orders</div>
+    <script src="/static/index.js"></script>
+</body>
+
+</html>
