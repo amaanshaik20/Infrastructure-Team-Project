@@ -1,4 +1,4 @@
-from flask import Flask,render_template,session,request,redirect,url_for
+from flask import Flask,render_template,session,request,redirect,url_for,jsonify
 import pyodbc
 import subprocess
 app = Flask(__name__) 
@@ -32,6 +32,10 @@ def purchase_orders():
 def lookup_details(): 
 	return render_template("lookup_details.html")
 
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
 @app.route("/main", methods=["GET", "POST"])
 def main():
     if request.method == "POST":
@@ -41,7 +45,7 @@ def main():
 
     
         # Check the credentials (This is a simple example, not secure for production)
-        cursor.execute("SELECT * FROM admin WHERE username = ? AND password = ?", (username, password))
+        cursor.execute("SELECT username,password FROM users WHERE username = ? AND password = ?", (username, password))
         user = cursor.fetchone()
         if user:
             session['username'] = username  # Store the username in the session
@@ -226,6 +230,29 @@ def execute1():
         return render_template("inventory.html")
     except Exception as e:
          return f"Error during execution:{str(e)}"
+
+@app.route("/insert_data", methods=["POST"])
+def insert_data():
+    try:
+        # Receive data from the client
+        data = request.get_json()
+        # Extract data fields
+        name = data.get("name")
+        email = data.get("email")
+        phonenumber = data.get("phonenumber")
+        username = data.get("username")
+        password = data.get("password")
+        
+        # Execute your SQL query to insert data into the database
+        cursor.execute("INSERT INTO users (name, email, phonenumber, username, password) VALUES (?, ?, ?, ?, ?);",
+                       (name, email, phonenumber, username, password));
+        conn.commit()
+
+        return jsonify({"message": "registered successfully"})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 
 if __name__ == "__main__": 
 	app.run(debug=True) 
