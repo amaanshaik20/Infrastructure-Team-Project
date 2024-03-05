@@ -253,6 +253,34 @@ def insert_data():
     except Exception as e:
         return jsonify({"error": str(e)})
 
+@app.route("/insert_data1", methods=["POST"])
+def insert_data1():
+    try:
+        # Receive data from the client
+        data = request.get_json()
+        # Extract data fields
+        ITEM_NUMBER = data.get("ITEM_NUMBER")
+        ITEM_DESCRIPTION = data.get("ITEM_DESCRIPTION")
+        ITEM_TYPE = data.get("ITEM_TYPE")
+        MANUFACTURER_CODE = data.get("MANUFACTURER_CODE")
+        ITEM_CATEGORY = data.get("ENABLED_FLAG")
+        CPU = data.get("CPU")
+        MEMORY = data.get("MEMORY")
+        DISKS = data.get("DISKS")
+        UOM = data.get("UOM")
+        ENABLED_FLAG = data.get("ENABLED_FLAG")
+        CREATION_DATE = data.get("CREATION_DATE")
+        CREATED_BY_USER=session['username']
+        LAST_UPDATE_DATE = data.get("LAST_UPDATE_DATE")
+        LAST_UPDATE_BY_USER=session['username']
+        # Execute your SQL query to insert data into the database
+        cursor.execute("INSERT INTO ITEM_MASTER (ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE,MANUFACTURER_CODE, ITEM_CATEGORY, CPU,MEMORY,DISKS,UOM,ENABLED_FLAG, CREATION_DATE,CREATED_BY_USER, LAST_UPDATE_DATE,LAST_UPDATE_BY_USER) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?);",
+                       (ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE,MANUFACTURER_CODE, ITEM_CATEGORY,CPU, MEMORY, DISKS,UOM,ENABLED_FLAG,CREATION_DATE,CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATE_BY_USER))
+        conn.commit()
+
+        return jsonify({"message": "Data inserted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 if __name__ == "__main__": 
 	app.run(debug=True) 
