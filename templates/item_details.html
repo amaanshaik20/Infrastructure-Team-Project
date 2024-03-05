@@ -23,6 +23,7 @@
             /* justify-content: space-evenly; */
             margin-bottom: 20px;
             margin-left: 250px;
+            max-height: 350px ;
         }
 
         .pad-15 {
@@ -100,6 +101,7 @@
         .button-container div {
             margin: 5px;
         }
+
         .label-input-pair {
             display: flex;
             align-items: center;
@@ -118,16 +120,22 @@
             width: 200px;
             /* Adjust the width as needed */
         }
-        .add{
-            overflow-y: scroll;
-            /* display: inline-block; */
+
+        .add {
+            overflow-y: auto;
+            border: 2px solid black;
+            width: 660px;
+            display: none;
+            overflow-x: visible;
+            height: 250px;
+            padding: 20px;
+            /* display: grid; */
         }
-        .add form{
-            display: grid;
+
+        .btn{
+            align-items: center;
         }
-        .add input{
-            height: 30px;
-        }
+        
     </style>
 </head>
 
@@ -187,7 +195,7 @@
                     </div>
                     <div class="label-input-pair">
                         <label for="search_cpu">CPU:</label>
-                        <input type="text" name="search" id="search_cpu" >
+                        <input type="text" name="search" id="search_cpu">
                     </div>
                     <div class="label-input-pair">
                         <label for="search_memory">Memory:</label>
@@ -198,11 +206,75 @@
                         <input type="text" name="search" id="search_disks">
                     </div>
                 </div>
-                <div class="add" style="border: 2px solid black; width: 660px; display: none;">
-                    <form action="">
-                        <input type="text" id="LOOKUP_TYPE_ID" name="LOOKUP_TYPE_ID">
-                        <input type="text" id="LOOKUP_TYPE_ID" name="LOOKUP_TYPE_ID">
-                        <input type="text" id="LOOKUP_TYPE_ID" name="LOOKUP_TYPE_ID">
+                <div class="add">
+                    <form>
+                        <div class="label-input-pair">
+                            <label for="ITEM_NUMBER">Item Number:</label>
+                            <input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER">
+                        </div>
+                        <div class="label-input-pair">
+                            <label for="ITEM_DESCRIPTION">Item Description:</label>
+                            <input type="text" name="ITEM_DESCRIPTION" id="ITEM_DESCRIPTION">
+                        </div>
+                        
+                        <div class="label-input-pair">
+                            <label for="ITEM_TYPE">Item Type:</label>
+                            <input type="text" name="ITEM_TYPE" id="ITEM_TYPE">
+                        </div>
+                        <div class="label-input-pair">
+                            <label for="MANUFACTURER_CODE">Manufacturer Code:</label>
+                            <input type="text" name="MANUFACTURER_CODE" id="MANUFACTURER_CODE">
+                        </div>
+                        <div class="label-input-pair">
+                            <label for="ITEM_CATEGORY">Item Category:</label>
+                            <input type="text" name="ITEM_CATEGORY" id="ITEM_CATEGORY">
+                        </div>
+                        
+                        <div class="label-input-pair">
+                            <label for="CPU">CPU:</label>
+                            <input type="text" name="CPU" id="CPU">
+                        </div>
+                        <div class="label-input-pair">
+                            <label for="MEMORY">Memory:</label>
+                            <input type="text" name="MEMORY" id="MEMORY">
+                        </div>
+                        <div class="label-input-pair">
+                            <label for="DISKS">DISKS:</label>
+                            <input type="text" name="DISKS" id="DISKS">
+                        </div>
+                        
+                        <div class="label-input-pair">
+                            <label for="UOM">UOM:</label>
+                            <input type="text" name="UOM" id="UOM">
+                        </div>
+                        
+                        <div class="label-input-pair">
+                            <label for="ENABLED_FLAG">Enabled Flag:</label>
+                            <select id="ENABLED_FLAG" name="ENABLED_FLAG">
+                                <option selected>Choose...</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select></td>
+                        </div>
+                        
+                        <div class="label-input-pair">
+                            <label for="CREATION_DATE">Creation Date:</label>
+                            <input type="date" name="CREATION_DATE" id="CREATION_DATE">
+                        </div>
+                        
+                        <div class="label-input-pair">
+                            <label for="LAST_UPDATE_DATE">Last Update Date:</label>
+                            <input type="date" name="LAST_UPDATE_DATE" id="LAST_UPDATE_DATE">
+                        </div>
+                        
+                        <div class="button-container1">
+                            <div>
+                                <button type="button" onclick="submitForm1()" class="button1">Save</button>
+                            </div>
+                            <div>
+                                <button type="button" onclick="toggleAddBar()" style="margin: 5px;">Cancel</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -216,7 +288,9 @@
                 <!-- <form action="/execute" method="post">
                     <button class="additem" style="margin: 5px;"> Add Items</button>
                 </form> -->
-                <button onclick="toggleAddBar()" style="margin: 5px;">Add Items</button>
+                <div>
+                    <button onclick="toggleAddBar()">Add Items</button>
+                </div>
             </div>
         </div>
     </div>
@@ -292,7 +366,69 @@
         }
         function toggleAddBar() {
             var addBar = document.querySelector('.add');
-            addBar.style.display = (addBar.style.display === 'none') ? 'flex' : 'none';
+            addBar.style.display = (addBar.style.display === 'none') ? 'grid' : 'none';
+        }
+
+        function submitForm1() {
+            // Get data from the form
+            var ITEM_NUMBER = document.getElementById("ITEM_NUMBER").value;
+            var ITEM_DESCRIPTION = document.getElementById("ITEM_DESCRIPTION").value;
+            var ITEM_TYPE = document.getElementById("ITEM_TYPE").value;
+            var MANUFACTURER_CODE = document.getElementById("MANUFACTURER_CODE").value;
+            var ITEM_CATEGORY = document.getElementById("ITEM_CATEGORY").value;
+            var CPU = document.getElementById("CPU").value;
+            var MEMORY = document.getElementById("MEMORY").value;
+            var DISKS = document.getElementById("DISKS").value;
+            var UOM = document.getElementById("UOM").value;
+            var ENABLED_FLAG = document.getElementById("ENABLED_FLAG").value;
+            var CREATION_DATE = document.getElementById("CREATION_DATE").value;
+            var LAST_UPDATE_DATE = document.getElementById("LAST_UPDATE_DATE").value;
+
+            // AJAX request to send data to the server for insertion
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Optionally, you can handle the response from the server
+                    console.log(xhr.responseText);
+                    alert("Form submitted successfully!");
+                    // Clear the form fields after successful insertion
+                    document.getElementById("ITEM_NUMBER").value = '';
+                    document.getElementById("ITEM_DESCRIPTION").value = '';
+                    document.getElementById("ITEM_TYPE").value = '';
+                    document.getElementById("MANUFACTURER_CODE").value = '';
+                    
+                    document.getElementById("ITEM_CATEGORY").value = '';
+                    document.getElementById("CPU").value = '';
+                    document.getElementById("MEMORY").value = '';
+                    document.getElementById("DISKS").value = '';
+                    
+                    document.getElementById("UOM").value = '';
+                    document.getElementById("ENABLED_FLAG").value = '';
+                    
+                    document.getElementById("CREATION_DATE").value = '';
+                    document.getElementById("LAST_UPDATE_DATE").value = '';
+                    
+                }
+            };
+            xhr.open("POST", "/insert_data1", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            // Send data as JSON
+            var data = {
+                "ITEM_NUMBER": ITEM_NUMBER,
+                "ITEM_DESCRIPTION": ITEM_DESCRIPTION,
+                "ITEM_TYPE": ITEM_TYPE,
+                "MANUFACTURER_CODE": MANUFACTURER_CODE,
+                "ITEM_CATEGORY": ITEM_CATEGORY,
+                "CPU": CPU,
+                "MEMORY": MEMORY,
+                "DISKS": DISKS,
+                "UOM": UOM,
+                "ENABLED_FLAG": ENABLED_FLAG,
+                "CREATION_DATE": CREATION_DATE,
+                "LAST_UPDATE_DATE": LAST_UPDATE_DATE,
+            };
+            xhr.send(JSON.stringify(data));
         }
     </script>
 </body>
