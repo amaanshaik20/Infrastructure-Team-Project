@@ -20,10 +20,12 @@
         .search {
             display: flex;
             /* justify-content: center; */
-            /* justify-content: space-evenly; */
+            justify-content: space-evenly;
             margin-bottom: 20px;
             margin-left: 250px;
-            max-height: 350px ;
+            max-height: 350px;
+            /* box-shadow: 0 5px #888888; */
+            width: 1400px;
         }
 
         .pad-15 {
@@ -33,6 +35,8 @@
         .grid1 {
             display: grid;
             /* margin-right: 30px; */
+            box-shadow: 1px 1px 1px 1px black;
+            background-color: lightgray;
         }
 
         .search input {
@@ -47,6 +51,7 @@
             margin-left: 250px;
             width: 1400px;
             border: 2px solid black;
+            /* justify-content: space-between; */
         }
 
         table,
@@ -71,13 +76,14 @@
         th {
             border: 2px solid black;
             border-collapse: collapse;
-            background-color: #96D4D4;
+            background-color: lightgray;
             width: 1200px;
             /* width: max-content; */
             height: 40px;
             text-align: center;
             /* width:100% */
             white-space: nowrap;
+            /* color: white; */
         }
 
         .matter {
@@ -93,8 +99,8 @@
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 470px;
-
+            margin-left: 830px;
+            
             /* Adjust as needed */
         }
 
@@ -124,15 +130,20 @@
         .add {
             overflow-y: auto;
             border: 2px solid black;
-            width: 660px;
+            /* box-shadow: 5px 10px #888880; */
+            border-radius: 10px;
+            width: 600px;
             display: none;
             overflow-x: visible;
-            height: 250px;
+            height: 220px;
             padding: 20px;
+            margin-left: 650px;
+            text-align: center;
+            justify-items: center; 
             /* display: grid; */
         }
 
-        .btn{
+        .btn {
             align-items: center;
         }
         
@@ -206,77 +217,6 @@
                         <input type="text" name="search" id="search_disks">
                     </div>
                 </div>
-                <div class="add">
-                    <form>
-                        <div class="label-input-pair">
-                            <label for="ITEM_NUMBER">Item Number:</label>
-                            <input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER">
-                        </div>
-                        <div class="label-input-pair">
-                            <label for="ITEM_DESCRIPTION">Item Description:</label>
-                            <input type="text" name="ITEM_DESCRIPTION" id="ITEM_DESCRIPTION">
-                        </div>
-                        
-                        <div class="label-input-pair">
-                            <label for="ITEM_TYPE">Item Type:</label>
-                            <input type="text" name="ITEM_TYPE" id="ITEM_TYPE">
-                        </div>
-                        <div class="label-input-pair">
-                            <label for="MANUFACTURER_CODE">Manufacturer Code:</label>
-                            <input type="text" name="MANUFACTURER_CODE" id="MANUFACTURER_CODE">
-                        </div>
-                        <div class="label-input-pair">
-                            <label for="ITEM_CATEGORY">Item Category:</label>
-                            <input type="text" name="ITEM_CATEGORY" id="ITEM_CATEGORY">
-                        </div>
-                        
-                        <div class="label-input-pair">
-                            <label for="CPU">CPU:</label>
-                            <input type="text" name="CPU" id="CPU">
-                        </div>
-                        <div class="label-input-pair">
-                            <label for="MEMORY">Memory:</label>
-                            <input type="text" name="MEMORY" id="MEMORY">
-                        </div>
-                        <div class="label-input-pair">
-                            <label for="DISKS">DISKS:</label>
-                            <input type="text" name="DISKS" id="DISKS">
-                        </div>
-                        
-                        <div class="label-input-pair">
-                            <label for="UOM">UOM:</label>
-                            <input type="text" name="UOM" id="UOM">
-                        </div>
-                        
-                        <div class="label-input-pair">
-                            <label for="ENABLED_FLAG">Enabled Flag:</label>
-                            <select id="ENABLED_FLAG" name="ENABLED_FLAG">
-                                <option selected>Choose...</option>
-                                <option value="Y">Yes</option>
-                                <option value="N">No</option>
-                            </select></td>
-                        </div>
-                        
-                        <div class="label-input-pair">
-                            <label for="CREATION_DATE">Creation Date:</label>
-                            <input type="date" name="CREATION_DATE" id="CREATION_DATE">
-                        </div>
-                        
-                        <div class="label-input-pair">
-                            <label for="LAST_UPDATE_DATE">Last Update Date:</label>
-                            <input type="date" name="LAST_UPDATE_DATE" id="LAST_UPDATE_DATE">
-                        </div>
-                        
-                        <div class="button-container1">
-                            <div>
-                                <button type="button" onclick="submitForm1()" class="button1">Save</button>
-                            </div>
-                            <div>
-                                <button type="button" onclick="toggleAddBar()" style="margin: 5px;">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
             </div>
             <div class="button-container">
                 <div>
@@ -294,13 +234,84 @@
             </div>
         </div>
     </div>
-
+    <div class="add" style="display: none;">
+        <form>
+            <div class="label-input-pair">
+                <label for="ITEM_NUMBER">Item Number:</label>
+                <input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER">
+            </div>
+            <div class="label-input-pair">
+                <label for="ITEM_DESCRIPTION">Item Description:</label>
+                <input type="text" name="ITEM_DESCRIPTION" id="ITEM_DESCRIPTION">
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="ITEM_TYPE">Item Type:</label>
+                <input type="text" name="ITEM_TYPE" id="ITEM_TYPE">
+            </div>
+            <div class="label-input-pair">
+                <label for="MANUFACTURER_CODE">Manufacturer Code:</label>
+                <input type="text" name="MANUFACTURER_CODE" id="MANUFACTURER_CODE">
+            </div>
+            <div class="label-input-pair">
+                <label for="ITEM_CATEGORY">Item Category:</label>
+                <input type="text" name="ITEM_CATEGORY" id="ITEM_CATEGORY">
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="CPU">CPU:</label>
+                <input type="text" name="CPU" id="CPU">
+            </div>
+            <div class="label-input-pair">
+                <label for="MEMORY">Memory:</label>
+                <input type="text" name="MEMORY" id="MEMORY">
+            </div>
+            <div class="label-input-pair">
+                <label for="DISKS">DISKS:</label>
+                <input type="text" name="DISKS" id="DISKS">
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="UOM">UOM:</label>
+                <input type="text" name="UOM" id="UOM">
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="ENABLED_FLAG">Enabled Flag:</label>
+                <select id="ENABLED_FLAG" name="ENABLED_FLAG">
+                    <option selected>Choose...</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="CREATION_DATE">Creation Date:</label>
+                <input type="date" name="CREATION_DATE" id="CREATION_DATE" readonly>
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="LAST_UPDATE_DATE">Last Update Date:</label>
+                <input type="date" name="LAST_UPDATE_DATE" id="LAST_UPDATE_DATE" readonly>
+            </div>
+            
+            <div class="button-container1">
+                <div>
+                    <button type="button" onclick="submitForm1()" class="button1">Save</button>
+                </div>
+                <div>
+                    <button type="button" onclick="toggleAddBar()" style="margin: 5px;">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="container1">
         <div id="itemDataContainer" class="matter">
             <table>
                 <tr>
+                    
                     <th>Sno.</th>
-                    <th>item number</th>
+                    <th>ITEM NUMBER</th>
                     <th>ITEM DESCRIPTION</th>
                     <th>ITEM TYPE</th>
                     <th>ITEM CATEGORY</th>
@@ -308,11 +319,13 @@
                     <th>MEMORY</th>
                     <th>DISKS</th>
                     <th>UOM</th>
+                    <th>ENABLED FLAG</th>
                     <th>CREATION DATE</th>
                     <th>CREATED BY</th>
                     <th>LAST UPDATE DATE</th>
                     <th>LAST UPDATED BY</th>
                 </tr>
+                
             </table>
         </div>
     </div>
@@ -430,6 +443,8 @@
             };
             xhr.send(JSON.stringify(data));
         }
+        document.getElementById('LAST_UPDATE_DATE').valueAsDate = new Date();
+        document.getElementById('CREATION_DATE').valueAsDate = new Date();
     </script>
 </body>
 
