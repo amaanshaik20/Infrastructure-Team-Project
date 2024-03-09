@@ -9,9 +9,165 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .search {
+            display: flex;
+            /* justify-content: center; */
+            justify-content: space-between;
+            margin-bottom: 20px;
+            margin-left: 250px;
+            max-height: 350px;
+            /* box-shadow: 0 5px #888888; */
+            width: 1400px;
+        }
+
+        .pad-15 {
+            padding-top: 48px;
+        }
+
+        .grid1 {
+            display: grid;
+            margin-right: 30px;
+            box-shadow: 1px 1px 1px 1px black;
+            background-color: lightgray;
+        }
+
+        .search input {
+            width: 300px;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .container1 {
+            /* margin-top: 10px; */
+            margin: 50px;
+            margin-left: 250px;
+            width: 1400px;
+            border: 2px solid black;
+            /* justify-content: space-between; */
+        }
+
+        table,
+        td {
+            border: 1px solid black;
+            /* border-collapse: collapse; */
+            width: 1200px;
+            text-align: center;
+        }
+
+        td {
+            height: 40px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        table {
+            width: 1400px;
+            border: 2px solid black;
+        }
+
+        th {
+            border: 2px solid black;
+            border-collapse: collapse;
+            background-color: lightgray;
+            width: 1200px;
+            /* width: max-content; */
+            height: 40px;
+            text-align: center;
+            /* width:100% */
+            white-space: nowrap;
+            /* color: white; */
+        }
+
+        .matter {
+            overflow-x: scroll;
+            overflow-y: scroll;
+            width: 1400px;
+            /* margin-left: 200px; */
+            height: auto;
+        }
+
+        .button-container {
+            display: flex;
+            /* justify-content: center; */
+            /* Adjust as needed */
+            /* align-items: center; */
+            margin-left: 390px;
+
+            /* Adjust as needed */
+        }
+
+        .button-container div {
+            margin: 5px;
+        }
+        #btn{
+            margin-left: 620px;
+        }
+
+        .label-input-pair {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .label-input-pair label {
+            width: 150px;
+            /* Adjust the width as needed */
+            margin-right: 10px;
+            text-align: left;
+        }
+
+        .label-input-pair input {
+            width: 200px;
+            /* Adjust the width as needed */
+        }
+
+        .add {
+            position: relative;
+            overflow-y: auto;
+            border: 2px solid black;
+            /* box-shadow: 5px 10px #888880; */
+            border-radius: 10px;
+            width: 600px;
+            min-width: 600px;
+            display: none;
+            overflow-x: visible;
+            height: 220px;
+            padding: 20px;
+            margin-left: 250px;
+            text-align: center;
+            justify-items: center;
+            /* display: grid; */
+        }
+
+        .add1 {
+            position: relative;
+            overflow-y: auto;
+            border: 2px solid black;
+            /* box-shadow: 5px 10px #888880; */
+            border-radius: 10px;
+            width: 600px;
+            min-width: 600px;
+            display: none;
+            overflow-x: visible;
+            height: 220px;
+            padding: 20px;
+            margin-left: 200px;
+            text-align: center;
+            justify-items: center;
+            /* display: grid; */
+        }
+
+        .btn {
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
+
     <div class="sidebar" id="sidebar">
         <ul>
             <li><a href="/main">Home</a></li>
@@ -23,15 +179,387 @@
     </div>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid mb-3 pt-3">
-
             <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
             <a class="navbar-brand" href="/main">Home</a>
             <a class="navbar-brand" href="/logout">Logout</a>
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
-    <div class="center">LookUp Details</div>
+
+    <div class="filters-lookup_type" id="filters">
+        <div class="box1">
+            <div class="search">
+                <div class="grid1">
+                    <div class="label-input-pair">
+                        <label for="search_lookup_type_number">Lookup Type Number:</label>
+                        <input type="text" name="search" id="search_lookup_type_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_lookup_type">Lookup Type:</label>
+                        <input type="text" name="search" id="search_lookup_type">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_type_description">Type Description:</label>
+                        <input type="text" name="search" id="search_type_description">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_enabled_flag">Enabled Flag:</label>
+                        <input type="text" name="search" id="search_enabled_flag">
+                    </div>
+                </div>
+                <div class="grid1">
+                    <div class="label-input-pair">
+                        <label for="search_lookup_type_number1">Lookup Type Number:</label>
+                        <input type="text" name="search" id="search_lookup_type_number1">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_lookup_code">Lookup Code:</label>
+                        <input type="text" name="search" id="search_lookup_code">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_lookup_value">Lookup Value:</label>
+                        <input type="text" name="search" id="search_lookup_value">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_value_description">Value Description:</label>
+                        <input type="text" name="search" id="search_value_description">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_enabled_flag1">Enabled Flag:</label>
+                        <input type="text" name="search" id="search_enabled_flag1">
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div class="button-container">
+                    <div>
+                        <button onclick="fetchTypeData(),toggleSearchBar()" class="button">Search</button>
+                    </div>
+                    <div>
+                        <button onclick="resetFilters()" class="reset">Reset</button>
+                    </div>
+                    <!-- <form action="/execute" method="post">
+                    <button class="additem" style="margin: 5px;"> Add Items</button>
+                </form> -->
+                    <div>
+                        <button onclick="toggleAddBar()">Add Items</button>
+                    </div>
+                </div>
+
+                <div class="button-container" id="btn">
+                    <div>
+                        <button onclick="fetchValueData(),toggleSearchBar()" class="button">Search</button>
+                    </div>
+                    <div>
+                        <button onclick="resetFilters_()" class="reset">Reset</button>
+                    </div>
+                    <!-- <form action="/execute" method="post">
+                    <button class="additem" style="margin: 5px;"> Add Items</button>
+                </form> -->
+                    <div>
+                        <button onclick="toggleAddBar1()">Add Items</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div class="add" style="display: none;">
+            <form>
+                <div class="label-input-pair">
+                    <label for="LOOKUP_TYPE">Lookup Type:</label>
+                    <input type="text" name="LOOKUP_TYPE" id="LOOKUP_TYPE">
+                </div>
+                <div class="label-input-pair">
+                    <label for="TYPE_DESCRIPTION">Type Description:</label>
+                    <input type="text" name="ITEM_DESCRIPTION" id="TYPE_DESCRIPTION">
+                </div>
+                <div class="label-input-pair">
+                    <label for="ENABLED_FLAG">Enabled Flag:</label>
+                    <select id="ENABLED_FLAG" name="ENABLED_FLAG">
+                        <option selected>Choose...</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select></td>
+                </div>
+                <div class="label-input-pair">
+                    <label for="CREATION_DATE">Creation Date:</label>
+                    <input type="date" id="date">
+                </div>
+                <div class="label-input-pair">
+                    <label for="LAST_UPDATE_DATE">Last Update Date:</label>
+                    <input type="date" id="date1">
+                </div>
+                <div class="button-container1">
+                    <div>
+                        <button type="button" onclick="submitForm1()" class="button1">Save</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="toggleAddBar()" style="margin: 5px;">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="add1" style="display: none;">
+            <form>
+                <div class="label-input-pair">
+                    <label for="LOOKUP_TYPE_NUMBER">Lookup Type Number:</label>
+                    <input type="text" name="LOOKUP_TYPE_NUMBER" id="LOOKUP_TYPE_NUMBER">
+                </div>
+                <div class="label-input-pair">
+                    <label for="LOOKUP_CODE">Lookup Code:</label>
+                    <input type="text" name="LOOKUP_CODE" id="LOOKUP_CODE">
+                </div>
+                <div class="label-input-pair">
+                    <label for="LOOKUP_VALUE">Lookup Value:</label>
+                    <input type="text" name="LOOKUP_VALUE" id="LOOKUP_VALUE">
+                </div>
+                <div class="label-input-pair">
+                    <label for="VALUE_DESCRIPTION">Value Description:</label>
+                    <input type="text" name="VALUE_DESCRIPTION" id="VALUE_DESCRIPTION">
+                </div>
+                <div class="label-input-pair">
+                    <label for="ENABLED_FLAG1">Enabled Flag:</label>
+                    <select id="ENABLED_FLAG1" name="ENABLED_FLAG1">
+                        <option selected>Choose...</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select></td>
+                </div>
+                <div class="label-input-pair">
+                    <label for="CREATION_DATE">Creation Date:</label>
+                    <input type="date" id="date2">
+                </div>
+                <div class="label-input-pair">
+                    <label for="LAST_UPDATE_DATE">Last Update Date:</label>
+                    <input type="date" id="date3">
+                </div>
+                <div class="button-container1">
+                    <div>
+                        <button type="button" onclick="submitForm2()" class="button1">Save</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="toggleAddBar()" style="margin: 5px;">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <center>
+        <h3 style="margin-top: 30px;">Lookup header</h3>
+    </center>
+    <div class="container1">
+        <div id="typeDataContainer" class="matter">
+            <table>
+                <tr>
+                    
+                    <th>Type Number</th>
+                    <th>Lookup Type</th>
+                    <th>Type Description</th>
+                    <th>Enabled Flag</th>
+                    <th>Creation Date</th>
+                    <th>Created By</th>
+                    <th>Last Update Date</th>
+                    <th>Last Updated By</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <center>
+        <h3>Lookup values</h3>
+    </center>
+    <div class="container1">
+        <div id="valueDataContainer" class="matter">
+            <table>
+                <tr>
+                    
+                    <th>Sno.</th>
+                    <th>Type Number</th>
+                    <th>Lookup Code</th>
+                    <th>Lookup Value</th>
+                    <th>Value Description</th>
+                    <th>Enabled Flag</th>
+                    <th>Creation Date</th>
+                    <th>Created By</th>
+                    <th>Last Update Date</th>
+                    <th>Last Updated By</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+
     <script src="/static/index.js"></script>
+
+    <script>
+        function toggleSearchBar() {
+            var searchBar = document.querySelector('.search');
+            searchBar.style.display = (searchBar.style.display === 'none') ? 'flex' : 'none';
+        }
+        function fetchTypeData() {
+            // Collect filter values
+            // var item_id = document.getElementById("search_item_id").value;
+            var lookup_type_number = document.getElementById("search_lookup_type_number").value;
+            var lookup_type = document.getElementById("search_lookup_type").value;
+            var type_description = document.getElementById("search_type_description").value;
+            var enabled_flag = document.getElementById("search_enabled_flag").value;
+            // Use an AJAX request to fetch item data from the server
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update the content of the data container with the fetched item data
+                    document.getElementById("typeDataContainer").innerHTML = xhr.responseText;
+                }
+            };
+
+            // Construct URL with filter parameters
+            var url = `/get_type_data?lookup_type_number=${encodeURIComponent(lookup_type_number)}&lookup_type=${encodeURIComponent(lookup_type)}&type_description=${encodeURIComponent(type_description)}&enabled_flag=${encodeURIComponent(enabled_flag)}`;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        function fetchValueData() {
+            // Collect filter values
+            // var item_id = document.getElementById("search_item_id").value;
+            var lookup_type_number1 = document.getElementById("search_lookup_type_number1").value;
+            var lookup_code = document.getElementById("search_lookup_code").value;
+            var lookup_value = document.getElementById("search_lookup_value").value;
+            var value_description = document.getElementById("search_value_description").value;
+            var enabled_flag1 = document.getElementById("search_enabled_flag1").value;
+            // Use an AJAX request to fetch item data from the server
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update the content of the data container with the fetched item data
+                    document.getElementById("valueDataContainer").innerHTML = xhr.responseText;
+
+                }
+            };
+
+            // Construct URL with filter parameters
+            var url = `/get_value_data?lookup_type_number1=${encodeURIComponent(lookup_type_number1)}&lookup_code=${encodeURIComponent(lookup_code)}&lookup_value=${encodeURIComponent(lookup_value)}&value_description=${encodeURIComponent(value_description)}&enabled_flag1=${encodeURIComponent(enabled_flag1)}`;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+
+
+        function resetFilters() {
+            // Reset all filter fields to empty
+            document.getElementById("search_lookup_type_number").value = "";
+            document.getElementById("search_lookup_type").value = "";
+            document.getElementById("search_type_description").value = "";
+            document.getElementById("search_enabled_flag").value = "";
+        }
+
+        function resetFilters_() {
+            // Reset all filter fields to empty
+            document.getElementById("search_lookup_type_number1").value = "";
+            document.getElementById("search_lookup_code").value = "";
+            document.getElementById("search_lookup_value").value = "";
+            document.getElementById("search_value_description").value = "";
+            document.getElementById("search_enabled_flag1").value = "";
+        }
+        function toggleAddBar() {
+            var addBar = document.querySelector('.add');
+            addBar.style.display = (addBar.style.display === 'none') ? 'grid' : 'none';
+        }
+        function toggleAddBar1() {
+            var addBar1 = document.querySelector('.add1');
+            addBar1.style.display = (addBar1.style.display === 'none') ? 'grid' : 'none';
+        }
+
+        function submitForm1() {
+            // Get data from the form
+            var LOOKUP_TYPE = document.getElementById("LOOKUP_TYPE").value;
+            var TYPE_DESCRIPTION = document.getElementById("TYPE_DESCRIPTION").value;
+            var ENABLED_FLAG = document.getElementById("ENABLED_FLAG").value;
+            var CREATION_DATE = document.getElementById("date").value;
+            var LAST_UPDATE_DATE = document.getElementById("date1").value;
+            
+            // AJAX request to send data to the server for insertion
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Optionally, you can handle the response from the server
+                    console.log(xhr.responseText);
+                    alert("Form submitted successfully!");
+                    // Clear the form fields after successful insertion
+                    document.getElementById("LOOKUP_TYPE").value = '';
+                    document.getElementById("TYPE_DESCRIPTION").value = '';
+                    document.getElementById("ENABLED_FLAG").value = '';
+                    document.getElementById("date").value = '';
+                    document.getElementById("date1").value = '';
+
+                }
+            };
+            xhr.open("POST", "/insert_data2", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            // Send data as JSON
+            var data = {
+                "LOOKUP_TYPE": LOOKUP_TYPE,
+                "TYPE_DESCRIPTION": TYPE_DESCRIPTION,
+                "ENABLED_FLAG": ENABLED_FLAG,
+                "CREATION_DATE": CREATION_DATE,
+                "LAST_UPDATE_DATE": LAST_UPDATE_DATE,
+            };
+            xhr.send(JSON.stringify(data));
+        }
+
+        function submitForm2() {
+            // Get data from the form
+            var LOOKUP_TYPE_NUMBER = document.getElementById("LOOKUP_TYPE_NUMBER").value;
+            var LOOKUP_CODE = document.getElementById("LOOKUP_CODE").value;
+            var LOOKUP_VALUE = document.getElementById("LOOKUP_VALUE").value;
+            var VALUE_DESCRIPTION = document.getElementById("VALUE_DESCRIPTION").value;
+            var ENABLED_FLAG1 = document.getElementById("ENABLED_FLAG1").value;
+            var CREATION_DATE2 = document.getElementById("date2").value;
+            var LAST_UPDATE_DATE2 = document.getElementById("date3").value;
+            
+            // AJAX request to send data to the server for insertion
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Optionally, you can handle the response from the server
+                    console.log(xhr.responseText);
+                    alert("Form submitted successfully!");
+                    // Clear the form fields after successful insertion
+                    document.getElementById("LOOKUP_TYPE_NUMBER").value = '';
+                    document.getElementById("LOOKUP_CODE").value = '';
+                    document.getElementById("LOOKUP_VALUE").value = '';
+                    document.getElementById("VALUE_DESCRIPTION").value = '';
+                    document.getElementById("ENABLED_FLAG1").value = '';
+                    document.getElementById("date2").value = '';
+                    document.getElementById("date3").value = '';
+
+                }
+            };
+            xhr.open("POST", "/insert_data3", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            // Send data as JSON
+            var data = {
+                "LOOKUP_TYPE_NUMBER": LOOKUP_TYPE_NUMBER,
+                "LOOKUP_CODE": LOOKUP_CODE,
+                "LOOKUP_VALUE": LOOKUP_VALUE,
+                "VALUE_DESCRIPTION": VALUE_DESCRIPTION,
+                "ENABLED_FLAG1": ENABLED_FLAG1,
+                "CREATION_DATE2": CREATION_DATE2,
+                "LAST_UPDATE_DATE2": LAST_UPDATE_DATE2,
+            };
+            xhr.send(JSON.stringify(data));
+        }
+        // const today = new Date();
+        // const year = today.getFullYear();
+        // const month = today.getMonth() + 1;
+        // const day = today.getDate();
+        // const dateString = `${day}-${month}-${year}`;
+        // const inputField = document.querySelector('#date');
+        // const inputField1 = document.querySelector('#date1');
+        // inputField.value = dateString;
+        // inputField1.value = dateString;
+    </script>
 </body>
 
 </html>
