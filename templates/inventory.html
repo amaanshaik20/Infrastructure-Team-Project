@@ -19,9 +19,12 @@
         .search {
             display: flex;
             /* justify-content: center; */
-            /* justify-content: space-evenly; */
+            justify-content: space-evenly;
             margin-bottom: 20px;
             margin-left: 250px;
+            max-height: 350px;
+            /* box-shadow: 0 5px #888888; */
+            width: 1400px;
         }
 
         .pad-15 {
@@ -31,6 +34,10 @@
         .grid1 {
             display: grid;
             /* margin-right: 30px; */
+            box-shadow: 1px 1px 1px 1px black;
+            background-color: lightgray;
+            border-radius: 5px;
+            padding: 10px;
         }
 
         .search input {
@@ -45,6 +52,7 @@
             margin-left: 250px;
             width: 1400px;
             border: 2px solid black;
+            /* justify-content: space-between; */
         }
 
         table,
@@ -69,13 +77,14 @@
         th {
             border: 2px solid black;
             border-collapse: collapse;
-            background-color: #96D4D4;
+            background-color: lightgray;
             width: 1200px;
             /* width: max-content; */
             height: 40px;
             text-align: center;
             /* width:100% */
             white-space: nowrap;
+            /* color: white; */
         }
 
         .matter {
@@ -91,12 +100,9 @@
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 470px;
-
+            margin-left: 830px;
+            
             /* Adjust as needed */
-        }
-        .button-container button{
-            height: 30px;
         }
 
         .button-container div {
@@ -121,9 +127,29 @@
             width: 200px;
             /* Adjust the width as needed */
         }
-        .add{
-            overflow-y: scroll;
+
+        .add {
+            overflow-y: auto;
+            border: 2px solid black;
+            /* box-shadow: 5px 10px #888880; */
+            border-radius: 10px;
+            width: 600px;
+            display: none;
+            overflow-x: visible;
+            height: 220px;
+            padding: 20px;
+            margin-left: 650px;
+            text-align: center;
+            justify-items: center; 
+            background-color: lightgray;
+            /* display: grid; */
         }
+        
+        
+        .btn {
+            align-items: center;
+        }
+
     </style>
 </head>
 
@@ -201,9 +227,7 @@
                         <input type="text" name="search" id="search_last_po_price">
                     </div>
                 </div>
-                <div class="add" style="border: 2px solid black; width: 660px; display: none;">
-
-                </div>
+                
             </div>
             <div class="button-container">
                 <div>
@@ -218,6 +242,83 @@
                 <button onclick="toggleAddBar()" style="margin: 5px;">Add Items</button>
             </div>
         </div>
+    </div>
+    <div class="add" style="display: none;">
+        <form>
+            <div class="label-input-pair">
+                <label for="ITEM_NUMBER">Item Number:</label>
+                <input type="text" name="ITEM_NUMBER" id="ITEM_NUMBER">
+            </div>
+            <div class="label-input-pair">
+                <label for="INSTALL_LOCATION">Install Location:</label>
+                <input type="text" name="INSTALL_LOCATION" id="INSTALL_LOCATION">
+            </div>
+            
+            <div class="label-input-pair">
+                <label for="PROJECT_CODE">Project Code:</label>
+                <input type="text" name="PROJECT_CODE" id="PROJECT_CODE">
+            </div>
+            <div class="label-input-pair">
+                <label for="QUANTITY">Quantity:</label>
+                <input type="text" name="QUANTITY" id="QUANTITY">
+            </div>
+            <div class="label-input-pair">
+                <label for="IP_ADDRESS">IP Address:</label>
+                <input type="text" name="IP_ADDRESS" id="IP_ADDRESS">
+            </div>
+            <div class="label-input-pair">
+                <label for="SUBNET_MASK">Subnet Mask:</label>
+                <input type="text" name="SUBNET_MASK" id="SUBNET_MASK">
+            </div>
+            <div class="label-input-pair">
+                <label for="GATEWAY">Gateway:</label>
+                <input type="text" name="GATEWAY" id="GATEWAY">
+            </div>
+            <div class="label-input-pair">
+                <label for="COMMENTS">Comments:</label>
+                <input type="text" name="COMMENTS" id="COMMENTS">
+            </div>
+            <div class="label-input-pair">
+                <label for="LAST_PO_NUM">Last PO Num:</label>
+                <input type="text" name="LAST_PO_NUM" id="LAST_PO_NUM">
+            </div>
+            <!-- <div class="label-input-pair">
+                <label for="ENABLED_FLAG">Enabled Flag:</label>
+                <select id="ENABLED_FLAG" name="ENABLED_FLAG">
+                    <option selected>Choose...</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+            </div> -->
+            <div class="label-input-pair">
+                <label for="LAST_PO_PRICE">Last PO Price:</label>
+                <input type="text" name="LAST_PO_PRICE" id="LAST_PO_PRICE">
+            </div>
+            <div class="label-input-pair">
+                <label for="RENEWAL_DATE">Renewal Date:</label>
+                <input type="date" name="RENEWAL_DATE" id="RENEWAL_DATE" readonly>
+            </div>
+            <div class="label-input-pair">
+                <label for="NOTES">Notes:</label>
+                <input type="text" name="NOTES" id="NOTES">
+            </div>
+            <div class="label-input-pair">
+                <label for="CREATION_DATE">Creation Date:</label>
+                <input type="date" name="CREATION_DATE" id="CREATION_DATE" readonly>
+            </div>
+            <div class="label-input-pair">
+                <label for="LAST_UPDATE_DATE">Last Update Date:</label>
+                <input type="date" name="LAST_UPDATE_DATE" id="LAST_UPDATE_DATE" readonly>
+            </div>
+            <div class="button-container1">
+                <div>
+                    <button type="button" onclick="submitForm1()" class="button1">Save</button>
+                </div>
+                <div>
+                    <button type="button" onclick="toggleAddBar()" style="margin: 5px;">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="container1">
         <div id="inventoryDataContainer" class="matter">
@@ -291,7 +392,80 @@
             var addBar = document.querySelector('.add');
             addBar.style.display = (addBar.style.display === 'none') ? 'flex' : 'none';
         }
+
+        function submitForm1() {
+            // Get data from the form
+            var ITEM_NUMBER = document.getElementById("ITEM_NUMBER").value;
+            var INSTALL_LOCATION = document.getElementById("INSTALL_LOCATION").value;
+            var PROJECT_CODE = document.getElementById("PROJECT_CODE").value;
+            var QUANTITY = document.getElementById("QUANTITY").value;
+            var IP_ADDRESS = document.getElementById("IP_ADDRESS").value;
+            var SUBNET_MASK = document.getElementById("SUBNET_MASK").value;
+            var GATEWAY = document.getElementById("GATEWAY").value;
+            var COMMENTS = document.getElementById("COMMENTS").value;
+            var LAST_PO_NUM = document.getElementById("LAST_PO_NUM").value;
+            var LAST_PO_PRICE = document.getElementById("LAST_PO_PRICE").value;
+            var RENEWAL_DATE = document.getElementById("RENEWAL_DATE").value;
+            var NOTES = document.getElementById("NOTES").value;
+            var CREATION_DATE = document.getElementById("CREATION_DATE").value;
+            var LAST_UPDATE_DATE = document.getElementById("LAST_UPDATE_DATE").value;
+
+            // AJAX request to send data to the server for insertion
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Optionally, you can handle the response from the server
+                    console.log(xhr.responseText);
+                    alert("Form submitted successfully!");
+                    // Clear the form fields after successful insertion
+                    document.getElementById("ITEM_NUMBER").value = '';
+                    document.getElementById("INSTALL_LOCATION").value = '';
+                    document.getElementById("PROJECT_CODE").value = '';
+                    document.getElementById("QUANTITY").value = '';
+                    document.getElementById("IP_ADDRESS").value = '';
+                    document.getElementById("SUBNET_MASK").value = '';
+                    document.getElementById("GATEWAY").value = '';
+                    document.getElementById("COMMENTS").value = '';
+                    document.getElementById("LAST_PO_NUM").value = '';
+                    document.getElementById("LAST_PO_PRICE").value = '';
+                    document.getElementById("RENEWAL_DATE").value = '';
+                    document.getElementById("NOTES").value = '';
+                    document.getElementById("CREATION_DATE").value = '';
+                    document.getElementById("LAST_UPDATE_DATE").value = '';
+                    
+                }
+            };
+            xhr.open("POST", "/insert_data4", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            // Send data as JSON
+            var data = {
+                "ITEM_NUMBER": ITEM_NUMBER,
+                "INSTALL_LOCATION": INSTALL_LOCATION,
+                "PROJECT_CODE": PROJECT_CODE,
+                "QUANTITY": QUANTITY,
+                "IP_ADDRESS": IP_ADDRESS,
+                "SUBNET_MASK": SUBNET_MASK,
+                "GATEWAY": GATEWAY,
+                "COMMENTS": COMMENTS,
+                "LAST_PO_NUM": LAST_PO_NUM,
+                "LAST_PO_PRICE": LAST_PO_PRICE,
+                "RENEWAL_DATE": RENEWAL_DATE,
+                "NOTES": NOTES,
+                "CREATION_DATE": CREATION_DATE,
+                "LAST_UPDATE_DATE": LAST_UPDATE_DATE,
+            };
+            xhr.send(JSON.stringify(data));
+        }
+
+
+
+
+        document.getElementById('LAST_UPDATE_DATE').valueAsDate = new Date();
+        document.getElementById('RENEWAL_DATE').valueAsDate = new Date();
+        document.getElementById('CREATION_DATE').valueAsDate = new Date();
     </script>
+    
 </body>
 
 </html>
