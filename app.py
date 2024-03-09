@@ -1,6 +1,7 @@
 from flask import Flask,render_template,session,request,redirect,url_for,jsonify
 import pyodbc
 import subprocess
+# from datetime import date
 app = Flask(__name__) 
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
@@ -10,7 +11,6 @@ conn = pyodbc.connect('Driver={SQL Server};'
                       'Trusted_Connection=yes;')
 
 cursor = conn.cursor()
-
 
 @app.route("/") 
 def index(): 
@@ -75,7 +75,7 @@ def get_item_data():
 
     # Construct SQL query with WHERE conditions
     query = 'SELECT ITEM_ID, ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE, MANUFACTURER_CODE, ' \
-            'ITEM_CATEGORY, CPU, MEMORY, DISKS, UOM, CREATION_DATE, CREATED_BY_USER, ' \
+            'ITEM_CATEGORY, CPU, MEMORY, DISKS, UOM,ENABLED_FLAG, CREATION_DATE, CREATED_BY_USER, ' \
             'LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM ITEM_MASTER WHERE 1=1'
 
     conditions = []
@@ -112,6 +112,7 @@ def get_item_data():
     # Format data as HTML for simplicity (you can use JSON for a more structured approach)
     html_data = "<table>\n"
     html_data += "<tr>\n"
+    # html_data += "<th>Edit</th>\n"
     html_data += "<th>Sno.</th>\n"
     html_data += "<th>ITEM NUMBER</th>\n"
     html_data += "<th>ITEM DESCRIPTION</th>\n"
@@ -122,6 +123,7 @@ def get_item_data():
     html_data += "<th>MEMORY</th>\n"
     html_data += "<th>DISKS</th>\n"
     html_data += "<th>UOM</th>\n"
+    html_data += "<th>ENABLED FLAG</th>\n"
     html_data += "<th>CREATION DATE</th>\n"
     html_data += "<th>CREATED BY</th>\n"
     html_data += "<th>LAST UPDATE DATE</th>\n"
@@ -131,11 +133,11 @@ def get_item_data():
     html_data += "</tr>\n"
     for row in data:
         html_data += "<tr>\n"
+        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
         for item in row:
             html_data += "<td>{}</td>\n".format(item)
         html_data += "</tr>\n"
     html_data += "</table>"
-
     return html_data
 
 @app.route("/get_inventory_data",methods=["GET"])
@@ -214,6 +216,309 @@ def get_inventory_data():
 
     return html_data
 
+@app.route("/get_type_data", methods=["GET"])
+def get_type_data():
+    # Get filter values from request
+    # item_id = request.args.get('item_id', '')
+    lookup_type_number = request.args.get('lookup_type_number', '')
+    lookup_type = request.args.get('lookup_type', '')
+    type_description=request.args.get('type_description','')
+    enabled_flag = request.args.get('enabled_flag', '')
+    
+    # Construct SQL query with WHERE conditions
+    query = 'SELECT LOOKUP_TYPE_ID, LOOKUP_TYPE, TYPE_DESCRIPTION, ENABLED_FLAG, CREATION_DATE, ' \
+            'CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM LOOKUP_TYPE WHERE 1=1'
+
+    conditions = []
+
+    # if item_id:
+    #     conditions.append(f"ITEM_ID = '{item_id}'")
+    if lookup_type_number:
+        conditions.append(f"LOOKUP_TYPE_ID = '{lookup_type_number}'")
+    if lookup_type:
+        conditions.append(f"LOOKUP_TYPE LIKE '%{lookup_type}%'")
+    if type_description:
+        conditions.append(f"TYPE_DESCRIPTION LIKE '%{type_description}%'")
+    if enabled_flag:
+        conditions.append(f"ENABLED_FLAG = '{enabled_flag}'")    
+    if conditions:
+        query += " AND " + " AND ".join(conditions)
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    # Format data as HTML for simplicity (you can use JSON for a more structured approach)
+    html_data = "<table>\n"
+    html_data += "<tr>\n"
+    # html_data += "<th>Edit</th>\n"
+    html_data += "<th>Type Number</th>\n"
+    html_data += "<th>Lookup Type</th>\n"
+    html_data += "<th>Type Description</th>\n"
+    html_data += "<th>Enabled Flag</th>\n"
+    html_data += "<th>Creation Date</th>\n"
+    html_data += "<th>Created By</th>\n"
+    html_data += "<th>Last Update Date</th>\n"
+    html_data += "<th>Last Updated By</th>\n"
+
+
+    html_data += "</tr>\n"
+    for row in data:
+        html_data += "<tr>\n"
+        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
+        for item in row:
+            html_data += "<td>{}</td>\n".format(item)
+        html_data += "</tr>\n"
+    html_data += "</table>"
+    return html_data
+
+@app.route("/get_value_data", methods=["GET"])
+def get_value_data():
+    # Get filter values from request
+    # item_id = request.args.get('item_id', '')
+    lookup_type_number1 = request.args.get('lookup_type_number1', '')
+    lookup_code = request.args.get('lookup_code', '')
+    lookup_value = request.args.get('lookup_value', '')
+    value_description=request.args.get('value_description','')
+    enabled_flag1 = request.args.get('enabled_flag1', '')
+    
+    # Construct SQL query with WHERE conditions
+    query = 'SELECT LOOKUP_VALUE_ID, LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ' \
+            'ENABLED_FLAG, CREATION_DATE, CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATED_BY_USER FROM LOOKUP_VALUES WHERE 1=1'
+
+    conditions = []
+
+    # if item_id:
+    #     conditions.append(f"ITEM_ID = '{item_id}'")
+    if lookup_type_number1:
+        conditions.append(f"LOOKUP_TYPE_ID = '{lookup_type_number1}'")
+    if lookup_code:
+        conditions.append(f"LOOKUP_CODE LIKE '%{lookup_code}%'")
+    if lookup_value:
+        conditions.append(f"LOOKUP_VALUE LIKE '%{lookup_value}%'")
+    if value_description:
+        conditions.append(f"VALUE_DESCRIPTION LIKE '%{value_description}%'")
+    if enabled_flag1:
+        conditions.append(f"ENABLED_FLAG = '{enabled_flag1}'")    
+    if conditions:
+        query += " AND " + " AND ".join(conditions)
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    # Format data as HTML for simplicity (you can use JSON for a more structured approach)
+    html_data = "<table>\n"
+    html_data += "<tr>\n"
+    html_data += "<th>Sno.</th>\n"
+    html_data += "<th>Type Number</th>\n"
+    html_data += "<th>Lookup Code</th>\n"
+    html_data += "<th>Lookup Value</th>\n"
+    html_data += "<th>Value Description</th>\n"
+    html_data += "<th>Enabled Flag</th>\n"
+    html_data += "<th>Creation Date</th>\n"
+    html_data += "<th>Created By</th>\n"
+    html_data += "<th>Last Update Date</th>\n"
+    html_data += "<th>Last Updated By</th>\n"
+
+
+    html_data += "</tr>\n"
+    for row in data:
+        html_data += "<tr>\n"
+        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
+        for item in row:
+            html_data += "<td>{}</td>\n".format(item)
+        html_data += "</tr>\n"
+    html_data += "</table>"
+    return html_data
+
+@app.route("/get_header_data", methods=["GET"])
+def get_header_data():
+    # Get filter values from request
+    # item_id = request.args.get('item_id', '')
+    po_number = request.args.get('po_number', '')
+    po_type = request.args.get('po_type', '')
+    po_description = request.args.get('po_description', '')
+    vendor_name=request.args.get('vendor_name','')
+    vendor_location = request.args.get('vendor_location', '')
+    quote_requested = request.args.get('quote_requested', '')
+    quote_number = request.args.get('quoted_number', '')
+    po_status = request.args.get('po_status', '')
+    po_requested = request.args.get('po_requested', '')
+    invoice_number = request.args.get('invoice_number', '')
+    invoice_line_number = request.args.get('invoice_line_number', '')
+    invoice_paid = request.args.get('invoice_paid', '')
+
+    
+    
+    # Construct SQL query with WHERE conditions
+    query = 'SELECT PO_HEADER_ID, PO_NUMBER, PO_TYPE, PO_DESCRIPTION, VENDOR_NAME, ' \
+            'VENDOR_LOCATION, QUOTE_REQUESTED, QUOTE_NUMBER,PO_STATUS,PO_DATE,PO_APPROVED_DATE,'\
+            'PO_APPROVED_BY, PO_REQUESTED,PO_REQUESTED_BY,INVOICE_NUMBER,INVOICE_LINE_NUMBER,INVOICE_AMOUNT,INVOICE_PAID,SUPPORT_START_DATE,SUPPORT_END_DATE,CREATION_DATE,CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATED_BY_USER FROM PO_HEADER WHERE 1=1'
+
+    conditions = []
+
+    # if item_id:
+    #     conditions.append(f"ITEM_ID = '{item_id}'")
+    if po_number:
+        conditions.append(f"PO_NUMBER = '{po_number}'")
+    if po_type:
+        conditions.append(f"PO_TYPE LIKE '%{po_type}%'")
+    if po_description:
+        conditions.append(f"PO_DESCRIPTION LIKE '%{po_description}%'")
+    if vendor_name:
+        conditions.append(f"VENDOR_NAME LIKE '%{vendor_name}%'")
+    if vendor_location:
+        conditions.append(f"VENDOR_LOCATION = '{vendor_location}'")  
+    if quote_requested:
+        conditions.append(f"QUOTE_REQUESTED = '{quote_requested}'")  
+    if quote_number:
+        conditions.append(f"QUOTE_NUMBER = '{quote_number}'")  
+    if po_status:
+        conditions.append(f"PO_STATUS = '{po_status}'")
+    if po_requested:
+        conditions.append(f"PO_REQUESTED = '{po_requested}'")  
+    if invoice_number:
+        conditions.append(f"INVOICE_NUMBER = '{invoice_number}'")  
+    if invoice_line_number:
+        conditions.append(f"INVOICE_LINE_NUMBER = '{invoice_line_number}'")  
+    if invoice_paid:
+        conditions.append(f"INVOICE_PAID = '{invoice_paid}'")      
+    if conditions:
+        query += " AND " + " AND ".join(conditions)
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    # Format data as HTML for simplicity (you can use JSON for a more structured approach)
+    html_data = "<table>\n"
+    html_data += "<tr>\n"
+    html_data += "<th>Sno.</th>\n"
+    html_data += "<th>PO Number</th>\n"
+    html_data += "<th>PO Type</th>\n"
+    html_data += "<th>PO Description</th>\n"
+    html_data += "<th>Vendor Name</th>\n"
+    html_data += "<th>Vendor Location</th>\n"
+    html_data += "<th>Quote Requested</th>\n"
+    html_data += "<th>Quote Number</th>\n"
+    html_data += "<th>PO Status</th>\n"
+    html_data += "<th>PO Date</th>\n"
+    html_data += "<th>PO Approved Date</th>\n"
+    html_data += "<th>PO Approved By</th>\n"
+    html_data += "<th>PO Requested</th>\n"
+    html_data += "<th>PO Requested By</th>\n"
+    html_data += "<th>Invoice Number</th>\n"
+    html_data += "<th>Invoice Line Number</th>\n"
+    html_data += "<th>Invoice Amount</th>\n"
+    html_data += "<th>Invoice Paid</th>\n"
+    html_data += "<th>Support Start Date</th>\n"
+    html_data += "<th>Support End Date</th>\n"
+    html_data += "<th>Creation Date</th>\n"
+    html_data += "<th>Created By</th>\n"
+    html_data += "<th>Last Update Date</th>\n"
+    html_data += "<th>Last Updated By</th>\n"
+
+
+
+    html_data += "</tr>\n"
+    for row in data:
+        html_data += "<tr>\n"
+        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
+        for item in row:
+            html_data += "<td>{}</td>\n".format(item)
+        html_data += "</tr>\n"
+    html_data += "</table>"
+    return html_data
+
+@app.route("/get_lines_data", methods=["GET"])
+def get_lines_data():
+    # Get filter values from request
+    # item_id = request.args.get('item_id', '')
+    po_header_number = request.args.get('po_header_number', '')
+    po_line_number = request.args.get('po_line_number', '')
+    item_number = request.args.get('item_number', '')
+    po_line_description=request.args.get('po_line_description','')
+    po_line_status = request.args.get('po_line_status', '')
+    ship_location = request.args.get('ship_location', '')
+    invoice_number1 = request.args.get('invoice_number1', '')
+    invoice_line_number1 = request.args.get('invoice_line_number1', '')
+    invoice_paid1 = request.args.get('invoice_paid1', '')
+    po_line_comments = request.args.get('po_line_comments', '')
+
+    
+    
+    # Construct SQL query with WHERE conditions
+    query = 'SELECT PO_LINE_ID,PO_HEADER_ID, PO_LINE_NUMBER, ITEM_ID, PO_LINE_DESCRIPTION, QUANTITY, ' \
+            'UNIT_PRICE, LINE_TAX_AMOUNT,SUPPORT_START_DATE,SUPPORT_END_DATE,NEED_BY_DATE,'\
+            'PO_LINE_STATUS, SHIP_LOCATION,INVOICE_NUMBER,INVOICE_LINE_NUMBER,INVOICE_DATE,INVOICE_PAID,INVOICE_AMOUNT,PO_LINE_COMMENTS,CREATION_DATE,CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATED_BY_USER FROM PO_LINES WHERE 1=1'
+
+    conditions = []
+
+    # if item_id:
+    #     conditions.append(f"ITEM_ID = '{item_id}'")
+    if po_header_number:
+        conditions.append(f"PO_HEADER_ID = '{po_header_number}'")
+    if po_line_number:
+        conditions.append(f"PO_LINE_NUMBER = '{po_line_number}'")
+    if item_number:
+        conditions.append(f"ITEM_ID LIKE '%{item_number}%'")
+    if po_line_description:
+        conditions.append(f"PO_LINE_DESCRIPTION LIKE '%{po_line_description}%'")
+    if po_line_status:
+        conditions.append(f"PO_LINE_STATUS = '{po_line_status}'")  
+    if ship_location:
+        conditions.append(f"SHIP_LOCATION = '{ship_location}'")  
+    if invoice_number1:
+        conditions.append(f"INVOICE_NUMBER = '{invoice_number1}'")  
+    if invoice_line_number1:
+        conditions.append(f"INVOICE_LINE_NUMBER = '{invoice_line_number1}'")
+    if invoice_paid1:
+        conditions.append(f"INVOICE_PAID = '{invoice_paid1}'")  
+    if po_line_comments:
+        conditions.append(f"PO_LINE_COMMENTS = '{po_line_comments}'")        
+    if conditions:
+        query += " AND " + " AND ".join(conditions)
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    # Format data as HTML for simplicity (you can use JSON for a more structured approach)
+    html_data = "<table>\n"
+    html_data += "<tr>\n"
+    html_data += "<th>Sno.</th>\n"
+    html_data += "<th>PO Header Number</th>\n"
+    html_data += "<th>PO Line Number</th>\n"
+    html_data += "<th>Item Number</th>\n"
+    html_data += "<th>PO Line Description</th>\n"
+    html_data += "<th>Quantity</th>\n"
+    html_data += "<th>Unit Price</th>\n"
+    html_data += "<th>Line Tax Amount</th>\n"
+    html_data += "<th>Support Start Date</th>\n"
+    html_data += "<th>Support End Date</th>\n"
+    html_data += "<th>Need By Date</th>\n"
+    html_data += "<th>PO Line Status</th>\n"
+    html_data += "<th>Ship Location</th>\n"
+    html_data += "<th>Invoice Number</th>\n"
+    html_data += "<th>Invoice Line Number</th>\n"
+    html_data += "<th>Invoice Date</th>\n"
+    html_data += "<th>Invoice Paid</th>\n"
+    html_data += "<th>Invoice Amount</th>\n"
+    html_data += "<th>PO Line Comments</th>\n"
+    html_data += "<th>Creation Date</th>\n"
+    html_data += "<th>Created By</th>\n"
+    html_data += "<th>Last Update Date</th>\n"
+    html_data += "<th>Last Updated By</th>\n"
+    html_data += "</tr>\n"
+    for row in data:
+        html_data += "<tr>\n"
+        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
+        for item in row:
+            html_data += "<td>{}</td>\n".format(item)
+        html_data += "</tr>\n"
+    html_data += "</table>"
+    return html_data
+
+
+
+
 @app.route('/execute',methods=['POST'])
 def execute():
     try:
@@ -263,7 +568,7 @@ def insert_data1():
         ITEM_DESCRIPTION = data.get("ITEM_DESCRIPTION")
         ITEM_TYPE = data.get("ITEM_TYPE")
         MANUFACTURER_CODE = data.get("MANUFACTURER_CODE")
-        ITEM_CATEGORY = data.get("ENABLED_FLAG")
+        ITEM_CATEGORY = data.get("ITEM_CATEGORY")
         CPU = data.get("CPU")
         MEMORY = data.get("MEMORY")
         DISKS = data.get("DISKS")
@@ -274,13 +579,94 @@ def insert_data1():
         LAST_UPDATE_DATE = data.get("LAST_UPDATE_DATE")
         LAST_UPDATE_BY_USER=session['username']
         # Execute your SQL query to insert data into the database
-        cursor.execute("INSERT INTO ITEM_MASTER (ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE,MANUFACTURER_CODE, ITEM_CATEGORY, CPU,MEMORY,DISKS,UOM,ENABLED_FLAG, CREATION_DATE,CREATED_BY_USER, LAST_UPDATE_DATE,LAST_UPDATE_BY_USER) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?);",
+        cursor.execute("INSERT INTO ITEM_MASTER (ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE,MANUFACTURER_CODE, ITEM_CATEGORY, CPU,MEMORY,DISKS,UOM,ENABLED_FLAG, CREATION_DATE,CREATED_BY_USER, LAST_UPDATE_DATE,LAST_UPDATED_BY_USER) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?);",
                        (ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE,MANUFACTURER_CODE, ITEM_CATEGORY,CPU, MEMORY, DISKS,UOM,ENABLED_FLAG,CREATION_DATE,CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATE_BY_USER))
         conn.commit()
 
         return jsonify({"message": "Data inserted successfully"})
     except Exception as e:
         return jsonify({"error": str(e)})
+
+@app.route("/insert_data2", methods=["POST"])
+def insert_data2():
+    try:
+        # Receive data from the client
+        data = request.get_json()
+        # current_date = date.now().strftime('%Y-%m-%d')
+        # Extract data fields
+        LOOKUP_TYPE = data.get("LOOKUP_TYPE")
+        TYPE_DESCRIPTION = data.get("TYPE_DESCRIPTION")
+        ENABLED_FLAG = data.get("ENABLED_FLAG")
+        CREATION_DATE = data.get("CREATION_DATE")
+        CREATED_BY_USER=session['username']
+        LAST_UPDATE_DATE = data.get("LAST_UPDATE_DATE")
+        LAST_UPDATE_BY_USER=session['username']
+        # Execute your SQL query to insert data into the database
+        cursor.execute("INSERT INTO LOOKUP_TYPE (LOOKUP_TYPE, TYPE_DESCRIPTION, ENABLED_FLAG,CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE,LAST_UPDATED_BY_USER) VALUES (?,?,?, ?, ?, ?, ? );",
+                       (LOOKUP_TYPE, TYPE_DESCRIPTION, ENABLED_FLAG,CREATION_DATE, CREATED_BY_USER,LAST_UPDATE_DATE, LAST_UPDATE_BY_USER))
+        conn.commit()
+
+        return jsonify({"message": "Data inserted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+@app.route("/insert_data3", methods=["POST"])
+def insert_data3():
+    try:
+        # Receive data from the client
+        data = request.get_json()
+        # current_date = date.now().strftime('%Y-%m-%d')
+        # Extract data fields
+        LOOKUP_TYPE_NUMBER = data.get("LOOKUP_TYPE_NUMBER")
+        LOOKUP_CODE = data.get("LOOKUP_CODE")
+        LOOKUP_VALUE = data.get("LOOKUP_VALUE")
+        VALUE_DESCRIPTION = data.get("VALUE_DESCRIPTION")
+        ENABLED_FLAG1 = data.get("ENABLED_FLAG1")
+        CREATION_DATE2 = data.get("CREATION_DATE2")
+        CREATED_BY_USER=session['username']
+        LAST_UPDATE_DATE2 = data.get("LAST_UPDATE_DATE2")
+        LAST_UPDATE_BY_USER=session['username']
+        # Execute your SQL query to insert data into the database
+        cursor.execute("INSERT INTO LOOKUP_VALUES (LOOKUP_TYPE_ID,LOOKUP_CODE,LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG,CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE,LAST_UPDATED_BY_USER) VALUES (?,?,?, ?, ?, ?, ? ,?,?);",
+                       (LOOKUP_TYPE_NUMBER,LOOKUP_CODE,LOOKUP_VALUE ,VALUE_DESCRIPTION, ENABLED_FLAG1,CREATION_DATE2, CREATED_BY_USER,LAST_UPDATE_DATE2, LAST_UPDATE_BY_USER))
+        conn.commit()
+
+        return jsonify({"message": "Data inserted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+@app.route("/insert_data4", methods=["POST"])
+def insert_data4():
+    try:
+        # Receive data from the client
+        data = request.get_json()
+        # current_date = date.now().strftime('%Y-%m-%d')
+        # Extract data fields
+        ITEM_NUMBER = data.get("ITEM_NUMBER")
+        INSTALL_LOCATION = data.get("INSTALL_LOCATION")
+        PROJECT_CODE = data.get("PROJECT_CODE")
+        QUANTITY = data.get("QUANTITY")
+        IP_ADDRESS = data.get("IP_ADDRESS")
+        SUBNET_MASK = data.get("SUBNET_MASK")
+        GATEWAY = data.get("GATEWAY")
+        COMMENTS = data.get("COMMENTS")
+        LAST_PO_NUM = data.get("LAST_PO_NUM")
+        LAST_PO_PRICE = data.get("LAST_PO_PRICE")
+        RENEWAL_DATE = data.get("RENEWAL_DATE")
+        NOTES = data.get("NOTES")
+        CREATION_DATE = data.get("CREATION_DATE")
+        CREATED_BY_USER=session['username']
+        LAST_UPDATE_DATE = data.get("LAST_UPDATE_DATE")
+        LAST_UPDATED_BY_USER=session['username']
+        # Execute your SQL query to insert data into the database
+        cursor.execute("INSERT INTO INVENTORY_ONHAND (ITEM_ID, INSTALL_LOCATION, PROJECT_CODE, QUANTITY, IP_ADDRESS, SUBNET_MASK, GATEWAY, COMMENTS, LAST_PO_NUM, LAST_PO_PRICE, RENEWAL_DATE, NOTES, CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER) VALUES (?,?,?,?,?, ?, ?, ?, ? ,?,?,?,?,?,?,?);",
+                       (ITEM_NUMBER,INSTALL_LOCATION,PROJECT_CODE ,QUANTITY, IP_ADDRESS,SUBNET_MASK, GATEWAY,COMMENTS, LAST_PO_NUM,LAST_PO_PRICE,RENEWAL_DATE,NOTES,CREATION_DATE,CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATED_BY_USER))
+        conn.commit()
+
+        return jsonify({"message": "Data inserted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 
 if __name__ == "__main__": 
 	app.run(debug=True) 
