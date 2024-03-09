@@ -42,35 +42,41 @@
             /* width: fit-content; */
             padding: 10px;
             margin: 10px;
+            /* display: grid; */
             /* text-align: center; */
             /* background-color: red; */
         }
-        .button button{
+
+        .button button {
             height: 40px;
             width: 70px;
             background-color: aliceblue;
             color: black;
             border-radius: 25px;
+
         }
-        .button button:hover{
+
+        .button button:hover {
             background-color: black;
             color: aliceblue;
             cursor: pointer;
 
         }
+
         .username {
             height: 20px;
         }
-        .amaan{
+
+        .amaan {
             margin: 10px;
             font-weight: bolder;
         }
-        p{
+
+        p {
             text-align: center;
         }
     </style>
 </head>
-
 <body>
     <div class="login-container">
         <form id="loginForm" action="/main" method="post">
@@ -86,15 +92,16 @@
                     style="height: 30px; margin: 10px;width: 300px;">
             </div>
             <center>
-            <div class="button">
-                <button type="submit">Login</button>
-            </div></center>
+                <div class="button">
+                    <button type="submit" style="margin: 10PX;">Login</button><br>
+                    <a href="/register">Register</a>
+                </div>
+            </center>
             {% if message %}
             <p class="error-message" id="error-message">{{ message }}</p>
             {% endif %}
         </form>
     </div>
-
 </body>
 
 </html>
