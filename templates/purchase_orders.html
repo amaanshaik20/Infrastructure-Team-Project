@@ -9,6 +9,161 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .search {
+            display: flex;
+            /* justify-content: center; */
+            justify-content: space-between;
+            margin-bottom: 20px;
+            margin-left: 250px;
+            max-height: 650px;
+            /* background-color: aqua; */
+            /* box-shadow: 0 5px #888888; */
+            width: 1400px;
+        }
+
+        .pad-15 {
+            padding-top: 48px;
+        }
+
+        .grid1 {
+            display: grid;
+            margin-right: 30px;
+            box-shadow: 1px 1px 1px 1px black;
+            background-color: lightgray;
+        }
+
+        .search input {
+            width: 300px;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .container1 {
+            /* margin-top: 10px; */
+            margin: 50px;
+            margin-left: 250px;
+            width: 1400px;
+            border: 2px solid black;
+            /* justify-content: space-between; */
+        }
+
+        table,
+        td {
+            border: 1px solid black;
+            /* border-collapse: collapse; */
+            width: 1200px;
+            text-align: center;
+        }
+
+        td {
+            height: 40px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        table {
+            width: 1400px;
+            border: 2px solid black;
+        }
+
+        th {
+            border: 2px solid black;
+            border-collapse: collapse;
+            background-color: lightgray;
+            width: 1200px;
+            /* width: max-content; */
+            height: 40px;
+            text-align: center;
+            /* width:100% */
+            white-space: nowrap;
+            /* color: white; */
+        }
+
+        .matter {
+            overflow-x: scroll;
+            overflow-y: scroll;
+            width: 1400px;
+            /* margin-left: 200px; */
+            height: auto;
+        }
+
+        .button-container {
+            display: flex;
+            /* justify-content: center; */
+            /* Adjust as needed */
+            /* align-items: center; */
+            margin-left: 390px;
+
+            /* Adjust as needed */
+        }
+
+        .button-container div {
+            margin: 5px;
+        }
+        #btn{
+            margin-left: 620px;
+        }
+
+        .label-input-pair {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        .label-input-pair label {
+            width: 150px;
+            /* Adjust the width as needed */
+            margin-right: 10px;
+            text-align: left;
+        }
+
+        .label-input-pair input {
+            width: 200px;
+            /* Adjust the width as needed */
+        }
+
+        .add {
+            position: relative;
+            overflow-y: auto;
+            border: 2px solid black;
+            /* box-shadow: 5px 10px #888880; */
+            border-radius: 10px;
+            width: 600px;
+            min-width: 600px;
+            display: none;
+            overflow-x: visible;
+            height: 220px;
+            padding: 20px;
+            margin-left: 250px;
+            text-align: center;
+            justify-items: center;
+            /* display: grid; */
+        }
+
+        .add1 {
+            position: relative;
+            overflow-y: auto;
+            border: 2px solid black;
+            /* box-shadow: 5px 10px #888880; */
+            border-radius: 10px;
+            width: 600px;
+            min-width: 600px;
+            display: none;
+            overflow-x: visible;
+            height: 220px;
+            padding: 20px;
+            margin-left: 200px;
+            text-align: center;
+            justify-items: center;
+            /* display: grid; */
+        }
+
+        .btn {
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,8 +184,270 @@
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
-    <div class="center">Purchase Orders</div>
+    <div class="filters-purchase_order" id="filters">
+        <div class="box1">
+            <div class="search">
+                <div class="grid1">
+                    <div class="label-input-pair">
+                        <label for="search_po_number">PO Number:</label>
+                        <input type="text" name="search" id="search_po_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_type">PO Type:</label>
+                        <input type="text" name="search" id="search_po_type">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_description">PO Description:</label>
+                        <input type="text" name="search" id="search_po_description">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_vendor_name">Vendor Name:</label>
+                        <input type="text" name="search" id="search_vendor_name">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_vendor_location">Vendor Location:</label>
+                        <input type="text" name="search" id="search_vendor_location">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_quote_requested">Quote Requested:</label>
+                        <input type="text" name="search" id="search_quote_requested">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_quote_number">Quote Number:</label>
+                        <input type="text" name="search" id="search_quote_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_status">PO Status:</label>
+                        <input type="text" name="search" id="search_po_status">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_requested">PO Requested:</label>
+                        <input type="text" name="search" id="search_po_requested">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_invoice_number">Invoice Number:</label>
+                        <input type="text" name="search" id="search_invoice_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_invoice_line_number">Invoice Line Number:</label>
+                        <input type="text" name="search" id="search_invoice_line_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_invoice_paid">Invoice Paid:</label>
+                        <input type="text" name="search" id="search_invoice_paid">
+                    </div>
+                </div>
+                <div class="grid1">
+                    <div class="label-input-pair">
+                        <label for="search_po_header_number">PO Header Number:</label>
+                        <input type="text" name="search" id="search_po_header_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_line_number">PO Line Number:</label>
+                        <input type="text" name="search" id="search_po_line_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_item_number">Item Number:</label>
+                        <input type="text" name="search" id="search_item_number">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_line_description">PO Line Description:</label>
+                        <input type="text" name="search" id="search_po_line_description">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_line_status">PO Line Status:</label>
+                        <input type="text" name="search" id="search_po_line_status">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_ship_location">Ship Location:</label>
+                        <input type="text" name="search" id="search_ship_location">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_invoice_number1">Invoice Number:</label>
+                        <input type="text" name="search" id="search_invoice_number1">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_invoice_line_number1">Invoice Line Number:</label>
+                        <input type="text" name="search" id="search_invoice_line_number1">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_invoice_paid1">Invoice Paid:</label>
+                        <input type="text" name="search" id="search_invoice_paid1">
+                    </div>
+                    <div class="label-input-pair">
+                        <label for="search_po_line_comments">PO Line Comments:</label>
+                        <input type="text" name="search" id="search_po_line_comments">
+                    </div>
+                    
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div class="button-container">
+                    <div>
+                        <button onclick="fetchHeaderData(),toggleSearchBar()" class="button">Search</button>
+                    </div>
+                    <div>
+                        <button onclick="resetFilters()" class="reset">Reset</button>
+                    </div>
+                    <!-- <form action="/execute" method="post">
+                    <button class="additem" style="margin: 5px;"> Add Items</button>
+                </form> -->
+                    <div>
+                        <button onclick="toggleAddBar()">Add Items</button>
+                    </div>
+                </div>
+
+                <div class="button-container" id="btn">
+                    <div>
+                        <button onclick="fetchLinesData(),toggleSearchBar()" class="button">Search</button>
+                    </div>
+                    <div>
+                        <button onclick="resetFilters_()" class="reset">Reset</button>
+                    </div>
+                    <!-- <form action="/execute" method="post">
+                    <button class="additem" style="margin: 5px;"> Add Items</button>
+                </form> -->
+                    <div>
+                        <button onclick="toggleAddBar1()">Add Items</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center>
+        <h3 style="margin-top: 30px;">PO Header</h3>
+    </center>
+    <div class="container1">
+        <div id="typeheaderContainer" class="matter">
+            <table>
+                <tr>
+                    <th>S.no</th>
+                    <th>PO Number</th>
+                    <th>PO Type</th>
+                    <th>PO Description</th>
+                    <th>Vendor Name</th>
+                    <th>Vendor Location</th>
+                    <th>Quote Requested</th>
+                    <th>Quote Number</th>
+                    <th>PO Status</th>
+                    <th>PO Date</th>
+                    <th>PO Approved Date</th>
+                    <th>PO Approved By</th>
+                    <th>PO Requested</th>
+                    <th>PO Requested By</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Line Number</th>
+                    <th>Invoice Amount</th>
+                    <th>Invoice Paid</th>
+                    <th>Support Start Date</th>
+                    <th>Support End Date</th>
+                    <th>Creation Date</th>
+                    <th>Created By</th>
+                    <th>Last Update Date</th>
+                    <th>Last Updated By</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <center>
+        <h3 style="margin-top: 30px;">PO Lines</h3>
+    </center>
+    <div class="container1">
+        <div id="typeLinesContainer" class="matter">
+            <table>
+                <tr>
+                    <th>S.no</th>
+                    <th>PO Header Number</th>
+                    <th>PO Line Number</th>
+                    <th>Item Number</th>
+                    <th>PO Line Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Line Tax Amount</th>
+                    <th>Support Start Date</th>
+                    <th>Support End Date</th>
+                    <th>Need By Date</th>
+                    <th>PO Line Status</th>
+                    <th>Ship Location</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Line Number</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Paid</th>
+                    <th>Invoice Amount</th>
+                    <th>PO Line Comments</th>
+                    <th>Creation Date</th>
+                    <th>Created By</th>
+                    <th>Last Update Date</th>
+                    <th>Last Updated By</th>
+                </tr>
+            </table>
+        </div>
+    </div>
     <script src="/static/index.js"></script>
+    <script>
+        function toggleSearchBar() {
+            var searchBar = document.querySelector('.search');
+            searchBar.style.display = (searchBar.style.display === 'none') ? 'flex' : 'none';
+        }
+        function fetchHeaderData(){
+            // Collect filter values
+            // var item_id = document.getElementById("search_item_id").value;
+            var po_number = document.getElementById("search_po_number").value;
+            var po_type = document.getElementById("search_po_type").value;
+            var po_description = document.getElementById("search_po_description").value;
+            var vendor_name = document.getElementById("search_vendor_name").value;
+            var vendor_location = document.getElementById("search_vendor_location").value;
+            var quote_requested = document.getElementById("search_quote_requested").value;
+            var quote_number = document.getElementById("search_quote_number").value;
+            var po_status = document.getElementById("search_po_status").value;
+            var po_requested = document.getElementById("search_po_requested").value;
+            var invoice_number = document.getElementById("search_invoice_number").value;
+            var invoice_line_number = document.getElementById("search_invoice_line_number").value;
+            var invoice_paid = document.getElementById("search_invoice_paid").value;
+
+            // Use an AJAX request to fetch item data from the server
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update the content of the data container with the fetched item data
+                    document.getElementById("typeheaderContainer").innerHTML = xhr.responseText;
+                }
+            };
+
+            // Construct URL with filter parameters
+            var url = `/get_header_data?po_number=${encodeURIComponent(po_number)}&po_type=${encodeURIComponent(po_type)}&po_description=${encodeURIComponent(po_description)}&vendor_name=${encodeURIComponent(vendor_name)}&vendor_location=${encodeURIComponent(vendor_location)}&quote_requested=${encodeURIComponent(quote_requested)}&quote_number=${encodeURIComponent(quote_number)}&po_status=${encodeURIComponent(po_status)}&po_requested=${encodeURIComponent(po_requested)}&invoice_number=${encodeURIComponent(invoice_number)}&invoice_line_number=${encodeURIComponent(invoice_line_number)}&invoice_paid=${encodeURIComponent(invoice_paid)}`;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+        function fetchLinesData(){
+            // Collect filter values
+            // var item_id = document.getElementById("search_item_id").value;
+            var po_header_number = document.getElementById("search_po_header_number").value;
+            var po_line_number = document.getElementById("search_po_line_number").value;
+            var item_number = document.getElementById("search_item_number").value;
+            var po_line_description = document.getElementById("search_po_line_description").value;
+            var po_line_status = document.getElementById("search_po_line_status").value;
+            var ship_location = document.getElementById("search_ship_location").value;
+            var invoice_number1 = document.getElementById("search_invoice_number1").value;
+            var invoice_line_number1 = document.getElementById("search_invoice_line_number1").value;
+            var invoice_paid1 = document.getElementById("search_invoice_paid1").value;
+            var po_line_comments = document.getElementById("search_po_line_comments").value;
+
+            // Use an AJAX request to fetch item data from the server
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Update the content of the data container with the fetched item data
+                    document.getElementById("typeLinesContainer").innerHTML = xhr.responseText;
+                }
+            };
+
+            // Construct URL with filter parameters
+            var url = `/get_lines_data?po_header_number=${encodeURIComponent(po_header_number)}&po_line_number=${encodeURIComponent(po_line_number)}&item_number=${encodeURIComponent(item_number)}&po_line_description=${encodeURIComponent(po_line_description)}&po_line_status=${encodeURIComponent(po_line_status)}&ship_location=${encodeURIComponent(ship_location)}&invoice_number1=${encodeURIComponent(invoice_number1)}&invoice_line_number1=${encodeURIComponent(invoice_line_number1)}&invoice_paid1=${encodeURIComponent(invoice_paid1)}&po_line_comments=${encodeURIComponent(po_line_comments)}`;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+    </script>
 </body>
 
 </html>
