@@ -31,6 +31,7 @@
             margin-right: 30px;
             box-shadow: 1px 1px 1px 1px black;
             background-color: lightgray;
+            padding: 10px;
         }
 
         .search input {
@@ -93,7 +94,7 @@
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 390px;
+            margin-left: 243px;
 
             /* Adjust as needed */
         }
@@ -184,6 +185,7 @@
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">PURCHASE ORDERS</h3>
     <div class="filters-purchase_order" id="filters">
         <div class="box1">
             <div class="search">
@@ -289,12 +291,18 @@
                     <div>
                         <button onclick="resetFilters()" class="reset">Reset</button>
                     </div>
-                    <!-- <form action="/execute" method="post">
+                    <form action="/execute4" method="post">
                     <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form> -->
-                    <div>
+                </form>
+                <form action="/update4" method="post">
+                    <button  style="margin: 5px;">Update</button>
+                </form>
+                <form action="/upload4" method="post">
+                    <button  style="margin: 5px;">Import</button>
+                </form>
+                    <!-- <div>
                         <button onclick="toggleAddBar()">Add Items</button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="button-container" id="btn">
@@ -304,12 +312,18 @@
                     <div>
                         <button onclick="resetFilters_()" class="reset">Reset</button>
                     </div>
-                    <!-- <form action="/execute" method="post">
+                    <form action="/execute5" method="post">
                     <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form> -->
-                    <div>
+                </form>
+                <form action="/update5" method="post">
+                    <button  style="margin: 5px;">Update</button>
+                </form>
+                <form action="/upload5" method="post">
+                    <button  style="margin: 5px;">Import</button>
+                </form>
+                    <!-- <div>
                         <button onclick="toggleAddBar1()">Add Items</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
