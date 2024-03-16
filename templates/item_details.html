@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        .filters-item_details {
+        /* .filters-item_details {
             /* margin-top: -27px;
             margin-left: 190px;
-            padding-left: 50px; */
-        }
+            padding-left: 50px; 
+        } */
 
         .search {
             display: flex;
@@ -37,6 +37,7 @@
             /* margin-right: 30px; */
             box-shadow: 1px 1px 1px 1px black;
             background-color: lightgray;
+            padding: 10px;
         }
 
         .search input {
@@ -99,7 +100,7 @@
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 830px;
+            margin-left: 720px;
             
             /* Adjust as needed */
         }
@@ -169,7 +170,9 @@
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;font-size: 20PX;margin-left: 200PX;">ITEM DETAILS</h3>
     <div class="filters-item_details" id="filters">
+       
         <!-- <button class="toggle-btn" onclick="toggleSearchBar()"><i class="fa-solid fa-magnifying-glass"></i></button> -->
         <div class="box1">
             <div class="search">
@@ -225,12 +228,21 @@
                 <div>
                     <button onclick="resetFilters()" class="reset">Reset</button>
                 </div>
-                <!-- <form action="/execute" method="post">
-                    <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form> -->
-                <div>
+                <form action="/execute" method="post">
+                    <button  style="margin: 5px;"> Add Items</button>
+                </form>
+                <!-- <div>
                     <button onclick="toggleAddBar()">Add Items</button>
-                </div>
+                </div> -->
+                <form action="/update" method="post">
+                    <button style="margin: 5px;">Update</button>
+                </form>
+                <form action="/upload" method="post">
+                    <button  style="margin: 5px;">Import</button>
+                </form>
+                <form action="/extract" method="post">
+                    <button  style="margin: 5px;">Export</button>
+                </form>
             </div>
         </div>
     </div>
