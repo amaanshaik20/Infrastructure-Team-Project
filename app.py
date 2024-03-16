@@ -6,8 +6,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=AmaanShaik\SQLEXPRESS;'
-                      'Database=InfraDB1;'
+                      'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
+                      'Database=InfraDb;'
                       'Trusted_Connection=yes;')
 
 cursor = conn.cursor()
@@ -517,25 +517,223 @@ def get_lines_data():
     return html_data
 
 
+#all Add items present here
 
-
-@app.route('/execute',methods=['POST'])
+@app.route('/execute', methods=['POST'])
 def execute():
     try:
-        subprocess.run(["python","insert_item_master.py"])
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "insert_item_master.py", username])
         return render_template("item_details.html")
     except Exception as e:
-         return f"Error during execution:{str(e)}"
-    
+         return f"Error during execution: {str(e)}"
+
+
 
 @app.route('/execute1',methods=['POST'])
 def execute1():
     try:
-        subprocess.run(["python","insert_inventory.py"])
+        username = session.get('username', '') 
+        subprocess.run(["python","insert_inventory.py",username])
         return render_template("inventory.html")
     except Exception as e:
-         return f"Error during execution:{str(e)}"
+        return f"Error during execution:{str(e)}"
 
+
+@app.route('/execute2', methods=['POST'])
+def execute2():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Insert_Loookup_Type.py", username])
+        return render_template("lookup_details.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+    
+@app.route('/execute3', methods=['POST'])
+def execute3():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Insert_Lookup_Values.py", username])
+        return render_template("lookup_details.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+   
+@app.route('/execute4', methods=['POST'])
+def execute4():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Insert_PO_Header.py", username])
+        return render_template("purchase_orders.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+    
+   
+@app.route('/execute5', methods=['POST'])
+def execute5():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Insert_PO_Lines.py", username])
+        return render_template("purchase_orders.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+
+
+    
+@app.route('/update', methods=['POST'])
+def update():
+    try:
+        username = session.get('username', '')
+        subprocess.run(["python", "Modify_Item_Master.py", username])
+        return render_template("item_details.html")
+    except Exception as e:
+        return f"Error during execution: {str(e)}"
+
+
+    
+@app.route('/update1', methods=['POST'])
+def update1():
+    try:
+        username = session.get('username', '')
+        subprocess.run(["python", "Modify_Inventory_On_Hand.py", username])
+        return render_template("inventory.html")
+    except Exception as e:
+        return f"Error during execution: {str(e)}"
+    
+    
+@app.route('/update2', methods=['POST'])
+def update2():
+    try:
+        username = session.get('username', '')
+        subprocess.run(["python", "Modify_Lookup_Type.py", username])
+        return render_template("lookup_details.html")
+    except Exception as e:
+        return f"Error during execution: {str(e)}"
+
+    
+@app.route('/update3', methods=['POST'])
+def update3():
+    try:
+        username = session.get('username', '')
+        subprocess.run(["python", "Moidfy_Lookup_Values.py", username])
+        return render_template("lookup_details.html")
+    except Exception as e:
+        return f"Error during execution: {str(e)}"
+
+    
+@app.route('/update4', methods=['POST'])
+def update4():
+    try:
+        username = session.get('username', '')
+        subprocess.run(["python", "Modify_PO_Header.py", username])
+        return render_template("purchase_orders.html")
+    except Exception as e:
+        return f"Error during execution: {str(e)}"
+
+    
+@app.route('/update5', methods=['POST'])
+def update5():
+    try:
+        username = session.get('username', '')
+        subprocess.run(["python", "Modify_PO_Lines.py", username])
+        return render_template("purchase_orders.html")
+    except Exception as e:
+        return f"Error during execution: {str(e)}"
+    
+
+ 
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "import_ITEM_MASTER.py", username])
+        return render_template("item_details.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+    
+
+
+@app.route('/upload1', methods=['POST'])
+def upload1():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Import_Inventory_On_hand.py", username])
+        return render_template("inventory.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+@app.route('/upload2', methods=['POST'])
+def upload2():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Import_Lookup_Type.py", username])
+        return render_template("lookup_details.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+@app.route('/upload3', methods=['POST'])
+def upload3():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Import_Lookup_Values.py", username])
+        return render_template("lookup_details.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+@app.route('/upload4', methods=['POST'])
+def upload4():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Import_PO_Header.py", username])
+        return render_template("purchase_orders.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+@app.route('/upload5', methods=['POST'])
+def upload5():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "Import_PO_Lines.py", username])
+        return render_template("purchase_orders.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+   
+    
+
+@app.route('/extract', methods=['POST'])
+def extract():
+    try:
+        username = session.get('username', '')  # Get the username from the session
+        subprocess.run(["python", "export_ITEM_MASTER.py", username])
+        return render_template("item_details.html")
+    except Exception as e:
+         return f"Error during execution: {str(e)}"
+
+
+# @app.route("/insert_data", methods=["POST"])
+# def insert_data():
+#     try:
+#         # Receive data from the client
+#         data = request.get_json()
+#         # Extract data fields
+#         # name = data.get("name")
+#         username = data.get("username")
+#         email = data.get("email")
+#         password = data.get("password")
+#         phonenumber = data.get("phonenumber")
+        
+#         # Execute your SQL query to insert data into the database
+#         cursor.execute("INSERT INTO Users ( username, email, password,phonenumber) VALUES (?, ?, ?, ?);",
+#                        (username, email, phonenumber,password))
+#         conn.commit()
+
+#         return jsonify({"message": "registered successfully"})
+    
+#     except Exception as e:
+#         return jsonify({"error": str(e)})
 @app.route("/insert_data", methods=["POST"])
 def insert_data():
     try:
@@ -557,6 +755,8 @@ def insert_data():
     
     except Exception as e:
         return jsonify({"error": str(e)})
+
+
 
 @app.route("/insert_data1", methods=["POST"])
 def insert_data1():
