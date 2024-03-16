@@ -10,11 +10,11 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        .filters-inventory {
+        /* .filters-inventory {
             /* margin-top: -27px;
             margin-left: 190px;
-            padding-left: 50px; */
-        }
+            padding-left: 50px; 
+        } */
 
         .search {
             display: flex;
@@ -100,7 +100,7 @@
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 830px;
+            margin-left: 750px;
             
             /* Adjust as needed */
         }
@@ -171,6 +171,7 @@
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">INVENTORY DETAILS</h3>
     <div class="filters-inventory" id="filters">
         <div class="box1">
             <div class="search">
@@ -236,10 +237,16 @@
                 <div>
                     <button onclick="resetFilters()" class="reset">Reset</button>
                 </div>
-                <!-- <form action="/execute1" method="post">
+                <form action="/execute1" method="post">
                     <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form> -->
-                <button onclick="toggleAddBar()" style="margin: 5px;">Add Items</button>
+                </form>
+                <form action="/update1" method="post">
+                    <button  style="margin: 5px;">Update</button>
+                </form>
+                <form action="/upload1" method="post">
+                    <button class="additem" style="margin: 5px;"> Import</button>
+                </form>
+                <!-- <button onclick="toggleAddBar()" style="margin: 5px;">Add Items</button> -->
             </div>
         </div>
     </div>
