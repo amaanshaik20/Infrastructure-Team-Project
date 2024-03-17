@@ -19,11 +19,12 @@
 
         .search {
             display: flex;
-            /* justify-content: center; */
-            justify-content: space-evenly;
+            justify-content: center;
+            /* justify-content: space-around; */
             margin-bottom: 20px;
             margin-left: 250px;
             max-height: 350px;
+            /* margin-top: 100px; */
             /* box-shadow: 0 5px #888888; */
             width: 1400px;
         }
@@ -36,8 +37,9 @@
             display: grid;
             /* margin-right: 30px; */
             box-shadow: 1px 1px 1px 1px black;
-            background-color: lightgray;
+            /* background-color: lightgray; */
             padding: 10px;
+            margin-left: 5px;
         }
 
         .search input {
@@ -48,16 +50,19 @@
 
         .container1 {
             /* margin-top: 10px; */
-            margin: 50px;
+            margin: 10px;
             margin-left: 250px;
             width: 1400px;
-            border: 2px solid black;
+            border: 1px solid black;
             /* justify-content: space-between; */
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            
+
         }
 
         table,
         td {
-            border: 1px solid black;
+            /* border: 1px solid black; */
             /* border-collapse: collapse; */
             width: 1200px;
             text-align: center;
@@ -67,11 +72,15 @@
             height: 40px;
             text-align: center;
             white-space: nowrap;
+            /* background-color: lightgray; */
+            text-align: left;
+            border: 1px solid black;
         }
 
         table {
             width: 1400px;
-            border: 2px solid black;
+            /* border: 2px solid black; */
+            max-height: 300px;
         }
 
         th {
@@ -84,16 +93,32 @@
             text-align: center;
             /* width:100% */
             white-space: nowrap;
-            /* color: white; */
+            color: black;
         }
 
         .matter {
-            overflow-x: scroll;
+            /* overflow-x: scroll; */
             overflow-y: scroll;
+            overflow-x: scroll;
             width: 1400px;
             /* margin-left: 200px; */
             height: auto;
+            max-height: 300px;
         }
+
+        /* .matter::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .matter::-webkit-scrollbar-track {
+            background: transparent;
+            
+        }
+
+        .matter::-webkit-scrollbar-thumb {
+            background: transparent;
+        } */
 
         .button-container {
             display: flex;
@@ -140,13 +165,24 @@
             padding: 20px;
             margin-left: 650px;
             text-align: center;
-            justify-items: center; 
+            justify-items: center;
             /* display: grid; */
         }
 
         .btn {
             align-items: center;
         }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+        }
+
+        .toggle-btn {
+            margin-top: 90px;
+            
+        }
+
         
     </style>
 </head>
@@ -163,88 +199,90 @@
     </div>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid mb-3 pt-3">
-
+            
             <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
             <a class="navbar-brand" href="/main">Home</a>
             <a class="navbar-brand" href="/logout">Logout</a>
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
-    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;font-size: 20PX;margin-left: 200PX;">ITEM DETAILS</h3>
+    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;font-size: 20px;margin-left: 200PX;">ITEM DETAILS
+    </h3>
     <div class="filters-item_details" id="filters">
-       
+
         <!-- <button class="toggle-btn" onclick="toggleSearchBar()"><i class="fa-solid fa-magnifying-glass"></i></button> -->
-        <div class="box1">
-            <div class="search">
-                <div class="grid1">
-                    <div class="label-input-pair">
-                        <label for="search_item_number">Item Number:</label>
-                        <input type="text" name="search" id="search_item_number">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_item_description">Item Description:</label>
-                        <input type="text" name="search" id="search_item_description">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_enabled_flag">Enabled Flag:</label>
-                        <input type="text" name="search" id="search_enabled_flag">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_item_type">Item Type:</label>
-                        <input type="text" name="search" id="search_item_type">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_uom">UOM:</label>
-                        <input type="text" name="search" id="search_uom">
-                    </div>
+
+        <div class="search">
+            <div class="grid1">
+                <div class="label-input-pair">
+                    <label for="search_item_number">Item Number:</label>
+                    <input type="text" name="search" id="search_item_number">
                 </div>
-                <div class="grid1">
-                    <div class="label-input-pair">
-                        <label for="search_manufacturer_code">Manufacturer Code:</label>
-                        <input type="text" name="search" id="search_manufacturer_code">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_item_category">Item Category:</label>
-                        <input type="text" name="search" id="search_item_category">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_cpu">CPU:</label>
-                        <input type="text" name="search" id="search_cpu">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_memory">Memory:</label>
-                        <input type="text" name="search" id="search_memory">
-                    </div>
-                    <div class="label-input-pair">
-                        <label for="search_disks">Disks:</label>
-                        <input type="text" name="search" id="search_disks">
-                    </div>
+                <div class="label-input-pair">
+                    <label for="search_item_description">Item Description:</label>
+                    <input type="text" name="search" id="search_item_description">
+                </div>
+                <div class="label-input-pair">
+                    <label for="search_enabled_flag">Enabled Flag:</label>
+                    <input type="text" name="search" id="search_enabled_flag">
+                </div>
+                <div class="label-input-pair">
+                    <label for="search_item_type">Item Type:</label>
+                    <input type="text" name="search" id="search_item_type">
+                </div>
+                <div class="label-input-pair">
+                    <label for="search_uom">UOM:</label>
+                    <input type="text" name="search" id="search_uom">
                 </div>
             </div>
-            <div class="button-container">
-                <div>
-                    <button onclick="fetchItemData(),toggleSearchBar()" class="button">Search</button>
+            <div class="grid1">
+                <div class="label-input-pair">
+                    <label for="search_manufacturer_code">Manufacturer Code:</label>
+                    <input type="text" name="search" id="search_manufacturer_code">
                 </div>
-                <div>
-                    <button onclick="resetFilters()" class="reset">Reset</button>
+                <div class="label-input-pair">
+                    <label for="search_item_category">Item Category:</label>
+                    <input type="text" name="search" id="search_item_category">
                 </div>
-                <form action="/execute" method="post">
-                    <button  style="margin: 5px;"> Add Items</button>
-                </form>
-                <!-- <div>
-                    <button onclick="toggleAddBar()">Add Items</button>
-                </div> -->
-                <form action="/update" method="post">
-                    <button style="margin: 5px;">Update</button>
-                </form>
-                <form action="/upload" method="post">
-                    <button  style="margin: 5px;">Import</button>
-                </form>
-                <form action="/extract" method="post">
-                    <button  style="margin: 5px;">Export</button>
-                </form>
+                <div class="label-input-pair">
+                    <label for="search_cpu">CPU:</label>
+                    <input type="text" name="search" id="search_cpu">
+                </div>
+                <div class="label-input-pair">
+                    <label for="search_memory">Memory:</label>
+                    <input type="text" name="search" id="search_memory">
+                </div>
+                <div class="label-input-pair">
+                    <label for="search_disks">Disks:</label>
+                    <input type="text" name="search" id="search_disks">
+                </div>
             </div>
         </div>
+        
+
+    </div>
+    <div class="button-container">
+        <div>
+            <button onclick="fetchItemData(),toggleSearchBar()" class="button">Search</button>
+        </div>
+        <div>
+            <button onclick="resetFilters()" class="reset">Reset</button>
+        </div>
+        <form action="/execute" method="post">
+            <button style="margin: 5px;"> Add Items</button>
+        </form>
+        <!-- <div>
+                <button onclick="toggleAddBar()">Add Items</button>
+            </div> -->
+        <form action="/update" method="post">
+            <button style="margin: 5px;">Update</button>
+        </form>
+        <form action="/upload" method="post">
+            <button style="margin: 5px;">Import</button>
+        </form>
+        <form action="/extract" method="post">
+            <button style="margin: 5px;">Export</button>
+        </form>
     </div>
     <div class="add" style="display: none;">
         <form>
@@ -256,7 +294,7 @@
                 <label for="ITEM_DESCRIPTION">Item Description:</label>
                 <input type="text" name="ITEM_DESCRIPTION" id="ITEM_DESCRIPTION">
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="ITEM_TYPE">Item Type:</label>
                 <input type="text" name="ITEM_TYPE" id="ITEM_TYPE">
@@ -269,7 +307,7 @@
                 <label for="ITEM_CATEGORY">Item Category:</label>
                 <input type="text" name="ITEM_CATEGORY" id="ITEM_CATEGORY">
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="CPU">CPU:</label>
                 <input type="text" name="CPU" id="CPU">
@@ -282,12 +320,12 @@
                 <label for="DISKS">DISKS:</label>
                 <input type="text" name="DISKS" id="DISKS">
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="UOM">UOM:</label>
                 <input type="text" name="UOM" id="UOM">
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="ENABLED_FLAG">Enabled Flag:</label>
                 <select id="ENABLED_FLAG" name="ENABLED_FLAG">
@@ -296,17 +334,17 @@
                     <option value="N">No</option>
                 </select>
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="CREATION_DATE">Creation Date:</label>
                 <input type="date" name="CREATION_DATE" id="CREATION_DATE" readonly>
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="LAST_UPDATE_DATE">Last Update Date:</label>
                 <input type="date" name="LAST_UPDATE_DATE" id="LAST_UPDATE_DATE" readonly>
             </div>
-            
+
             <div class="button-container1">
                 <div>
                     <button type="button" onclick="submitForm1()" class="button1">Save</button>
@@ -321,7 +359,7 @@
         <div id="itemDataContainer" class="matter">
             <table>
                 <tr>
-                    
+
                     <th>Sno.</th>
                     <th>ITEM NUMBER</th>
                     <th>ITEM DESCRIPTION</th>
@@ -337,7 +375,7 @@
                     <th>LAST UPDATE DATE</th>
                     <th>LAST UPDATED BY</th>
                 </tr>
-                
+
             </table>
         </div>
     </div>
@@ -421,18 +459,18 @@
                     document.getElementById("ITEM_DESCRIPTION").value = '';
                     document.getElementById("ITEM_TYPE").value = '';
                     document.getElementById("MANUFACTURER_CODE").value = '';
-                    
+
                     document.getElementById("ITEM_CATEGORY").value = '';
                     document.getElementById("CPU").value = '';
                     document.getElementById("MEMORY").value = '';
                     document.getElementById("DISKS").value = '';
-                    
+
                     document.getElementById("UOM").value = '';
                     document.getElementById("ENABLED_FLAG").value = '';
-                    
+
                     document.getElementById("CREATION_DATE").value = '';
                     document.getElementById("LAST_UPDATE_DATE").value = '';
-                    
+
                 }
             };
             xhr.open("POST", "/insert_data1", true);
