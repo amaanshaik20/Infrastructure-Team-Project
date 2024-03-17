@@ -45,10 +45,13 @@ def main():
 
     
         # Check the credentials (This is a simple example, not secure for production)
-        cursor.execute("SELECT username,password FROM users WHERE username = ? AND password = ?", (username, password))
+        cursor.execute("SELECT name,username,password FROM users WHERE username = ? AND password = ?", (username, password))
+        
         user = cursor.fetchone()
+        
         if user:
             session['username'] = username  # Store the username in the session
+            session['name'] = user.name
             return redirect(url_for("main"))
         else:
             return render_template("index.html", message="Invalid credentials. Try again.")
