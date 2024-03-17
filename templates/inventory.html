@@ -18,11 +18,12 @@
 
         .search {
             display: flex;
-            /* justify-content: center; */
-            justify-content: space-evenly;
+            justify-content: center;
+            /* justify-content: space-around; */
             margin-bottom: 20px;
             margin-left: 250px;
             max-height: 350px;
+
             /* box-shadow: 0 5px #888888; */
             width: 1400px;
         }
@@ -35,9 +36,9 @@
             display: grid;
             /* margin-right: 30px; */
             box-shadow: 1px 1px 1px 1px black;
-            background-color: lightgray;
-            border-radius: 5px;
+            /* background-color: lightgray; */
             padding: 10px;
+            margin-left: 5px;
         }
 
         .search input {
@@ -51,13 +52,16 @@
             margin: 50px;
             margin-left: 250px;
             width: 1400px;
-            border: 2px solid black;
+            border: 1px solid black;
             /* justify-content: space-between; */
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            
+
         }
 
         table,
         td {
-            border: 1px solid black;
+            /* border: 1px solid black; */
             /* border-collapse: collapse; */
             width: 1200px;
             text-align: center;
@@ -67,11 +71,15 @@
             height: 40px;
             text-align: center;
             white-space: nowrap;
+            /* background-color: lightgray; */
+            text-align: left;
+            border: 1px solid black;
         }
 
         table {
             width: 1400px;
-            border: 2px solid black;
+            /* border: 2px solid black; */
+            max-height: 500px;
         }
 
         th {
@@ -84,23 +92,39 @@
             text-align: center;
             /* width:100% */
             white-space: nowrap;
-            /* color: white; */
+            color: black;
         }
 
         .matter {
-            overflow-x: scroll;
+            /* overflow-x: scroll; */
             overflow-y: scroll;
+            overflow-x: scroll;
             width: 1400px;
             /* margin-left: 200px; */
             height: auto;
+            max-height: 500px;
         }
+
+        /* .matter::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .matter::-webkit-scrollbar-track {
+            background: transparent;
+            
+        }
+
+        .matter::-webkit-scrollbar-thumb {
+            background: transparent;
+        } */
 
         .button-container {
             display: flex;
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 750px;
+            margin-left: 720px;
             
             /* Adjust as needed */
         }
@@ -140,14 +164,22 @@
             padding: 20px;
             margin-left: 650px;
             text-align: center;
-            justify-items: center; 
-            background-color: lightgray;
+            justify-items: center;
             /* display: grid; */
         }
-        
-        
+
         .btn {
             align-items: center;
+        }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+        }
+
+        .toggle-btn {
+            margin-top: 90px;
+            /* position: fixed; */
         }
 
     </style>
