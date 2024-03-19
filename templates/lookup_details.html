@@ -11,13 +11,20 @@
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* .filters-item_details {
+            /* margin-top: -27px;
+            margin-left: 190px;
+            padding-left: 50px; 
+        } */
+
         .search {
             display: flex;
-            /* justify-content: center; */
-            justify-content: space-between;
+            justify-content: center;
+            /* justify-content: space-around; */
             margin-bottom: 20px;
             margin-left: 250px;
             max-height: 350px;
+            /* margin-top: 100px; */
             /* box-shadow: 0 5px #888888; */
             width: 1400px;
         }
@@ -28,10 +35,11 @@
 
         .grid1 {
             display: grid;
-            margin-right: 30px;
+            /* margin-right: 30px; */
             box-shadow: 1px 1px 1px 1px black;
-            background-color: lightgray;
+            /* background-color: lightgray; */
             padding: 10px;
+            margin-left: 5px;
         }
 
         .search input {
@@ -42,16 +50,19 @@
 
         .container1 {
             /* margin-top: 10px; */
-            margin: 50px;
+            margin: 10px;
             margin-left: 250px;
             width: 1400px;
-            border: 2px solid black;
+            border: 1px solid black;
             /* justify-content: space-between; */
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            
+
         }
 
         table,
         td {
-            border: 1px solid black;
+            /* border: 1px solid black; */
             /* border-collapse: collapse; */
             width: 1200px;
             text-align: center;
@@ -61,11 +72,15 @@
             height: 40px;
             text-align: center;
             white-space: nowrap;
+            /* background-color: lightgray; */
+            text-align: left;
+            border: 1px solid black;
         }
 
         table {
             width: 1400px;
-            border: 2px solid black;
+            /* border: 2px solid black; */
+            max-height: 300px;
         }
 
         th {
@@ -78,32 +93,45 @@
             text-align: center;
             /* width:100% */
             white-space: nowrap;
-            /* color: white; */
+            color: black;
         }
 
         .matter {
-            overflow-x: scroll;
+            /* overflow-x: scroll; */
             overflow-y: scroll;
+            overflow-x: scroll;
             width: 1400px;
             /* margin-left: 200px; */
             height: auto;
+            max-height: 300px;
         }
+
+        /* .matter::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .matter::-webkit-scrollbar-track {
+            background: transparent;
+            
+        }
+
+        .matter::-webkit-scrollbar-thumb {
+            background: transparent;
+        } */
 
         .button-container {
             display: flex;
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 243px;
-
+            margin-left: 720px;
+            
             /* Adjust as needed */
         }
 
         .button-container div {
             margin: 5px;
-        }
-        #btn{
-            margin-left: 620px;
         }
 
         .label-input-pair {
@@ -126,36 +154,16 @@
         }
 
         .add {
-            position: relative;
             overflow-y: auto;
             border: 2px solid black;
             /* box-shadow: 5px 10px #888880; */
             border-radius: 10px;
             width: 600px;
-            min-width: 600px;
             display: none;
             overflow-x: visible;
             height: 220px;
             padding: 20px;
-            margin-left: 250px;
-            text-align: center;
-            justify-items: center;
-            /* display: grid; */
-        }
-
-        .add1 {
-            position: relative;
-            overflow-y: auto;
-            border: 2px solid black;
-            /* box-shadow: 5px 10px #888880; */
-            border-radius: 10px;
-            width: 600px;
-            min-width: 600px;
-            display: none;
-            overflow-x: visible;
-            height: 220px;
-            padding: 20px;
-            margin-left: 200px;
+            margin-left: 650px;
             text-align: center;
             justify-items: center;
             /* display: grid; */
@@ -164,6 +172,18 @@
         .btn {
             align-items: center;
         }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+        }
+
+        .toggle-btn {
+            margin-top: 90px;
+            
+        }
+
+        
     </style>
 </head>
 
@@ -186,14 +206,15 @@
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
-    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">LOOKUP DETAILS</h3>
+    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">LOOKUP
+        DETAILS</h3>
     <div class="filters-lookup_type" id="filters">
         <div class="box1">
             <div class="search">
                 <div class="grid1">
                     <div class="label-input-pair">
                         <label for="search_lookup_type_number">Lookup Type Number:</label>
-                        <input type="text" name="search" id="search_lookup_type_number">
+                        <input type="number" name="search" id="search_lookup_type_number" value="1" min="0">
                     </div>
                     <div class="label-input-pair">
                         <label for="search_lookup_type">Lookup Type:</label>
@@ -208,7 +229,7 @@
                         <input type="text" name="search" id="search_enabled_flag">
                     </div>
                 </div>
-                <div class="grid1">
+                <!-- <div class="grid1">
                     <div class="label-input-pair">
                         <label for="search_lookup_type_number1">Lookup Type Number:</label>
                         <input type="text" name="search" id="search_lookup_type_number1">
@@ -229,7 +250,7 @@
                         <label for="search_enabled_flag1">Enabled Flag:</label>
                         <input type="text" name="search" id="search_enabled_flag1">
                     </div>
-                </div>
+                </div> -->
             </div>
             <div style="display: flex;">
                 <div class="button-container">
@@ -240,14 +261,14 @@
                         <button onclick="resetFilters()" class="reset">Reset</button>
                     </div>
                     <form action="/execute2" method="post">
-                    <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form>
-                <form action="/update2" method="post">
-                    <button  style="margin: 5px;">Update</button>
-                </form>
-                <form action="/upload2" method="post">
-                    <button  style="margin: 5px;">Import</button>
-                </form>
+                        <button class="additem" style="margin: 5px; width: 95px;"> Add Items</button>
+                    </form>
+                    <form action="/update2" method="post">
+                        <button style="margin: 5px;">Update</button>
+                    </form>
+                    <form action="/upload2" method="post">
+                        <button style="margin: 5px;">Import</button>
+                    </form>
                     <!-- <div>
                         <button onclick="toggleAddBar()">Add Items</button>
                     </div> -->
@@ -261,14 +282,14 @@
                         <button onclick="resetFilters_()" class="reset">Reset</button>
                     </div>
                     <form action="/execute3" method="post">
-                    <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form>
-                <form action="/update3" method="post">
-                    <button  style="margin: 5px;">Update</button>
-                </form>
-                <form action="/upload3" method="post">
-                    <button  style="margin: 5px;">Import</button>
-                </form>
+                        <button class="additem" style="margin: 5px;"> Add Items</button>
+                    </form>
+                    <form action="/update3" method="post">
+                        <button style="margin: 5px;">Update</button>
+                    </form>
+                    <form action="/upload3" method="post">
+                        <button style="margin: 5px;">Import</button>
+                    </form>
                     <!-- <div>
                         <button onclick="toggleAddBar1()">Add Items</button>
                     </div> -->
@@ -358,14 +379,11 @@
             </form>
         </div>
     </div>
-    <center>
-        <h3 style="margin-top: 30px;">Lookup Type</h3>
-    </center>
     <div class="container1">
         <div id="typeDataContainer" class="matter">
             <table>
                 <tr>
-                    
+
                     <th>Type Number</th>
                     <th>Lookup Type</th>
                     <th>Type Description</th>
@@ -376,17 +394,10 @@
                     <th>Last Updated By</th>
                 </tr>
             </table>
-        </div>
-    </div>
-    <center>
-        <h3>Lookup values</h3>
-    </center>
-    <div class="container1">
-        <div id="valueDataContainer" class="matter">
             <table>
                 <tr>
-                    
-                    <th>Sno.</th>
+
+                    <th>Lookup Value ID</th>
                     <th>Type Number</th>
                     <th>Lookup Code</th>
                     <th>Lookup Value</th>
@@ -400,7 +411,33 @@
             </table>
         </div>
     </div>
-    
+    <!-- <center>
+        <h3>Lookup values</h3>
+    </center> -->
+    <!-- <div class="container1">
+        <div id="valueDataContainer" class="matter">
+            <table>
+                <tr>
+
+                    <th>Sno.</th>
+                    <th>Type Number</th>
+                    <th>Lookup Code</th>
+                    <th>Lookup Value</th>
+                    <th>Value Description</th>
+                    <th>Enabled Flag</th>
+                    <th>Creation Date</th>
+                    <th>Created By</th>
+                    <th>Last Update Date</th>
+                    <th>Last Updated By</th>
+                </tr>
+            </table>
+        </div>
+    </div> -->
+    <center>
+        <button id="previousBtn" onclick="handleButtonClick('previous')">Previous</button>
+        <button id="nextBtn" onclick="handleButtonClick('next')">Next</button>
+
+    </center>
 
     <script src="/static/index.js"></script>
 
@@ -426,7 +463,7 @@
             };
 
             // Construct URL with filter parameters
-            var url = `/get_type_data?lookup_type_number=${encodeURIComponent(lookup_type_number)}&lookup_type=${encodeURIComponent(lookup_type)}&type_description=${encodeURIComponent(type_description)}&enabled_flag=${encodeURIComponent(enabled_flag)}`;
+            var url = `/get_type_and_value_data?lookup_type_number=${encodeURIComponent(lookup_type_number)}&lookup_type=${encodeURIComponent(lookup_type)}&type_description=${encodeURIComponent(type_description)}&enabled_flag=${encodeURIComponent(enabled_flag)}`;
             xhr.open("GET", url, true);
             xhr.send();
         }
@@ -489,7 +526,7 @@
             var ENABLED_FLAG = document.getElementById("ENABLED_FLAG").value;
             var CREATION_DATE = document.getElementById("date").value;
             var LAST_UPDATE_DATE = document.getElementById("date1").value;
-            
+
             // AJAX request to send data to the server for insertion
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
@@ -529,7 +566,7 @@
             var ENABLED_FLAG1 = document.getElementById("ENABLED_FLAG1").value;
             var CREATION_DATE2 = document.getElementById("date2").value;
             var LAST_UPDATE_DATE2 = document.getElementById("date3").value;
-            
+
             // AJAX request to send data to the server for insertion
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
@@ -572,6 +609,30 @@
         // const inputField1 = document.querySelector('#date1');
         // inputField.value = dateString;
         // inputField1.value = dateString;
+
+        // document.getElementById('nextBtn').addEventListener('click', function () {
+        //     var input = document.getElementById('search_lookup_type_number');
+        //     var currentValue = parseInt(input.value);
+        //     input.value = currentValue + 1;
+        // });
+
+        // document.getElementById('previousBtn').addEventListener('click', function () {
+        //     var input = document.getElementById('search_lookup_type_number');
+        //     var currentValue = parseInt(input.value);
+        //     if (currentValue > 1) {
+        //         input.value = currentValue - 1;
+        //     }
+        // });
+        function handleButtonClick(action) {
+            var input = document.getElementById('search_lookup_type_number');
+            var currentValue = parseInt(input.value);
+            if (action === 'next') {
+                input.value = currentValue + 1;
+            } else if (action === 'previous' && currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+            fetchTypeData(); // Call fetchTypeData after updating the input value
+        }
     </script>
 </body>
 
