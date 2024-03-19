@@ -6,12 +6,11 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                      'Database=InfraDb;'
+                      'Server=AmaanShaik\SQLEXPRESS;'
+                      'Database=InfraDB1;'
                       'Trusted_Connection=yes;')
 
 cursor = conn.cursor()
-
 @app.route("/") 
 def index(): 
 	return render_template("index.html")
@@ -219,120 +218,225 @@ def get_inventory_data():
 
     return html_data
 
-@app.route("/get_type_data", methods=["GET"])
-def get_type_data():
-    # Get filter values from request
-    # item_id = request.args.get('item_id', '')
+# @app.route("/get_type_data", methods=["GET"])
+# def get_type_data():
+#     # Get filter values from request
+#     # item_id = request.args.get('item_id', '')
+#     lookup_type_number = request.args.get('lookup_type_number', '')
+#     lookup_type = request.args.get('lookup_type', '')
+#     type_description=request.args.get('type_description','')
+#     enabled_flag = request.args.get('enabled_flag', '')
+    
+#     # Construct SQL query with WHERE conditions
+#     query = 'SELECT LOOKUP_TYPE_ID, LOOKUP_TYPE, TYPE_DESCRIPTION, ENABLED_FLAG, CREATION_DATE, ' \
+#             'CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM LOOKUP_TYPE WHERE 1=1'
+
+#     conditions = []
+
+#     # if item_id:
+#     #     conditions.append(f"ITEM_ID = '{item_id}'")
+#     if lookup_type_number:
+#         conditions.append(f"LOOKUP_TYPE_ID = '{lookup_type_number}'")
+#     if lookup_type:
+#         conditions.append(f"LOOKUP_TYPE LIKE '%{lookup_type}%'")
+#     if type_description:
+#         conditions.append(f"TYPE_DESCRIPTION LIKE '%{type_description}%'")
+#     if enabled_flag:
+#         conditions.append(f"ENABLED_FLAG = '{enabled_flag}'")    
+#     if conditions:
+#         query += " AND " + " AND ".join(conditions)
+
+#     cursor.execute(query)
+#     data = cursor.fetchall()
+
+#     # Format data as HTML for simplicity (you can use JSON for a more structured approach)
+#     html_data = "<table>\n"
+#     html_data += "<tr>\n"
+#     # html_data += "<th>Edit</th>\n"
+#     html_data += "<th>Type Number</th>\n"
+#     html_data += "<th>Lookup Type</th>\n"
+#     html_data += "<th>Type Description</th>\n"
+#     html_data += "<th>Enabled Flag</th>\n"
+#     html_data += "<th>Creation Date</th>\n"
+#     html_data += "<th>Created By</th>\n"
+#     html_data += "<th>Last Update Date</th>\n"
+#     html_data += "<th>Last Updated By</th>\n"
+
+
+#     html_data += "</tr>\n"
+#     for row in data:
+#         html_data += "<tr>\n"
+#         # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
+#         for item in row:
+#             html_data += "<td>{}</td>\n".format(item)
+#         html_data += "</tr>\n"
+#     html_data += "</table>"
+#     return html_data
+
+# @app.route("/get_value_data", methods=["GET"])
+# def get_value_data():
+#     # Get filter values from request
+#     # item_id = request.args.get('item_id', '')
+#     lookup_type_number1 = request.args.get('lookup_type_number1', '')
+#     lookup_code = request.args.get('lookup_code', '')
+#     lookup_value = request.args.get('lookup_value', '')
+#     value_description=request.args.get('value_description','')
+#     enabled_flag1 = request.args.get('enabled_flag1', '')
+    
+#     # Construct SQL query with WHERE conditions
+#     query = 'SELECT LOOKUP_VALUE_ID, LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ' \
+#             'ENABLED_FLAG, CREATION_DATE, CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATED_BY_USER FROM LOOKUP_VALUES WHERE 1=1'
+
+#     conditions = []
+
+#     # if item_id:
+#     #     conditions.append(f"ITEM_ID = '{item_id}'")
+#     if lookup_type_number1:
+#         conditions.append(f"LOOKUP_TYPE_ID = '{lookup_type_number1}'")
+#     if lookup_code:
+#         conditions.append(f"LOOKUP_CODE LIKE '%{lookup_code}%'")
+#     if lookup_value:
+#         conditions.append(f"LOOKUP_VALUE LIKE '%{lookup_value}%'")
+#     if value_description:
+#         conditions.append(f"VALUE_DESCRIPTION LIKE '%{value_description}%'")
+#     if enabled_flag1:
+#         conditions.append(f"ENABLED_FLAG = '{enabled_flag1}'")    
+#     if conditions:
+#         query += " AND " + " AND ".join(conditions)
+
+#     cursor.execute(query)
+#     data = cursor.fetchall()
+
+#     # Format data as HTML for simplicity (you can use JSON for a more structured approach)
+#     html_data = "<table>\n"
+#     html_data += "<tr>\n"
+#     html_data += "<th>Sno.</th>\n"
+#     html_data += "<th>Type Number</th>\n"
+#     html_data += "<th>Lookup Code</th>\n"
+#     html_data += "<th>Lookup Value</th>\n"
+#     html_data += "<th>Value Description</th>\n"
+#     html_data += "<th>Enabled Flag</th>\n"
+#     html_data += "<th>Creation Date</th>\n"
+#     html_data += "<th>Created By</th>\n"
+#     html_data += "<th>Last Update Date</th>\n"
+#     html_data += "<th>Last Updated By</th>\n"
+
+
+#     html_data += "</tr>\n"
+#     for row in data:
+#         html_data += "<tr>\n"
+#         # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
+#         for item in row:
+#             html_data += "<td>{}</td>\n".format(item)
+#         html_data += "</tr>\n"
+#     html_data += "</table>"
+#     return html_data
+
+@app.route("/get_type_and_value_data", methods=["GET"])
+def get_type_and_value_data():
     lookup_type_number = request.args.get('lookup_type_number', '')
     lookup_type = request.args.get('lookup_type', '')
-    type_description=request.args.get('type_description','')
+    type_description = request.args.get('type_description', '')
     enabled_flag = request.args.get('enabled_flag', '')
-    
-    # Construct SQL query with WHERE conditions
-    query = 'SELECT LOOKUP_TYPE_ID, LOOKUP_TYPE, TYPE_DESCRIPTION, ENABLED_FLAG, CREATION_DATE, ' \
-            'CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM LOOKUP_TYPE WHERE 1=1'
 
-    conditions = []
+    # Construct SQL query with WHERE conditions for parent data
+    query_parent = 'SELECT LOOKUP_TYPE_ID, LOOKUP_TYPE, TYPE_DESCRIPTION, ENABLED_FLAG, CREATION_DATE, ' \
+                   'CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM LOOKUP_TYPE WHERE 1=1'
 
-    # if item_id:
-    #     conditions.append(f"ITEM_ID = '{item_id}'")
+    conditions_parent = []
+
     if lookup_type_number:
-        conditions.append(f"LOOKUP_TYPE_ID = '{lookup_type_number}'")
+        conditions_parent.append(f"LOOKUP_TYPE_ID = '{lookup_type_number}'")
     if lookup_type:
-        conditions.append(f"LOOKUP_TYPE LIKE '%{lookup_type}%'")
+        conditions_parent.append(f"LOOKUP_TYPE LIKE '%{lookup_type}%'")
     if type_description:
-        conditions.append(f"TYPE_DESCRIPTION LIKE '%{type_description}%'")
+        conditions_parent.append(f"TYPE_DESCRIPTION LIKE '%{type_description}%'")
     if enabled_flag:
-        conditions.append(f"ENABLED_FLAG = '{enabled_flag}'")    
-    if conditions:
-        query += " AND " + " AND ".join(conditions)
+        conditions_parent.append(f"ENABLED_FLAG = '{enabled_flag}'")
 
-    cursor.execute(query)
-    data = cursor.fetchall()
+    if conditions_parent:
+        query_parent += " AND " + " AND ".join(conditions_parent)
 
-    # Format data as HTML for simplicity (you can use JSON for a more structured approach)
-    html_data = "<table>\n"
-    html_data += "<tr>\n"
-    # html_data += "<th>Edit</th>\n"
-    html_data += "<th>Type Number</th>\n"
-    html_data += "<th>Lookup Type</th>\n"
-    html_data += "<th>Type Description</th>\n"
-    html_data += "<th>Enabled Flag</th>\n"
-    html_data += "<th>Creation Date</th>\n"
-    html_data += "<th>Created By</th>\n"
-    html_data += "<th>Last Update Date</th>\n"
-    html_data += "<th>Last Updated By</th>\n"
+    cursor.execute(query_parent)
+    parent_data = cursor.fetchone()  # Fetch only the first record
 
+    # Fetch associated child data for the first parent row
+    if parent_data:
+        lookup_type_id = parent_data[0]
+        query_child = f"SELECT LOOKUP_VALUE_ID, LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, " \
+                      f"ENABLED_FLAG, CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, " \
+                      f"LAST_UPDATED_BY_USER FROM LOOKUP_VALUES WHERE LOOKUP_TYPE_ID = '{lookup_type_id}'"
 
-    html_data += "</tr>\n"
-    for row in data:
-        html_data += "<tr>\n"
-        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
-        for item in row:
-            html_data += "<td>{}</td>\n".format(item)
-        html_data += "</tr>\n"
-    html_data += "</table>"
+        cursor.execute(query_child)
+        child_data = cursor.fetchall()
+
+        # CSS for table styling
+        table_style = '''
+        <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        .parent-table {
+            margin-bottom: 20px; /* Add space between parent and child tables */
+        }
+        </style>
+        '''
+
+        # Construct HTML table for parent data
+        parent_table = "<table class='parent-table'>\n"
+        parent_table += "<tr>\n"
+        parent_table += "<th>Type Number</th>\n"
+        parent_table += "<th>Lookup Type</th>\n"
+        parent_table += "<th>Type Description</th>\n"
+        parent_table += "<th>Enabled Flag</th>\n"
+        parent_table += "<th>Creation Date</th>\n"
+        parent_table += "<th>Created By</th>\n"
+        parent_table += "<th>Last Update Date</th>\n"
+        parent_table += "<th>Last Updated By</th>\n"
+        parent_table += "</tr>\n"
+        parent_table += "<tr>\n"
+        for item in parent_data:
+            parent_table += "<td>{}</td>\n".format(item)
+        parent_table += "</tr>\n"
+        parent_table += "</table>\n"
+
+        # Construct HTML table for child data
+        child_table = "<table>\n"
+        child_table += "<tr>\n"
+        child_table += "<th>Lookup Value ID</th>\n"
+        child_table += "<th>Lookup Type ID</th>\n"
+        child_table += "<th>Lookup Code</th>\n"
+        child_table += "<th>Lookup Value</th>\n"
+        child_table += "<th>Value Description</th>\n"
+        child_table += "<th>Enabled Flag</th>\n"
+        child_table += "<th>Creation Date</th>\n"
+        child_table += "<th>Created By</th>\n"
+        child_table += "<th>Last Update Date</th>\n"
+        child_table += "<th>Last Updated By</th>\n"
+        child_table += "</tr>\n"
+        for row in child_data:
+            child_table += "<tr>\n"
+            for item in row:
+                child_table += "<td>{}</td>\n".format(item)
+            child_table += "</tr>\n"
+        child_table += "</table>\n"
+
+        # Concatenate tables and CSS
+        html_data = table_style + parent_table + child_table
+    else:
+        html_data = "No data found."
+
     return html_data
-
-@app.route("/get_value_data", methods=["GET"])
-def get_value_data():
-    # Get filter values from request
-    # item_id = request.args.get('item_id', '')
-    lookup_type_number1 = request.args.get('lookup_type_number1', '')
-    lookup_code = request.args.get('lookup_code', '')
-    lookup_value = request.args.get('lookup_value', '')
-    value_description=request.args.get('value_description','')
-    enabled_flag1 = request.args.get('enabled_flag1', '')
     
-    # Construct SQL query with WHERE conditions
-    query = 'SELECT LOOKUP_VALUE_ID, LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ' \
-            'ENABLED_FLAG, CREATION_DATE, CREATED_BY_USER,LAST_UPDATE_DATE,LAST_UPDATED_BY_USER FROM LOOKUP_VALUES WHERE 1=1'
-
-    conditions = []
-
-    # if item_id:
-    #     conditions.append(f"ITEM_ID = '{item_id}'")
-    if lookup_type_number1:
-        conditions.append(f"LOOKUP_TYPE_ID = '{lookup_type_number1}'")
-    if lookup_code:
-        conditions.append(f"LOOKUP_CODE LIKE '%{lookup_code}%'")
-    if lookup_value:
-        conditions.append(f"LOOKUP_VALUE LIKE '%{lookup_value}%'")
-    if value_description:
-        conditions.append(f"VALUE_DESCRIPTION LIKE '%{value_description}%'")
-    if enabled_flag1:
-        conditions.append(f"ENABLED_FLAG = '{enabled_flag1}'")    
-    if conditions:
-        query += " AND " + " AND ".join(conditions)
-
-    cursor.execute(query)
-    data = cursor.fetchall()
-
-    # Format data as HTML for simplicity (you can use JSON for a more structured approach)
-    html_data = "<table>\n"
-    html_data += "<tr>\n"
-    html_data += "<th>Sno.</th>\n"
-    html_data += "<th>Type Number</th>\n"
-    html_data += "<th>Lookup Code</th>\n"
-    html_data += "<th>Lookup Value</th>\n"
-    html_data += "<th>Value Description</th>\n"
-    html_data += "<th>Enabled Flag</th>\n"
-    html_data += "<th>Creation Date</th>\n"
-    html_data += "<th>Created By</th>\n"
-    html_data += "<th>Last Update Date</th>\n"
-    html_data += "<th>Last Updated By</th>\n"
-
-
-    html_data += "</tr>\n"
-    for row in data:
-        html_data += "<tr>\n"
-        # html_data += "<td><button><i class='fa-solid fa-pencil'></i></button></td>\n"
-        for item in row:
-            html_data += "<td>{}</td>\n".format(item)
-        html_data += "</tr>\n"
-    html_data += "</table>"
-    return html_data
-
 @app.route("/get_header_data", methods=["GET"])
 def get_header_data():
     # Get filter values from request
@@ -711,7 +815,9 @@ def extract():
     try:
         username = session.get('username', '')  # Get the username from the session
         subprocess.run(["python", "export_ITEM_MASTER.py", username])
+        
         return render_template("item_details.html")
+
     except Exception as e:
          return f"Error during execution: {str(e)}"
 
