@@ -284,6 +284,9 @@
             <button style="margin: 5px;">Export</button>
         </form>
     </div>
+    {% if message %}
+    <p style="text-align: center;"class="error-message" id="error-message">{{ message }}</p>
+    {% endif %}
     <div class="add" style="display: none;">
         <form>
             <div class="label-input-pair">
