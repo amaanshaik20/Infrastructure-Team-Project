@@ -67,8 +67,8 @@ def fetch_lookup_data(event=None):
     if lookup_type_id:  # Check if lookup_type is not empty
         try:
             connection = pyodbc.connect('Driver={SQL Server};'
-                            'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                      'Database=InfraDb;'
+                           'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                             'Trusted_Connection=yes;')
             cursor = connection.cursor()
 
@@ -113,8 +113,8 @@ fetch_button.grid(row=0, column=4, padx=(20, 0))  # Adjust position of the butto
 def Modify_lookup_type():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                      'Database=InfraDb;'
+                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -135,7 +135,7 @@ def Modify_lookup_type():
         if count > 0:
             # If lookup type exists, perform update
             query = """
-                UPDATE Lookup_Type 
+                UPDATE Lookup_Type
                 SET LOOKUP_TYPE = ?, TYPE_DESCRIPTION = ?, ENABLED_FLAG = ?, LAST_UPDATE_DATE = ?, LAST_UPDATED_BY_USER= ?
                 WHERE LOOKUP_TYPE_ID = ?
             """
@@ -145,7 +145,9 @@ def Modify_lookup_type():
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute(query, query_params)
 
-        info_label_inventory.configure(text="DATA MODIFIED SUCCESSFULLY!!!", foreground="green")
+        info_label_invent = ttk.Label(app, text="DATA MODIFIED SUCCESSFULLY", foreground="GREEN")
+        info_label_invent.place(relx=0.1, rely=0.90)  # Adjusted y-position
+        reset()
 
 
     except pyodbc.Error as ex:
@@ -169,16 +171,16 @@ def get_bold_font():
     return font.Font(weight="bold")
 
 # Create buttons with bold text
-insert_button = tk.Button(button_frame, text="MODIFY", command=Modify_lookup_type,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="UPDATE", command=Modify_lookup_type,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
