@@ -38,7 +38,6 @@ def import_excel_to_sql_server(server, database, excel_file_path):
 
     # Read Excel file into a pandas DataFrame
     df = pd.read_excel(excel_file_path)
-    
 
     # Database connection string
     connection_string = f'Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;'
@@ -52,13 +51,11 @@ def import_excel_to_sql_server(server, database, excel_file_path):
         for index, row in df.iterrows():
             cursor.execute("""
                 INSERT INTO LOOKUP_VALUES (
-                    LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG, 
-                    CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG
+                ) VALUES (?, ?, ?, ?, ?)
             """,
             str(row['LOOKUP_TYPE_ID']), str(row['LOOKUP_CODE']), str(row['LOOKUP_VALUE']),
-            str(row['VALUE_DESCRIPTION']), str(row['ENABLED_FLAG']),
-            current_date, username, current_date, username)
+            str(row['VALUE_DESCRIPTION']), str(row['ENABLED_FLAG']))
 
         # Commit the transaction
         connection.commit()
@@ -72,8 +69,8 @@ def import_excel_to_sql_server(server, database, excel_file_path):
         # Close the database connection
         connection.close()
 # Specify the database information
-server_name = 'AJAS-SAMSUNG-BO\MSSQLSERVER01'
-database_name = 'InfraDb'
+server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
+database_name = 'InfraDB'
 
 # Call the function to choose the Excel file
 excel_file_path, filename = choose_excel_file()
