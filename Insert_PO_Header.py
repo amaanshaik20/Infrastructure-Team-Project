@@ -1,148 +1,85 @@
-import tkinter as tk
-from tkinter import ttk, font
+import pandas as pd
 import pyodbc
+from tkinter import Tk, filedialog
+import os
+import shutil  # Import the shutil module for file operations
 from datetime import datetime
 import sys
 
-app = tk.Tk()
-app.geometry("700x500")
-app.title("INSERT PURCHASE ORDER")
 
-# Label above the frame
-instruction_label = ttk.Label(app, text="INSERT THE BELOW FIELDS INTO THE PURCHASE ORDER", foreground="black", font=font.Font(size=11), background="#CCCCCC")
-instruction_label.place(relx=0.1, rely=0.1)
+UPLOAD_FOLDER = 'uploads'
+# Get the current date and time as a string
+current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+# Assuming username is passed as a command-line argument or an empty string if not provided
+username = sys.argv[1] if len(sys.argv) > 1 else ''
 
+def choose_excel_file():
+    root = Tk()
+    root.withdraw()  # Hide the main window
 
+    file_path = filedialog.askopenfilename(
+        title="Select Excel File",
+        filetypes=[("Excel files", "*.xlsx;*.xls")]
+    )
 
-# Create a frame to hold the labels and entry fields with a scrollbar
-frame = tk.Frame(app, borderwidth=2, relief="groove", border=2, bg="grey")
-frame.place(relx=0.1, rely=0.2, relwidth=0.8, relheight=0.6)
+    if not file_path:
+        print("No file selected. Exiting.")
+        return None, None
 
-canvas = tk.Canvas(frame)
-scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
-scrollable_frame = ttk.Frame(canvas)
+    # Extract the filename from the full file path
+    filename = os.path.basename(file_path)
 
-scrollable_frame.bind(
-    "<Configure>",
-    lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-)
+    return file_path, filename
 
-canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-canvas.configure(yscrollcommand=scrollbar.set)
+def import_excel_to_sql_server(server, database, excel_file_path):
+    if not excel_file_path:
+        print("No file selected. Exiting.")
+        return
 
-canvas.pack(side="left", fill="both", expand=True)
-scrollbar.pack(side="right", fill="y")
+    # Read Excel file into a pandas DataFrame
+    df = pd.read_excel(excel_file_path)
 
-# Function to add labels and entry fields to the scrollable frame
-def add_label_and_entry(label_text, row):
-    label = ttk.Label(scrollable_frame, text=label_text)
-    label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
+    # Database connection string
+    connection_string = f'Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;'
 
-    if label_text == "PO STATUS:":
-        entry = ttk.Combobox(scrollable_frame)
-        entry['values'] = ['Entered', 'Approved', 'Received', 'Invoiced', 'Closed', 'Cancelled']
-    else:
-        entry = ttk.Entry(scrollable_frame)
+    # Establish database connection
+    connection = pyodbc.connect(connection_string)
+    cursor = connection.cursor()
 
-        
-    entry.grid(row=row, column=1, padx=10, pady=5)  # Adjusted padx and pady for spacing
-    return entry
-
-# Labels and entry fields
-labels_and_entries = [
-    ("PO NUMBER", 14),
-    ("PO TYPE:", 15),
-    ("PO DESCRIPTION", 16),
-    ("VENDOR NAME:", 17),
-    ("VENDOR LOCATION", 18),
-    ("QUOTE REQUESTED:", 19),
-    ("QUOTE NUMBER", 20),
-    ("PO STATUS:", 21),
-    ("PO DATE:", 22),
-    ("PO APPROVED DATE", 23),
-    ("PO APPROVED BY:", 24),
-    ("PO REQUESTED", 25),
-    ("PO REQUESTED BY:", 26),
-    ("INVOICE NUMBER:", 27),
-    ("INVOICE LINE NUMBER", 28),
-    ("INVOICE AMOUNT:", 29),
-    ("INVOICE PAID", 30),
-    ("SUPPORT START DATE:", 31),
-    ("SUPPORT END DATE:", 32),
-]
-
-#entry fields
-entry_fields = []
-for label_text, row in labels_and_entries:
-    entry = add_label_and_entry(label_text, row)
-    entry_fields.append(entry)
-
-
-def insert_inventory_onhand():
     try:
-        connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
-                        'Trusted_Connection=yes;')
-        connection.autocommit = True
+        # Iterate through each row in the DataFrame and insert into the LOOKUP_TYPE table
+        for index, row in df.iterrows():
+            cursor.execute("""
+                INSERT INTO PO_HEADER (
+                    PO_NUMBER, VENDOR_NAME,  PO_STATUS
+                ) VALUES (?, ?, ?)
+            """,
+            str(row['PO_NUMBER']), str(row['VENDOR_NAME']), str(row['PO_STATUS']))
 
-        # Get the current date and time as a string
-        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        # Assuming username is passed as a command-line argument or an empty string if not provided
-        username = sys.argv[1] if len(sys.argv) > 1 else ''
-
-        # Use a tuple to unpack the entry fields for the SQL query
-        query_params = tuple(entry.get() for entry in entry_fields)
-
-        # Add current_date and username to the tuple for query_params
-        query_params += (current_date, username, current_date, username)
-
-        # Use parameterized query to avoid SQL injection and handle date conversion
-        connection.execute("""
-            INSERT INTO PO_HEADER 
-            (PO_NUMBER, PO_TYPE, PO_DESCRIPTION, VENDOR_NAME, VENDOR_LOCATION, 
-            QUOTE_REQUESTED, QUOTE_NUMBER, PO_STATUS, PO_DATE, PO_APPROVED_DATE, PO_APPROVED_BY, PO_REQUESTED, PO_REQUESTED_BY, 
-            INVOICE_NUMBER, INVOICE_LINE_NUMBER, INVOICE_AMOUNT, INVOICE_PAID, 
-            SUPPORT_START_DATE, SUPPORT_END_DATE, CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, query_params)
-        info_label_inventory.configure(text="INSERTION COMPLETED!")
+        # Commit the transaction
+        connection.commit()
+        print("Data imported successfully.")
 
     except pyodbc.Error as ex:
-        print("CONNECTION FAILED", ex)
+        print("Error during data import:", ex)
+        connection.rollback()
 
-def reset():
-    # Reset all entry fields to empty strings
-    for entry in entry_fields:
-        entry.delete(0, tk.END)
+    finally:
+        # Close the database connection
+        connection.close()
 
+# Specify the database information
+server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
+database_name = 'InfraDB'
 
-def cancel():
-    app.destroy()
+# Call the function to choose the Excel file
+excel_file_path, filename = choose_excel_file()
 
-# Create a new frame for the buttons
-button_frame = tk.Frame(app)
-button_frame.place(relx=0.1, rely=0.8, relwidth=0.8)
+# Save the uploaded file in the "uploads" folder
+if excel_file_path and filename:
+    destination_path = os.path.join(UPLOAD_FOLDER, filename)
+    shutil.copy(excel_file_path, destination_path)
+    print(f"File saved in {destination_path}")
 
-# Function to create bold font
-def get_bold_font():
-    return font.Font(weight="bold")
-
-# Create buttons with bold text
-insert_button = tk.Button(button_frame, text="INSERT", command=insert_inventory_onhand,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
-insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
-
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
-                         foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
-reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
-
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
-cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
-
-info_label_inventory = ttk.Label(app, text="3S Technologies - PO HEADER")
-info_label_inventory.place(relx=0.1, rely=0.95)  # Adjusted y-position
-
-app.mainloop()
+    # Call the function to import data from Excel to SQL Server
+    import_excel_to_sql_server(server_name, database_name, excel_file_path)
