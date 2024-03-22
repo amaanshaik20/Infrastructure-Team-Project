@@ -4,158 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
     <style>
         .container1 {
             max-width: 550px;
             margin: 100px auto;
-            /* Adjusted margin for vertical centering */
             background-color: #fff;
             border: 2px solid #ddd;
             padding: 20px;
             border-radius: 30px;
             box-shadow: 5px 10px rgba(0, 0, 0, 0.1);
-            height: 500px;
+            height: auto; /* changed height to auto */
         }
 
         #loginForm {
             display: flex;
             flex-direction: column;
+            align-items: center; /* added to center the form */
         }
 
         .label1 {
             margin-bottom: 4px;
             font-size: large;
-            padding: 20px;
-            margin: 10px;
-            width: 1000px;
+            width: 100px; /* changed width to a fixed value */
+            display: inline-block; /* added */
+            text-align: right; /* added to align text to the right */
         }
 
-        .center {
-            /* align-items: center; */
-            /* justify-content: center; */
-            text-align: center;
-            color: rgb(255, 4, 201);
+        .amaan {
+            margin: 10px;
+            font-weight: bolder;
+            display: flex; /* added */
+            align-items: center; /* added */
+        }
+
+        .input1 {
+            height: 30px;
+            margin-left: 10px; /* added */
+            width: 300px;
         }
 
         .button {
-            /* width: fit-content; */
-            padding: 10px;
-            margin: 10px;
-            /* display: grid; */
-            /* text-align: center; */
-            /* background-color: red; */
+            margin-top: 20px; /* adjusted margin */
         }
 
         .button button {
             height: 40px;
-            width: 70px;
+            width: 100px; /* adjusted width */
             background-color: aliceblue;
             color: black;
             border-radius: 25px;
-
+            cursor: pointer;
         }
 
         .button button:hover {
             background-color: black;
             color: aliceblue;
-            cursor: pointer;
-
         }
-
-        .username {
-            height: 20px;
-        }
-
-        .amaan {
-            margin: 2px;
-            font-weight: bolder;
-        }
-        .input1{
-            display: inline-block;
-        }
-        
-
     </style>
 </head>
 <body>
     <div class="container1">
         <form id="loginForm" action="/main" method="post">
-            <h2 class="center">Register</h2>
+            <h2>Register</h2>
             <div class="amaan">
-                <label for="name" class="label1">Name:</label>
-                <input type="text" id="name" class="input1" name="name" required
-                    style="height: 30px; margin: 10px;width: 300px;">
+                <label for="username" class="label1">Username:</label>
+                <input type="text" id="name" class="input1" name="username" required>
             </div>
             <div class="amaan">
                 <label for="email" class="label1">Email:</label>
-                <input type="email" id="email" class="input" name="email" required
-                    style="height: 30px; margin: 10px;width: 300px;">
-            </div>
-            <div class="amaan">
-                <label for="phoneNumber" class="label1">Phone:</label>
-                <input type="text" id="phonenumber" class="input1" name="phonenumber" required
-                    style="height: 30px; margin: 10px;width: 300px;">
-            </div>      
-            <div class="amaan">
-                <label for="username" class="label1">Username:</label>
-                <input type="text" id="username" class="input1" name="username" required
-                    style="height: 30px; margin: 10px;width: 300px; margin-left: -20px;">
+                <input type="email" id="email" class="input1" name="email" required>
             </div>
             <div class="amaan">
                 <label for="password" class="label1">Password:</label>
-                <input type="password" id="password" class="input1" name="password" required
-                    style="height: 30px; margin: 10px;width: 300px; margin-left: -18px;">
+                <input type="password" id="password" class="input1" name="password" required>
             </div>
             <!-- <div class="amaan">
-                <label for="re-password" class="label1">Re-Password:</label>
-                <input type="password" id="re-password" class="input1" name="re-password" required
-                    style="height: 30px; margin: 10px;width: 300px;">
+                <label for="re-password" class="label1">Confirm Password:</label>
+                <input type="password" id="re-password" class="input1" name="re-password" required>
             </div> -->
-            <center>
-                <div class="button">
-                    <input type="button" value="Register" onclick="submitForm()" class="button" style="height: fit-content;">
-                    <a href="/"><input type="button" value="go back to login page"class="button" style="height: fit-content;"></a>
-                </div>
-            </center>
+            <div class="amaan">
+                <label for="phoneNumber" class="label1">Phone:</label>
+                <input type="text" id="phonenumber" class="input1" name="phonenumber" required>
+            </div>
+            <div class="button">
+                <input type="button" value="Register" onclick="submitForm()">
+                <a href="/"><input type="button" value="Go back to login page"></a>
+            </div>
         </form>
-
     </div>
+
     <script>
         function submitForm() {
-            // Get data from the form
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var phonenumber = document.getElementById("phonenumber").value;
             var username = document.getElementById("username").value;
+            var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
+            var phonenumber = document.getElementById("phonenumber").value;
 
-            // AJAX request to send data to the server for insertion
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    // Optionally, you can handle the response from the server
                     console.log(xhr.responseText);
                     alert("Form submitted successfully!");
-                    // Clear the form fields after successful insertion
-                    document.getElementById("name").value = '';
-                    document.getElementById("email").value = '';
-                    document.getElementById("phonenumber").value = '';
                     document.getElementById("username").value = '';
+                    document.getElementById("email").value = '';
                     document.getElementById("password").value = '';
+                    document.getElementById("phonenumber").value = '';
                 }
             };
             xhr.open("POST", "/insert_data", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-            // Send data as JSON
             var data = {
-                "name": name,
-                "email": email,
-                "phonenumber": phonenumber,
                 "username": username,
+                "email": email,
                 "password": password,
+                "phonenumber": phonenumber,
             };
             xhr.send(JSON.stringify(data));
         }
