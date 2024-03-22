@@ -5,7 +5,7 @@ import os
 import shutil  # Import the shutil module for file operations
 from datetime import datetime
 import sys
-
+from tkinter import messagebox
 
 UPLOAD_FOLDER = 'uploads'
 # Get the current date and time as a string
@@ -47,7 +47,6 @@ def import_excel_to_sql_server(server, database, excel_file_path):
     current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # Assuming username is passed as a command-line argument or an empty string if not provided
     username = sys.argv[1] if len(sys.argv) > 1 else ''
-    username = "ajas"
 
     # Establish database connection
     connection = pyodbc.connect(connection_string)
@@ -82,8 +81,8 @@ def import_excel_to_sql_server(server, database, excel_file_path):
         connection.close()
 
 # Specify the database information
-server_name = 'AJAS-SAMSUNG-BO\MSSQLSERVER01'
-database_name = 'InfraDb'
+server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
+database_name = 'InfraDB'
 
 # Call the function to choose the Excel file
 excel_file_path, filename = choose_excel_file()
@@ -96,3 +95,5 @@ if excel_file_path and filename:
 
     # Call the function to import data from Excel to SQL Server
     import_excel_to_sql_server(server_name, database_name, excel_file_path)
+
+    messagebox.showinfo("Item details", "Imported successfully..")
