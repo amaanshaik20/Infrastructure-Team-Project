@@ -1,6 +1,7 @@
 import pandas as pd
 import pyodbc
 
+
 def export_sql_server_to_excel(server, database, output_file):
     # Database connection string
     connection_string = f'Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;'
@@ -38,3 +39,6 @@ export_file_path = "exported_data.xlsx"
 
 # Call the function to export data from SQL Server to Excel
 export_sql_server_to_excel(server_name, database_name, export_file_path)
+
+
+
