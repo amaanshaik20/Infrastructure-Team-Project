@@ -31,7 +31,6 @@
             margin-right: 30px;
             box-shadow: 1px 1px 1px 1px black;
             background-color: lightgray;
-            padding: 10px;
         }
 
         .search input {
@@ -102,7 +101,8 @@
         .button-container div {
             margin: 5px;
         }
-        #btn{
+
+        #btn {
             margin-left: 620px;
         }
 
@@ -181,15 +181,18 @@
         <div class="container-fluid mb-3 pt-3">
             <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
             <a class="navbar-brand" href="/main">Home</a>
-            <a class="navbar-brand"  href="/logout">Logout</a>
+            <a class="navbar-brand" href="/logout">Logout</a>
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
-    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">PURCHASE ORDERS</h3>
     <div class="filters-purchase_order" id="filters">
         <div class="box1">
             <div class="search">
                 <div class="grid1">
+                    <div class="label-input-pair">
+                        <label for="search_po_header">PO Header:</label>
+                        <input type="number" name="search" id="search_po_header" value="1" min="0">
+                    </div>
                     <div class="label-input-pair">
                         <label for="search_po_number">PO Number:</label>
                         <input type="text" name="search" id="search_po_number">
@@ -239,7 +242,7 @@
                         <input type="text" name="search" id="search_invoice_paid">
                     </div>
                 </div>
-                <div class="grid1">
+                <!-- <div class="grid1">
                     <div class="label-input-pair">
                         <label for="search_po_header_number">PO Header Number:</label>
                         <input type="text" name="search" id="search_po_header_number">
@@ -280,8 +283,8 @@
                         <label for="search_po_line_comments">PO Line Comments:</label>
                         <input type="text" name="search" id="search_po_line_comments">
                     </div>
-                    
-                </div>
+
+                </div> -->
             </div>
             <div style="display: flex;">
                 <div class="button-container">
@@ -292,14 +295,14 @@
                         <button onclick="resetFilters()" class="reset">Reset</button>
                     </div>
                     <form action="/execute4" method="post">
-                    <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form>
-                <form action="/update4" method="post">
-                    <button  style="margin: 5px;">Update</button>
-                </form>
-                <form action="/upload4" method="post">
-                    <button  style="margin: 5px;">Import</button>
-                </form>
+                        <button class="additem" style="margin: 5px;"> Add Items</button>
+                    </form>
+                    <form action="/update4" method="post">
+                        <button style="margin: 5px;">Update</button>
+                    </form>
+                    <form action="/upload4" method="post">
+                        <button style="margin: 5px;">Import</button>
+                    </form>
                     <!-- <div>
                         <button onclick="toggleAddBar()">Add Items</button>
                     </div> -->
@@ -313,14 +316,14 @@
                         <button onclick="resetFilters_()" class="reset">Reset</button>
                     </div>
                     <form action="/execute5" method="post">
-                    <button class="additem" style="margin: 5px;"> Add Items</button>
-                </form>
-                <form action="/update5" method="post">
-                    <button  style="margin: 5px;">Update</button>
-                </form>
-                <form action="/upload5" method="post">
-                    <button  style="margin: 5px;">Import</button>
-                </form>
+                        <button class="additem" style="margin: 5px;"> Add Items</button>
+                    </form>
+                    <form action="/update5" method="post">
+                        <button style="margin: 5px;">Update</button>
+                    </form>
+                    <form action="/upload5" method="post">
+                        <button style="margin: 5px;">Import</button>
+                    </form>
                     <!-- <div>
                         <button onclick="toggleAddBar1()">Add Items</button>
                     </div> -->
@@ -329,13 +332,13 @@
         </div>
     </div>
     <center>
-        <h3 style="margin-top: 30px;">PO Header</h3>
+        <h3 style="margin-top: 30px;">PO Details</h3>
     </center>
     <div class="container1">
         <div id="typeheaderContainer" class="matter">
             <table>
                 <tr>
-                    <th>S.no</th>
+                    <th>Sno</th>
                     <th>PO Number</th>
                     <th>PO Type</th>
                     <th>PO Description</th>
@@ -363,7 +366,7 @@
             </table>
         </div>
     </div>
-    <center>
+    <!-- <center>
         <h3 style="margin-top: 30px;">PO Lines</h3>
     </center>
     <div class="container1">
@@ -396,16 +399,38 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </div> -->
+    <center>
+        <button id="previousBtn" onclick="handleButtonClick('previous')">Previous</button>
+        <button id="nextBtn" onclick="handleButtonClick('next')">Next</button>
+
+    </center>
+
     <script src="/static/index.js"></script>
     <script>
+      function handleButtonClick(action) {
+    var input = document.getElementById('search_po_header');
+    var currentValue = parseInt(input.value);
+    if (action === 'next') {
+        input.value = currentValue + 1;
+    } else if (action === 'previous' && currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+    fetchHeaderData(); // Call fetchTypeData after updating the input value
+}
+
+
+
+
+
         function toggleSearchBar() {
             var searchBar = document.querySelector('.search');
             searchBar.style.display = (searchBar.style.display === 'none') ? 'flex' : 'none';
         }
-        function fetchHeaderData(){
+        function fetchHeaderData() {
             // Collect filter values
             // var item_id = document.getElementById("search_item_id").value;
+            var po_header = document.getElementById("search_po_header").value;
             var po_number = document.getElementById("search_po_number").value;
             var po_type = document.getElementById("search_po_type").value;
             var po_description = document.getElementById("search_po_description").value;
@@ -429,11 +454,11 @@
             };
 
             // Construct URL with filter parameters
-            var url = `/get_header_data?po_number=${encodeURIComponent(po_number)}&po_type=${encodeURIComponent(po_type)}&po_description=${encodeURIComponent(po_description)}&vendor_name=${encodeURIComponent(vendor_name)}&vendor_location=${encodeURIComponent(vendor_location)}&quote_requested=${encodeURIComponent(quote_requested)}&quote_number=${encodeURIComponent(quote_number)}&po_status=${encodeURIComponent(po_status)}&po_requested=${encodeURIComponent(po_requested)}&invoice_number=${encodeURIComponent(invoice_number)}&invoice_line_number=${encodeURIComponent(invoice_line_number)}&invoice_paid=${encodeURIComponent(invoice_paid)}`;
+            var url = `/get_po_data?po_header=${encodeURIComponent(po_header)}&po_number=${encodeURIComponent(po_number)}&po_type=${encodeURIComponent(po_type)}&po_description=${encodeURIComponent(po_description)}&vendor_name=${encodeURIComponent(vendor_name)}&vendor_location=${encodeURIComponent(vendor_location)}&quote_requested=${encodeURIComponent(quote_requested)}&quote_number=${encodeURIComponent(quote_number)}&po_status=${encodeURIComponent(po_status)}&po_requested=${encodeURIComponent(po_requested)}&invoice_number=${encodeURIComponent(invoice_number)}&invoice_line_number=${encodeURIComponent(invoice_line_number)}&invoice_paid=${encodeURIComponent(invoice_paid)}`;
             xhr.open("GET", url, true);
             xhr.send();
         }
-        function fetchLinesData(){
+        function fetchLinesData() {
             // Collect filter values
             // var item_id = document.getElementById("search_item_id").value;
             var po_header_number = document.getElementById("search_po_header_number").value;
@@ -461,7 +486,6 @@
             xhr.open("GET", url, true);
             xhr.send();
         }
-        
     </script>
 </body>
 
