@@ -43,18 +43,18 @@ def add_label_and_entry(label_text, row):
 
 # Labels and entry fields
 labels_and_entries = [
-    ("ITEM ID:", 13),
-    ("INSTALL LOCATION:", 14),
-    ("PROJECT CODE:", 15),
-    ("QUANTITY:", 16),
-    ("IP ADDRESS:", 17),
-    ("SUBNET MASK:", 18),
-    ("GATEWAY:", 19),
-    ("COMMENTS:", 20),
-    ("LAST PO NUM:", 21),
-    ("LAST PO PRICE:", 22),
-    ("RENEWAL DATE:", 23),
-    ("NOTES:", 24)
+    ("ITEM NUMBER*", 13),
+    ("INSTALL LOCATION", 14),
+    ("PROJECT CODE", 15),
+    ("QUANTITY*", 16),
+    ("IP ADDRESS", 17),
+    ("SUBNET MASK", 18),
+    ("GATEWAY", 19),
+    ("COMMENTS", 20),
+    ("LAST PO NUM", 21),
+    ("LAST PO PRICE", 22),
+    ("RENEWAL DATE", 23),
+    ("NOTES", 24)
 ]
 
 entry_fields = []
@@ -65,13 +65,13 @@ for label_text, row in labels_and_entries:
 def insert_inventory_onhand():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
+                         'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
         # Get the current date and time as a string
-        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')[:-4]
 
         # Assuming username is passed as a command-line argument or an empty string if not provided
         username = sys.argv[1] if len(sys.argv) > 1 else ''
@@ -84,13 +84,16 @@ def insert_inventory_onhand():
 
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute("""
-            INSERT INTO Inventory_Onhand 
+            INSERT INTO Inventory_Onhand
             (ITEM_ID, INSTALL_LOCATION, PROJECT_CODE, QUANTITY, IP_ADDRESS, SUBNET_MASK, GATEWAY, COMMENTS, 
             LAST_PO_NUM, LAST_PO_PRICE, RENEWAL_DATE, NOTES, CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, query_params)
 
-        info_label_inventory.configure(text="INSERTION COMPLETED!")
+        info_label_invent = ttk.Label(app, text="DATA ADDED SUCCESSFULLY!!!", foreground="green")
+        info_label_invent.place(relx=0.1, rely=0.9) 
+
+        reset()
 
     except pyodbc.Error as ex:
         print("CONNECTION FAILED", ex)
@@ -108,20 +111,20 @@ button_frame = tk.Frame(app)
 button_frame.place(relx=0.1, rely=0.8, relwidth=0.8)
 
 # Button and info label
-insert_button = tk.Button(button_frame, text="INSERT", command=insert_inventory_onhand,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10,weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="ADD", command=insert_inventory_onhand,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10,weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10,weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
 cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10,weight="bold"), width=7, height=1)
+                          foreground="black", background="#64b5f6", font=font.Font(size=10,weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=4, pady=(10, 5), padx=50)
 
 
-info_label_inventory = ttk.Label(app, text="3S Technologies - Inventory Onhand", foreground="blue")
+info_label_inventory = ttk.Label(app, text="3S Technologies - Inventory Onhand")
 info_label_inventory.place(relx=0.1, rely=0.95)  # Adjusted y-position
 
 app.mainloop()
