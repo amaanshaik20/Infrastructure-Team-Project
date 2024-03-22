@@ -36,7 +36,7 @@ def add_label_and_entry(label_text, row):
     label = ttk.Label(scrollable_frame, text=label_text)
     label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
 
-    if label_text == "ENABLED FLAG*:":
+    if label_text == "ENABLED FLAG*":
         entry = ttk.Combobox(scrollable_frame, values=['Y', 'N'])
     else:
         entry = ttk.Entry(scrollable_frame)
@@ -46,16 +46,16 @@ def add_label_and_entry(label_text, row):
 
 # Labels and entry fields
 labels_and_entries = [
-    ("ITEM NUMBER*:", 14),
-    ("ITEM DESCRIPTION*:", 15),
-    ("ITEM TYPE:", 16),
-    ("MANUFACTURER CODE:", 17),
+    ("ITEM NUMBER*", 14),
+    ("ITEM DESCRIPTION*", 15),
+    ("ITEM TYPE", 16),
+    ("MANUFACTURER CODE", 17),
     ("ITEM CATEGORY:", 18),
-    ("CPU:", 19),
-    ("MEMORY:", 20),
-    ("DISKS:", 21),
-    ("UOM:", 22),
-    ("ENABLED FLAG*:", 23)
+    ("CPU", 19),
+    ("MEMORY", 20),
+    ("DISKS", 21),
+    ("UOM", 22),
+    ("ENABLED FLAG*", 23)
 ]
 
 entry_fields = []
@@ -64,15 +64,17 @@ for label_text, row in labels_and_entries:
     entry_fields.append(entry)
 
 def insert_item_master():
+    info_label_item = None  # Declare info_label_item outside try block
+    
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
+                         'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
-        # Get the current date and time as a string
-        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        # Get the current date and time as a formatted string
+        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')[:-4]
 
         # Assuming username is passed as a command-line argument or an empty string if not provided
         username = sys.argv[1] if len(sys.argv) > 1 else ''
@@ -92,10 +94,19 @@ def insert_item_master():
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, query_params)
 
-        info_label_inventory.configure(text="INSERTION COMPLETED!")
+        info_label_item = ttk.Label(app, text="DATA ADDED SUCCESSFULLY!!!", foreground="GREEN")
+        info_label_item.place(relx=0.1, rely=0.90)
+
+        reset()  # Call the reset function to clear entry fields after successful insertion
 
     except pyodbc.Error as ex:
-        print("CONNECTION FAILED", ex)
+        if 'Violation of UNIQUE KEY constraint' in str(ex):
+            print("DATA ALREADY EXISTS")
+            info_label_item = ttk.Label(app, text="DATA ALREADY EXISTS!!!", foreground="red")
+            info_label_item.place(relx=0.1, rely=0.90)  # Place the label even if exception occurs
+        else:
+            print("CONNECTION FAILED", ex)
+
 
 def reset():
     # Reset all entry fields to empty strings
@@ -113,16 +124,16 @@ button_frame.place(relx=0.1, rely=0.8, relwidth=0.8)
 def get_bold_font():
     return font.Font(weight="bold")
 
-insert_button = tk.Button(button_frame, text="INSERT", command=insert_item_master,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight='bold'), width=7, height=1)
+insert_button = tk.Button(button_frame, text="ADD", command=insert_item_master,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight='bold'), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text=" RESET ", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight='bold'), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight='bold'), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight='bold'), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
