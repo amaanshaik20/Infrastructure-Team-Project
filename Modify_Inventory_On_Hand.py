@@ -72,8 +72,8 @@ def fetch_inventory_data(event=None):
     if inventory_id:  
         try:
             connection = pyodbc.connect('Driver={SQL Server};'
-                            'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                            'Database=InfraDb;'
+                            'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                             'Trusted_Connection=yes;')
             cursor = connection.cursor()
 
@@ -97,7 +97,7 @@ def fetch_inventory_data(event=None):
                 entry_fields[9].insert(0, last_po_price)  
                 entry_fields[10].insert(0, renewal_date)  
                 entry_fields[11].insert(0, notes)  
-                data_found_label = ttk.Label(scrollable_frame, text="Data found", foreground="green")
+                data_found_label = ttk.Label(scrollable_frame, text="   Data found    ", foreground="green")
                 data_found_label.grid(row=0, column=12, padx=(10, 0), pady=5)
             else:
                 data_not_found_label = ttk.Label(scrollable_frame, text="Data not found", foreground="red")
@@ -116,8 +116,8 @@ fetch_button.grid(row=0, column=9, padx=(20, 0))  # Adjust position of the butto
 def modify_inventory_values():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
+                       'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -138,17 +138,12 @@ def modify_inventory_values():
                 WHERE INVENTORY_ID = ?
             """
             query_params = (entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), entry_fields[10].get(), entry_fields[11].get(), current_date, username, inventory_id)
-        else:
-            query = """
-                INSERT INTO Inventory_Onhand
-                (INVENTORY_ID, INSTALL_LOCATION, PROJECT_CODE, QUANTITY, IP_ADDRESS, SUBNET_MASK, GATEWAY, COMMENTS, LAST_PO_NUM, LAST_PO_PRICE, RENEWAL_DATE, NOTES, CREATION_DATE, LAST_UPDATE_DATE) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """
-            query_params = (inventory_id, entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), entry_fields[10].get(), entry_fields[11].get(), current_date, current_date)
-
+        1
         connection.execute(query, query_params)
 
-        info_label_inventory.configure(text="DATA MODIFIED SUCCESSFULLY!!!", foreground="green")
+        info_label_invent = ttk.Label(app, text="DATA UPDATED SUCCESSFULLY", foreground="GREEN")
+        info_label_invent.place(relx=0.1, rely=0.90)  # Adjusted y-position
+        reset()
 
 
     except pyodbc.Error as ex:
@@ -170,16 +165,16 @@ def get_bold_font():
     return font.Font(weight="bold")
 
 # Create buttons with bold text
-insert_button = tk.Button(button_frame, text="MODIFY", command=modify_inventory_values,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="UPDATE", command=modify_inventory_values,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
