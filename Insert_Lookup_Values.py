@@ -64,8 +64,8 @@ for label_text, row in labels_and_entries:
 def insert_inventory_onhand():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
+                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -83,13 +83,15 @@ def insert_inventory_onhand():
 
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute("""
-            INSERT INTO Lookup_Values 
+            INSERT INTO Lookup_Values
             (LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG, 
             CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, query_params)
 
-        info_label_inventory.configure(text="INSERTION COMPLETED!")
+        info_label_invent = ttk.Label(app, text="DATA ADDED SUCCESSFULLY", foreground="GREEN")
+        info_label_invent.place(relx=0.1, rely=0.90)  # Adjusted y-position
+        reset()
 
     except pyodbc.Error as ex:
         print("CONNECTION FAILED", ex)
@@ -111,16 +113,16 @@ def get_bold_font():
     return font.Font(weight="bold")
 
 # Create buttons with bold text
-insert_button = tk.Button(button_frame, text="INSERT", command=insert_inventory_onhand,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="ADD", command=insert_inventory_onhand,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
