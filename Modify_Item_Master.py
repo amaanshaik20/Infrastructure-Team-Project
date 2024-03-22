@@ -9,7 +9,7 @@ app.geometry("700x500")
 app.title("MODIFY ITEM MASTER")
 
 # Label above the frame
-instruction_label = ttk.Label(app, text="ENTER THE ITEM ID TO FETCH THE DATA" , foreground="black", font=font.Font(size=11), background="#CCCCCC")
+instruction_label = ttk.Label(app, text="ENTER THE ITEM NUMBER TO FETCH THE DATA" , foreground="black", font=font.Font(size=11), background="#CCCCCC")
 instruction_label.place(relx=0.1, rely=0.1)
 
 
@@ -71,8 +71,8 @@ def fetch_item_data(event=None):
     if item_number:  # Check if item_number is not empty
         try:
             connection = pyodbc.connect('Driver={SQL Server};'
-                            'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                            'Database=InfraDb;'
+                            'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                             'Trusted_Connection=yes;')
             cursor = connection.cursor()
 
@@ -114,8 +114,8 @@ fetch_button.grid(row=0, column=9, padx=(20, 0))  # Adjust position of the butto
 def modify_item_master():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
+                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -141,6 +141,7 @@ def modify_item_master():
                 WHERE ITEM_NUMBER = ?
             """
             query_params = (entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), current_date, username, item_number)
+            reset()    
         else:
             # If item number does not exist, perform insert
             query = """
@@ -153,8 +154,9 @@ def modify_item_master():
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute(query, query_params)
 
-        info_label_inventory.configure(text="DATA MODIFIED SUCCESSFULLY!!!", foreground="green")
-
+        info_label_invent = ttk.Label(app, text="DATA MODIFIED SUCCESSFULLY", foreground="GREEN")
+        info_label_invent.place(relx=0.1, rely=0.90)  # Adjusted y-position
+        reset()
 
     except pyodbc.Error as ex:
         print("CONNECTION FAILED", ex)
@@ -178,15 +180,15 @@ def get_bold_font():
 
 # Create buttons with bold text
 insert_button = tk.Button(button_frame, text="UPDATE", command=modify_item_master,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
