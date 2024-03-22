@@ -6,10 +6,10 @@ import sys
 
 app = tk.Tk()
 app.geometry("700x500")
-app.title("MODIFY LOOKUP VALUES")
+app.title("MODIFY PO LINES")
 
 # Label above the frame
-instruction_label = ttk.Label(app, text="ENTER THE LOOKUP TYPE ID TO FETCH THE DATA" , foreground="black", font=font.Font(size=11), background="#CCCCCC")
+instruction_label = ttk.Label(app, text="ENTER THE PO HEADER NUMBER TO FETCH THE DATA" , foreground="black", font=font.Font(size=11), background="#CCCCCC")
 instruction_label.place(relx=0.1, rely=0.1)
 
 
@@ -48,7 +48,7 @@ def add_label_and_entry(label_text, row):
 
 # Labels and entry fields
 labels_and_entries = [
-    ("PO HEADER ID:", 0),
+    ("PO HEADER NUMBER:", 0),
     ("PO LINE NUMBER:", 1),
     ("ITEM ID:", 2),
     ("PO LINE DESCRIPTION:", 3),
@@ -79,8 +79,8 @@ def fetch_lookup_data(event=None):
     if po_header_id:  # Check if po_header_id is not empty
         try:
             connection = pyodbc.connect('Driver={SQL Server};'
-                            'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                      'Database=InfraDb;'
+                            'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                             'Trusted_Connection=yes;')
             cursor = connection.cursor()
 
@@ -130,8 +130,8 @@ fetch_button.grid(row=0, column=18, padx=(20, 0))  # Adjust position of the butt
 def Modify_po_lines():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                      'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                      'Database=InfraDb;'
+                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -156,19 +156,13 @@ def Modify_po_lines():
                 WHERE PO_HEADER_ID = ?
             """
             query_params = (entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), entry_fields[10].get(), entry_fields[11].get(), entry_fields[12].get(), entry_fields[13].get(), entry_fields[14].get(), entry_fields[15].get(), entry_fields[16].get(), entry_fields[17].get(),current_date, username, po_header_id)
-        else:
-            # If PO number does not exist, perform insert
-            query = """
-                INSERT INTO PO_LINES
-                (PO_HEADER_ID, PO_LINE_NUMBER, ITEM_ID, PO_LINE_DESCRIPTION, QUANTITY, UNIT_PRICE, LINE_TAX_AMOUNT, SUPPORT_START_DATE, SUPPORT_END_DATE, NEED_BY_DATE, PO_LINE_STATUS, SHIP_LOCATION, INVOICE_NUMBER, INVOICE_LINE_NUMBER, INVOICE_DATE, INVOICE_PAID, INVOICE_AMOUNT, PO_LINE_COMMENTS, CREATION_DATE, LAST_UPDATE_DATE) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """
-            query_params = (po_header_id, entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), entry_fields[10].get(), entry_fields[11].get(), entry_fields[12].get(), entry_fields[13].get(), entry_fields[14].get(), entry_fields[15].get(), entry_fields[16].get(), entry_fields[17].get(), entry_fields[18].get(), current_date, current_date)
-
+        
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute(query, query_params)
 
-        info_label_inventory.configure(text="DATA MODIFIED SUCCESSFULLY!!!", foreground="green")
+        info_label_invent = ttk.Label(app, text="DATA MODIFIED SUCCESSFULLY", foreground="GREEN")
+        info_label_invent.place(relx=0.1, rely=0.90)  # Adjusted y-position
+        reset()
 
 
     except pyodbc.Error as ex:
@@ -192,16 +186,16 @@ def get_bold_font():
     return font.Font(weight="bold")
 
 # Create buttons with bold text
-insert_button = tk.Button(button_frame, text="MODIFY", command=Modify_po_lines,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="UPDATE", command=Modify_po_lines,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
