@@ -51,12 +51,10 @@ def import_excel_to_sql_server(server, database, excel_file_path):
         for index, row in df.iterrows():
             cursor.execute("""
                 INSERT INTO PO_LINES (
-                    PO_HEADER_ID, PO_LINE_NUMBER, ITEM_ID, QUANTITY, UNIT_PRICE, PO_LINE_STATUS,
-                    CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER
-                ) VALUES (?, ?, ?, ?, ?, ?,  ?, ?, ?, ?)
+                    PO_HEADER_ID, PO_LINE_NUMBER, ITEM_ID, QUANTITY, UNIT_PRICE, PO_LINE_STATUS
+                ) VALUES (?, ?, ?, ?, ?, ?)
             """,
-            str(row['PO_HEADER_ID']), str(row['PO_LINE_NUMBER']), str(row['ITEM_ID']), str(row['QUANTITY']), str(row['UNIT_PRICE']), str(row['PO_LINE_STATUS']),
-            current_date, username, current_date, username)
+            str(row['PO_HEADER_ID']), str(row['PO_LINE_NUMBER']), str(row['ITEM_ID']), str(row['QUANTITY']), str(row['UNIT_PRICE']), str(row['PO_LINE_STATUS']))
 
         # Commit the transaction
         connection.commit()
@@ -71,8 +69,8 @@ def import_excel_to_sql_server(server, database, excel_file_path):
         connection.close()
 
 # Specify the database information
-server_name = 'AJAS-SAMSUNG-BO\MSSQLSERVER01'
-database_name = 'InfraDb'
+server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
+database_name = 'InfraDB'
 
 # Call the function to choose the Excel file
 excel_file_path, filename = choose_excel_file()
