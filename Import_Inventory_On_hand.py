@@ -7,13 +7,15 @@ from datetime import datetime
 import sys
 
 # SQL Server connection details
-server_name = 'AJAS-SAMSUNG-BO\MSSQLSERVER01'
-database_name = 'InfraDb'
+server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
+database_name = 'InfraDB'
+
 
 # Get the current date and time as a string
 current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 # Assuming username is passed as a command-line argument or an empty string if not provided
 username = sys.argv[1] if len(sys.argv) > 1 else ''
+
 
 # Function to open file dialog and return selected file path
 def choose_excel_file():
@@ -39,18 +41,12 @@ if not excel_file_path:
     exit()
 
 excel_data = pd.read_excel(excel_file_path)
-# Get the current date and time as a string
-current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-# Assuming username is passed as a command-line argument or an empty string if not provided
-username = sys.argv[1] if len(sys.argv) > 1 else ''
 
 # Save the imported file in the "uploads" folder
 uploads_folder = 'uploads'
 os.makedirs(uploads_folder, exist_ok=True)
 imported_file_path = os.path.join(uploads_folder, 'imported_data.xlsx')
 excel_data.to_excel(imported_file_path, index=False)
-
-# Inserting data into the SQL Server table
 for index, row in excel_data.iterrows():
     sql_query = '''
     INSERT INTO Inventory_Onhand (
