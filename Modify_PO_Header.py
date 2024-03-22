@@ -9,7 +9,7 @@ app.geometry("700x500")
 app.title("MODIFY PO HEADER")
 
 # Label above the frame
-instruction_label = ttk.Label(app, text="ENTER THE LOOKUP TYPE ID TO FETCH THE DATA" , foreground="black", font=font.Font(size=11), background="#CCCCCC")
+instruction_label = ttk.Label(app, text="ENTER THE PO NUMBER TO FETCH THE DATA" , foreground="black", font=font.Font(size=11), background="#CCCCCC")
 instruction_label.place(relx=0.1, rely=0.1)
 
 
@@ -37,7 +37,7 @@ def add_label_and_entry(label_text, row):
     label = ttk.Label(scrollable_frame, text=label_text)
     label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
 
-    if label_text == "PO_STATUS:":
+    if label_text == "PO STATUS:":
         entry = ttk.Combobox(scrollable_frame, values = ['Entered', 'Approved', 'Received', 'Invoiced', 'Closed', 'Cancelled'])
     else:
         entry = ttk.Entry(scrollable_frame)
@@ -47,25 +47,25 @@ def add_label_and_entry(label_text, row):
 
 # Labels and entry fields for PO_HEADER
 labels_and_entries = [
-    ("PO_NUMBER:", 0),
-    ("PO_TYPE:", 1),
-    ("PO_DESCRIPTION:", 2),
-    ("VENDOR_NAME:", 3),
-    ("VENDOR_LOCATION:", 4),
-    ("QUOTE_REQUESTED:", 5),
-    ("QUOTE_NUMBER:", 6),
-    ("PO_STATUS:", 7),
-    ("PO_DATE:", 8),
-    ("PO_APPROVED_DATE:", 9),
-    ("PO_APPROVED_BY:", 10),
-    ("PO_REQUESTED:", 11),
-    ("PO_REQUESTED_BY:", 12),
-    ("INVOICE_NUMBER:", 13),
-    ("INVOICE_LINE_NUMBER:", 14),
-    ("INVOICE_AMOUNT:", 15),
-    ("INVOICE_PAID:", 16),
-    ("SUPPORT_START_DATE:", 17),
-    ("SUPPORT_END_DATE:", 18)
+    ("PO NUMBER:", 0),
+    ("PO TYPE:", 1),
+    ("PO DESCRIPTION:", 2),
+    ("VENDOR NAME:", 3),
+    ("VENDOR LOCATION:", 4),
+    ("QUOTE REQUESTED:", 5),
+    ("QUOTE NUMBER:", 6),
+    ("PO STATUS:", 7),
+    ("PO DATE:", 8),
+    ("PO APPROVED DATE:", 9),
+    ("PO APPROVED BY:", 10),
+    ("PO REQUESTED:", 11),
+    ("PO REQUESTED BY:", 12),
+    ("INVOICE NUMBER:", 13),
+    ("INVOICE LINE NUMBER:", 14),
+    ("INVOICE AMOUNT:", 15),
+    ("INVOICE PAID:", 16),
+    ("SUPPORT START DATE:", 17),
+    ("SUPPORT END DATE:", 18)
 ]
 
 entry_fields = []
@@ -78,8 +78,8 @@ def fetch_po_data(event=None):
     if po_number:  # Check if po_number is not empty
         try:
             connection = pyodbc.connect('Driver={SQL Server};'
-                            'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                            'Database=InfraDb;'
+                             'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                             'Trusted_Connection=yes;')
             cursor = connection.cursor()
 
@@ -130,8 +130,8 @@ fetch_button.grid(row=0, column=18, padx=(20, 0))  # Adjust position of the butt
 def modify_po_values():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
-                        'Database=InfraDb;'
+                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -157,19 +157,13 @@ def modify_po_values():
                 WHERE PO_NUMBER = ?
             """
             query_params = (entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), entry_fields[10].get(), entry_fields[11].get(), entry_fields[12].get(), entry_fields[13].get(), entry_fields[14].get(), entry_fields[15].get(), entry_fields[16].get(), entry_fields[17].get(), entry_fields[18].get(), current_date, username, po_number)
-        else:
-            # If PO number does not exist, perform insert
-            query = """
-                INSERT INTO PO_HEADER
-                (PO_NUMBER, PO_TYPE, PO_DESCRIPTION, VENDOR_NAME, VENDOR_LOCATION, QUOTE_REQUESTED, QUOTE_NUMBER, PO_STATUS, PO_DATE, PO_APPROVED_DATE, PO_APPROVED_BY, PO_REQUESTED, PO_REQUESTED_BY, INVOICE_NUMBER, INVOICE_LINE_NUMBER, INVOICE_AMOUNT, INVOICE_PAID, SUPPORT_START_DATE, SUPPORT_END_DATE, CREATION_DATE, LAST_UPDATE_DATE) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """
-            query_params = (po_number, entry_fields[1].get(), entry_fields[2].get(), entry_fields[3].get(), entry_fields[4].get(), entry_fields[5].get(), entry_fields[6].get(), entry_fields[7].get(), entry_fields[8].get(), entry_fields[9].get(), entry_fields[10].get(), entry_fields[11].get(), entry_fields[12].get(), entry_fields[13].get(), entry_fields[14].get(), entry_fields[15].get(), entry_fields[16].get(), entry_fields[17].get(), entry_fields[18].get(), current_date, current_date)
-
+        
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute(query, query_params)
 
-        info_label_inventory.configure(text="DATA MODIFIED SUCCESSFULLY!!!", foreground="green")
+        info_label_invent = ttk.Label(app, text="DATA MODIFIED SUCCESSFULLY", foreground="GREEN")
+        info_label_invent.place(relx=0.1, rely=0.90)  # Adjusted y-position
+        reset()
 
     except pyodbc.Error as ex:
         print("CONNECTION FAILED", ex)
@@ -195,16 +189,16 @@ def get_bold_font():
     return font.Font(weight="bold")
 
 # Create buttons with bold text
-insert_button = tk.Button(button_frame, text="MODIFY", command=modify_po_values,
-                          foreground="black", background="#9ccc65", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="UPDATE", command=modify_po_values,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
-reset_button = tk.Button(button_frame, text="RESET", command=reset,
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
-cancel_button = tk.Button(button_frame, text="EXIT", command=cancel,
-                          foreground="black", background="#ef5350", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
