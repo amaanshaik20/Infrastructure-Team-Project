@@ -67,3 +67,22 @@ input:focus{
 /* input:hover{
     border: 3px solid cyan;
 } */
+tr:nth-child(even) {
+    background-color: #D6EEEE;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+tr:hover {
+    background-color: #f2f2f2;
+}
+img{
+    width: 170px;
+}
+.np{
+    font-size: larger;
+    margin-left: 250px;
+    margin-right: 55px;
+    margin-top: 10px;
+}
