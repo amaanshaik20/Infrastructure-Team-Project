@@ -67,11 +67,11 @@ def export_data():
 
 
 # Create the GUI window
-window = tk.Tk()
-window.title("Export SQL Server Data to Excel")
-window.geometry("0x0")
+# window = tk.Tk()
+# window.title("Export SQL Server Data to Excel")
+# window.geometry("0x0")
 # Call export_data immediately when the script starts
 export_data()
 
 # Run the GUI event loop
-window.mainloop()
+# window.mainloop()
