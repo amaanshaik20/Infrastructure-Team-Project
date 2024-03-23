@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Server=AmaanShaik\SQLEXPRESS;'
                       'Database=InfraDB;'
                       'Trusted_Connection=yes;')
 
@@ -45,10 +45,13 @@ def main():
 
     
         # Check the credentials (This is a simple example, not secure for production)
-        cursor.execute("SELECT username,password FROM admin WHERE username = ? AND password = ?", (username, password))
+        cursor.execute("SELECT name,username,password FROM users WHERE username = ? AND password = ?", (username, password))
+        
         user = cursor.fetchone()
+        
         if user:
             session['username'] = username  # Store the username in the session
+            session['name'] = user.name
             return redirect(url_for("main"))
         else:
             return render_template("index.html", message="Invalid credentials. Try again.")
@@ -799,7 +802,7 @@ def get_po_data():
 @app.route('/execute', methods=['POST'])
 def execute():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "insert_item_master.py", username])
         return render_template("item_details.html")
     except Exception as e:
@@ -861,7 +864,7 @@ def execute5():
 @app.route('/update', methods=['POST'])
 def update():
     try:
-        username = session.get('username', '')
+        username = session.get('name', '')
         subprocess.run(["python", "Modify_Item_Master.py", username])
         return render_template("item_details.html")
     except Exception as e:
@@ -872,7 +875,7 @@ def update():
 @app.route('/update1', methods=['POST'])
 def update1():
     try:
-        username = session.get('username', '')
+        username = session.get('name', '')
         subprocess.run(["python", "Modify_Inventory_On_Hand.py", username])
         return render_template("inventory.html")
     except Exception as e:
@@ -882,7 +885,7 @@ def update1():
 @app.route('/update2', methods=['POST'])
 def update2():
     try:
-        username = session.get('username', '')
+        username = session.get('name', '')
         subprocess.run(["python", "Modify_Lookup_Type.py", username])
         return render_template("lookup_details.html")
     except Exception as e:
@@ -892,7 +895,7 @@ def update2():
 @app.route('/update3', methods=['POST'])
 def update3():
     try:
-        username = session.get('username', '')
+        username = session.get('name', '')
         subprocess.run(["python", "Moidfy_Lookup_Values.py", username])
         return render_template("lookup_details.html")
     except Exception as e:
@@ -902,7 +905,7 @@ def update3():
 @app.route('/update4', methods=['POST'])
 def update4():
     try:
-        username = session.get('username', '')
+        username = session.get('name', '')
         subprocess.run(["python", "Modify_PO_Header.py", username])
         return render_template("purchase_orders.html")
     except Exception as e:
@@ -912,7 +915,7 @@ def update4():
 @app.route('/update5', methods=['POST'])
 def update5():
     try:
-        username = session.get('username', '')
+        username = session.get('name', '')
         subprocess.run(["python", "Modify_PO_Lines.py", username])
         return render_template("purchase_orders.html")
     except Exception as e:
@@ -925,7 +928,7 @@ def update5():
 @app.route('/upload', methods=['POST'])
 def upload():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "import_ITEM_MASTER.py", str(username)])
         return render_template("item_details.html")
     except Exception as e:
@@ -936,7 +939,7 @@ def upload():
 @app.route('/upload1', methods=['POST'])
 def upload1():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "Import_Inventory_On_hand.py", username])
         return render_template("inventory.html")
     except Exception as e:
@@ -945,7 +948,7 @@ def upload1():
 @app.route('/upload2', methods=['POST'])
 def upload2():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "Import_Lookup_Type.py", username])
         return render_template("lookup_details.html")
     except Exception as e:
@@ -954,7 +957,7 @@ def upload2():
 @app.route('/upload3', methods=['POST'])
 def upload3():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "Import_Lookup_Values.py", username])
         return render_template("lookup_details.html")
     except Exception as e:
@@ -963,7 +966,7 @@ def upload3():
 @app.route('/upload4', methods=['POST'])
 def upload4():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "Import_PO_Header.py", username])
         return render_template("purchase_orders.html")
     except Exception as e:
@@ -972,7 +975,7 @@ def upload4():
 @app.route('/upload5', methods=['POST'])
 def upload5():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "Import_PO_Lines.py", username])
         return render_template("purchase_orders.html")
     except Exception as e:
@@ -983,7 +986,7 @@ def upload5():
 @app.route('/extract', methods=['POST'])
 def extract():
     try:
-        username = session.get('username', '')  # Get the username from the session
+        username = session.get('name', '')  # Get the username from the session
         subprocess.run(["python", "export_ITEM_MASTER.py", username])
         return render_template("item_details.html",message="Exported Successfully...!")
     except Exception as e:
