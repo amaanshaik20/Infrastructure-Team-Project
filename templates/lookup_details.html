@@ -21,7 +21,7 @@
             display: flex;
             justify-content: center;
             /* justify-content: space-around; */
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             margin-left: 250px;
             max-height: 350px;
             /* margin-top: 100px; */
@@ -50,13 +50,13 @@
 
         .container1 {
             /* margin-top: 10px; */
-            margin: 10px;
+            margin: 5px;
             margin-left: 250px;
             width: 1400px;
             border: 1px solid black;
             /* justify-content: space-between; */
             box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-            
+
 
         }
 
@@ -126,7 +126,7 @@
             /* Adjust as needed */
             /* align-items: center; */
             margin-left: 720px;
-            
+
             /* Adjust as needed */
         }
 
@@ -180,10 +180,8 @@
 
         .toggle-btn {
             margin-top: 90px;
-            
-        }
 
-        
+        }
     </style>
 </head>
 
@@ -200,7 +198,8 @@
     </div>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid mb-3 pt-3">
-            <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
+            <a href="/main"><img src="/static/banner.png" alt=""></a>
+            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
             <a class="navbar-brand" href="/main">Home</a>
             <a class="navbar-brand" href="/logout">Logout</a>
         </div>
@@ -433,11 +432,16 @@
             </table>
         </div>
     </div> -->
-    <center>
-        <button id="previousBtn" onclick="handleButtonClick('previous')">Previous</button>
-        <button id="nextBtn" onclick="handleButtonClick('next')">Next</button>
 
-    </center>
+    <div style="justify-content: space-between; display: flex;">
+        <div>
+            <button id="previousBtn" class="np" onclick="handleButtonClick('previous')">&laquo;Previous</button>
+        </div>
+        <div>
+            <button id="nextBtn" class="np" onclick="handleButtonClick('next')">Next &raquo;</button>
+        </div>
+    </div>
+
 
     <script src="/static/index.js"></script>
 
