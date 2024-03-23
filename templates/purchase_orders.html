@@ -12,8 +12,8 @@
     <style>
         .search {
             display: flex;
-            /* justify-content: center; */
-            justify-content: space-between;
+            justify-content: center;
+            /* justify-content: space-between; */
             margin-bottom: 20px;
             margin-left: 250px;
             max-height: 650px;
@@ -30,7 +30,9 @@
             display: grid;
             margin-right: 30px;
             box-shadow: 1px 1px 1px 1px black;
-            background-color: lightgray;
+            padding: 10px;
+            margin-left: 10px;
+            /* background-color: lightgray; */
         }
 
         .search input {
@@ -41,11 +43,13 @@
 
         .container1 {
             /* margin-top: 10px; */
-            margin: 50px;
+            margin: 10px;
             margin-left: 250px;
             width: 1400px;
-            border: 2px solid black;
+            border: 1px solid black;
             /* justify-content: space-between; */
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            
         }
 
         table,
@@ -93,11 +97,11 @@
             /* justify-content: center; */
             /* Adjust as needed */
             /* align-items: center; */
-            margin-left: 243px;
+            margin-left: 520px;
 
             /* Adjust as needed */
         }
-
+        
         .button-container div {
             margin: 5px;
         }
@@ -164,6 +168,16 @@
         .btn {
             align-items: center;
         }
+        .navbar {
+            position: fixed;
+            width: 100%;
+            /* margin-top: 0px; */
+        }
+        .toggle-btn {
+            margin-top: 90px;
+            /* position: fixed; */
+        }
+        
     </style>
 </head>
 
@@ -179,12 +193,14 @@
     </div>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid mb-3 pt-3">
-            <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a>
+            <a href="/main"><img src="/static/banner.png" alt=""></a>
+            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
             <a class="navbar-brand" href="/main">Home</a>
             <a class="navbar-brand" href="/logout">Logout</a>
         </div>
     </nav>
     <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">Purchase Orders</h3>
     <div class="filters-purchase_order" id="filters">
         <div class="box1">
             <div class="search">
@@ -217,6 +233,9 @@
                         <label for="search_quote_requested">Quote Requested:</label>
                         <input type="text" name="search" id="search_quote_requested">
                     </div>
+                    
+                </div>
+                <div class="grid1">
                     <div class="label-input-pair">
                         <label for="search_quote_number">Quote Number:</label>
                         <input type="text" name="search" id="search_quote_number">
@@ -295,35 +314,36 @@
                         <button onclick="resetFilters()" class="reset">Reset</button>
                     </div>
                     <form action="/execute4" method="post">
-                        <button class="additem" style="margin: 5px;"> Add Items</button>
+                        <button class="additem" style="margin: 5px; width: 110px;"> Add Header</button>
                     </form>
                     <form action="/update4" method="post">
-                        <button style="margin: 5px;">Update</button>
+                        <button style="margin: 5px;width: 130px;">Update Header</button>
                     </form>
                     <form action="/upload4" method="post">
-                        <button style="margin: 5px;">Import</button>
+                        <button style="margin: 5px;width: 130px;">Import Header</button>
                     </form>
                     <!-- <div>
                         <button onclick="toggleAddBar()">Add Items</button>
                     </div> -->
+                    <form action="/execute5" method="post">
+                        <button class="additem" style="margin: 5px; width: 100px;"> Add Lines</button>
+                    </form>
+                    <form action="/update5" method="post">
+                        <button style="margin: 5px; width: 110px;">Update Lines</button>
+                    </form>
+                    <form action="/upload5" method="post">
+                        <button style="margin: 5px; width: 110px;">Import Lines</button>
+                    </form>
                 </div>
 
                 <div class="button-container" id="btn">
-                    <div>
+                    <!-- <div>
                         <button onclick="fetchLinesData(),toggleSearchBar()" class="button">Search</button>
                     </div>
                     <div>
                         <button onclick="resetFilters_()" class="reset">Reset</button>
-                    </div>
-                    <form action="/execute5" method="post">
-                        <button class="additem" style="margin: 5px;"> Add Items</button>
-                    </form>
-                    <form action="/update5" method="post">
-                        <button style="margin: 5px;">Update</button>
-                    </form>
-                    <form action="/upload5" method="post">
-                        <button style="margin: 5px;">Import</button>
-                    </form>
+                    </div> -->
+                    
                     <!-- <div>
                         <button onclick="toggleAddBar1()">Add Items</button>
                     </div> -->
@@ -331,9 +351,9 @@
             </div>
         </div>
     </div>
-    <center>
-        <h3 style="margin-top: 30px;">PO Details</h3>
-    </center>
+    <!-- <center>
+        <h3 style="margin-top: 10px;">PO Details</h3>
+    </center> -->
     <div class="container1">
         <div id="typeheaderContainer" class="matter">
             <table>
@@ -400,11 +420,12 @@
             </table>
         </div>
     </div> -->
-    <center>
-        <button id="previousBtn" onclick="handleButtonClick('previous')">Previous</button>
-        <button id="nextBtn" onclick="handleButtonClick('next')">Next</button>
-
-    </center>
+    <div style="display: flex; justify-content: space-between;">
+        <div><button id="previousBtn" class="np" onclick="handleButtonClick('previous')">&laquo; Previous</button></div>
+        <div><button id="nextBtn" class="np" onclick="handleButtonClick('next')">Next &raquo;</button></div>
+    </div>
+    
+        
 
     <script src="/static/index.js"></script>
     <script>
