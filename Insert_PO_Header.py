@@ -1,85 +1,156 @@
-import pandas as pd
+import tkinter as tk
+from tkinter import ttk, font
 import pyodbc
-from tkinter import Tk, filedialog
-import os
-import shutil  # Import the shutil module for file operations
 from datetime import datetime
 import sys
 
+app = tk.Tk()
+app.geometry("700x500")
+app.title("INSERT PURCHASE ORDER")
 
-UPLOAD_FOLDER = 'uploads'
-# Get the current date and time as a string
-current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-# Assuming username is passed as a command-line argument or an empty string if not provided
-username = sys.argv[1] if len(sys.argv) > 1 else ''
+# Label above the frame
+instruction_label = ttk.Label(app, text="INSERT THE BELOW FIELDS INTO THE PURCHASE ORDER", foreground="black", font=font.Font(size=11), background="#CCCCCC")
+instruction_label.place(relx=0.1, rely=0.1)
 
-def choose_excel_file():
-    root = Tk()
-    root.withdraw()  # Hide the main window
 
-    file_path = filedialog.askopenfilename(
-        title="Select Excel File",
-        filetypes=[("Excel files", "*.xlsx;*.xls")]
-    )
 
-    if not file_path:
-        print("No file selected. Exiting.")
-        return None, None
+# Create a frame to hold the labels and entry fields with a scrollbar
+frame = tk.Frame(app, borderwidth=2, relief="groove", border=2, bg="grey")
+frame.place(relx=0.1, rely=0.2, relwidth=0.8, relheight=0.6)
 
-    # Extract the filename from the full file path
-    filename = os.path.basename(file_path)
+canvas = tk.Canvas(frame)
+scrollbar = ttk.Scrollbar(frame, orient="vertical", command=canvas.yview)
+scrollable_frame = ttk.Frame(canvas)
 
-    return file_path, filename
+scrollable_frame.bind(
+    "<Configure>",
+    lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+)
 
-def import_excel_to_sql_server(server, database, excel_file_path):
-    if not excel_file_path:
-        print("No file selected. Exiting.")
-        return
+canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+canvas.configure(yscrollcommand=scrollbar.set)
 
-    # Read Excel file into a pandas DataFrame
-    df = pd.read_excel(excel_file_path)
+canvas.pack(side="left", fill="both", expand=True)
+scrollbar.pack(side="right", fill="y")
 
-    # Database connection string
-    connection_string = f'Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;'
+# Function to add labels and entry fields to the scrollable frame
+def add_label_and_entry(label_text, row):
+    label = ttk.Label(scrollable_frame, text=label_text)
+    label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
 
-    # Establish database connection
-    connection = pyodbc.connect(connection_string)
-    cursor = connection.cursor()
+    if label_text == "PO STATUS:*":
+        entry = ttk.Combobox(scrollable_frame)
+        entry['values'] = ['Entered', 'Approved', 'Received', 'Invoiced', 'Closed', 'Cancelled']
+    else:
+        entry = ttk.Entry(scrollable_frame)
 
+        
+    entry.grid(row=row, column=1, padx=10, pady=5)  # Adjusted padx and pady for spacing
+    return entry
+
+# Labels and entry fields
+labels_and_entries = [
+    ("PO NUMBER:*", 14),
+    ("PO TYPE:", 15),
+    ("PO DESCRIPTION", 16),
+    ("VENDOR NAME:*", 17),
+    ("VENDOR LOCATION", 18),
+    ("QUOTE REQUESTED:", 19),
+    ("QUOTE NUMBER", 20),
+    ("PO STATUS:*", 21),
+    ("PO DATE:", 22),
+    ("PO APPROVED DATE", 23),
+    ("PO APPROVED BY:", 24),
+    ("PO REQUESTED", 25),
+    ("PO REQUESTED BY:", 26),
+    ("INVOICE NUMBER:", 27),
+    ("INVOICE LINE NUMBER", 28),
+    ("INVOICE AMOUNT:", 29),
+    ("INVOICE PAID", 30),
+    ("SUPPORT START DATE:", 31),
+    ("SUPPORT END DATE:", 32),
+]
+
+#entry fields
+entry_fields = []
+for label_text, row in labels_and_entries:
+    entry = add_label_and_entry(label_text, row)
+    entry_fields.append(entry)
+
+
+def insert_inventory_onhand():
     try:
-        # Iterate through each row in the DataFrame and insert into the LOOKUP_TYPE table
-        for index, row in df.iterrows():
-            cursor.execute("""
-                INSERT INTO PO_HEADER (
-                    PO_NUMBER, VENDOR_NAME,  PO_STATUS
-                ) VALUES (?, ?, ?)
-            """,
-            str(row['PO_NUMBER']), str(row['VENDOR_NAME']), str(row['PO_STATUS']))
+        connection = pyodbc.connect('Driver={SQL Server};'
+                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
+                      'Database=InfraDB;'
+                        'Trusted_Connection=yes;')
+        connection.autocommit = True
 
-        # Commit the transaction
-        connection.commit()
-        print("Data imported successfully.")
+        # Get the current date and time as a string
+        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        # Assuming username is passed as a command-line argument or an empty string if not provided
+        username = sys.argv[1] if len(sys.argv) > 1 else ''
+
+        # Use a tuple to unpack the entry fields for the SQL query
+        query_params = tuple(entry.get() for entry in entry_fields)
+
+        # Add current_date and username to the tuple for query_params
+        query_params += (current_date, username, current_date, username)
+
+        # Use parameterized query to avoid SQL injection and handle date conversion
+        connection.execute("""
+            INSERT INTO PO_HEADER
+            (PO_NUMBER, PO_TYPE, PO_DESCRIPTION, VENDOR_NAME, VENDOR_LOCATION, 
+            QUOTE_REQUESTED, QUOTE_NUMBER, PO_STATUS, PO_DATE, PO_APPROVED_DATE, PO_APPROVED_BY, PO_REQUESTED, PO_REQUESTED_BY, 
+            INVOICE_NUMBER, INVOICE_LINE_NUMBER, INVOICE_AMOUNT, INVOICE_PAID, 
+            SUPPORT_START_DATE, SUPPORT_END_DATE, CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, query_params)
+        info_label_item = ttk.Label(app, text="DATA ADDED SUCCESSFULLY!!!", foreground="GREEN")
+        info_label_item.place(relx=0.1, rely=0.90)
+        reset()
 
     except pyodbc.Error as ex:
-        print("Error during data import:", ex)
-        connection.rollback()
+        if 'Violation of UNIQUE KEY constraint' in str(ex):
+            print("DATA ALREADY EXISTS")
+            info_label_item = ttk.Label(app, text="DATA ALREADY EXISTS!!!", foreground="RED")
+            info_label_item.place(relx=0.1, rely=0.90)
+        else:
+            print("CONNECTION FAILED", ex)
 
-    finally:
-        # Close the database connection
-        connection.close()
 
-# Specify the database information
-server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
-database_name = 'InfraDB'
+def reset():
+    # Reset all entry fields to empty strings
+    for entry in entry_fields:
+        entry.delete(0, tk.END)
 
-# Call the function to choose the Excel file
-excel_file_path, filename = choose_excel_file()
 
-# Save the uploaded file in the "uploads" folder
-if excel_file_path and filename:
-    destination_path = os.path.join(UPLOAD_FOLDER, filename)
-    shutil.copy(excel_file_path, destination_path)
-    print(f"File saved in {destination_path}")
+def cancel():
+    app.destroy()
 
-    # Call the function to import data from Excel to SQL Server
-    import_excel_to_sql_server(server_name, database_name, excel_file_path)
+# Create a new frame for the buttons
+button_frame = tk.Frame(app)
+button_frame.place(relx=0.1, rely=0.8, relwidth=0.8)
+
+# Function to create bold font
+def get_bold_font():
+    return font.Font(weight="bold")
+
+# Create buttons with bold text
+insert_button = tk.Button(button_frame, text="ADD", command=insert_inventory_onhand,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
+
+reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
+                         foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
+reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
+
+cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
+                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
+cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
+
+info_label_inventory = ttk.Label(app, text="3S Technologies - PO HEADER")
+info_label_inventory.place(relx=0.1, rely=0.95)  # Adjusted y-position
+
+app.mainloop()
