@@ -1,11 +1,10 @@
 import pandas as pd
 import pyodbc
-from tkinter import Tk, filedialog
+from tkinter import Tk, filedialog, messagebox
 import os
-import shutil  # Import the shutil module for file operations
+import shutil
 from datetime import datetime
 import sys
-
 
 UPLOAD_FOLDER = 'uploads'
 # Get the current date and time as a string
@@ -13,9 +12,11 @@ current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 # Assuming username is passed as a command-line argument or an empty string if not provided
 username = sys.argv[1] if len(sys.argv) > 1 else ''
 
+
 def choose_excel_file():
     root = Tk()
     root.withdraw()  # Hide the main window
+    root.wm_attributes("-topmost", True)
 
     file_path = filedialog.askopenfilename(
         title="Select Excel File",
@@ -23,7 +24,7 @@ def choose_excel_file():
     )
 
     if not file_path:
-        print("No file selected. Exiting.")
+        messagebox.showerror("Error", "No file selected. Exiting.")
         return None, None
 
     # Extract the filename from the full file path
@@ -31,9 +32,10 @@ def choose_excel_file():
 
     return file_path, filename
 
+
 def import_excel_to_sql_server(server, database, excel_file_path):
     if not excel_file_path:
-        print("No file selected. Exiting.")
+        messagebox.showerror("Error", "No file selected. Exiting.")
         return
 
     # Read Excel file into a pandas DataFrame
@@ -46,28 +48,41 @@ def import_excel_to_sql_server(server, database, excel_file_path):
     connection = pyodbc.connect(connection_string)
     cursor = connection.cursor()
 
+    successful_inserts = 0
+    failed_inserts = 0
+
     try:
         # Iterate through each row in the DataFrame and insert into the LOOKUP_VALUES table
         for index, row in df.iterrows():
-            cursor.execute("""
-                INSERT INTO LOOKUP_VALUES (
-                    LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG
-                ) VALUES (?, ?, ?, ?, ?)
-            """,
-            str(row['LOOKUP_TYPE_ID']), str(row['LOOKUP_CODE']), str(row['LOOKUP_VALUE']),
-            str(row['VALUE_DESCRIPTION']), str(row['ENABLED_FLAG']))
+            try:
+                cursor.execute("""
+                    INSERT INTO LOOKUP_VALUES (
+                        LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG
+                    ) VALUES (?, ?, ?, ?, ?)
+                """,
+                               str(row['LOOKUP_TYPE_ID']), str(row['LOOKUP_CODE']), str(row['LOOKUP_VALUE']),
+                               str(row['VALUE_DESCRIPTION']), str(row['ENABLED_FLAG']),
+                                current_date, username, current_date, username)
+                successful_inserts += 1
+            except Exception as ex:
+                print(f"Failed to insert row {index + 2}: {ex}")
+                failed_inserts += 1
 
         # Commit the transaction
         connection.commit()
-        print("Data imported successfully.")
+
+        messagebox.showinfo("Data Import Summary",
+                            f"Successful inserts: {successful_inserts}\nFailed inserts: {failed_inserts}")
 
     except pyodbc.Error as ex:
-        print("Error during data import:", ex)
+        messagebox.showerror("Error", f"Error during data import: {ex}")
         connection.rollback()
 
     finally:
         # Close the database connection
         connection.close()
+
+
 # Specify the database information
 server_name = 'LAPTOP-687KHBP5\SQLEXPRESS'
 database_name = 'InfraDB'
@@ -79,7 +94,7 @@ excel_file_path, filename = choose_excel_file()
 if excel_file_path and filename:
     destination_path = os.path.join(UPLOAD_FOLDER, filename)
     shutil.copy(excel_file_path, destination_path)
-    print(f"File saved in {destination_path}")
+    messagebox.showinfo("Info", f"File saved in {destination_path}")
 
     # Call the function to import data from Excel to SQL Server
     import_excel_to_sql_server(server_name, database_name, excel_file_path)
