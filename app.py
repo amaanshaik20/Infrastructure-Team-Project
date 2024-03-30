@@ -36,6 +36,10 @@ def lookup_details():
 def register():
     return render_template("register.html")
 
+@app.route("/import_data")
+def import_data():
+    return render_template("import_data.html")
+
 @app.route("/main", methods=["GET", "POST"])
 def main():
     if request.method == "POST":
@@ -79,7 +83,7 @@ def get_item_data():
     # Construct SQL query with WHERE conditions
     query = 'SELECT ITEM_ID, ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE, MANUFACTURER_CODE, ' \
             'ITEM_CATEGORY, CPU, MEMORY, DISKS, UOM,ENABLED_FLAG, CREATION_DATE, CREATED_BY_USER, ' \
-            'LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM ITEM_MASTER WHERE 1=1'
+            'LAST_UPDATE_DATE, LAST_UPDATED_BY_USER FROM ITEM_MASTER WHERE 1=1 ORDER BY ITEM_ID'
 
     conditions = []
 
@@ -392,7 +396,8 @@ def get_type_and_value_data():
         '''
 
         # Construct HTML table for parent data
-        parent_table = "<table class='parent-table'>\n"
+        parent_table = "<center><h6>Lookup Type</h6></center>"
+        parent_table += "<table class='parent-table'>\n"
         parent_table += "<tr>\n"
         parent_table += "<th>Type Number</th>\n"
         parent_table += "<th>Lookup Type</th>\n"
@@ -410,7 +415,8 @@ def get_type_and_value_data():
         parent_table += "</table>\n"
 
         # Construct HTML table for child data
-        child_table = "<table>\n"
+        child_table = "<center><h6>Lookup Value</h6></center>"
+        child_table += "<table>\n"
         child_table += "<tr>\n"
         child_table += "<th>Lookup Value ID</th>\n"
         child_table += "<th>Lookup Type ID</th>\n"
@@ -719,17 +725,18 @@ def get_po_data():
     '''
 
     # Construct HTML table for PO Header data
-    header_table = "<table class='parent-table'>\n"
+    header_table = "<center><h6>PO HEADER</h6></center>"
+    header_table += "<table class='parent-table'>\n"
     header_table += "<tr>\n"
     header_table += "<th>Sno.</th>\n"
-    header_table += "<th>PO Number</th>\n"
-    header_table += "<th>PO Type</th>\n"
-    header_table += "<th>PO Description</th>\n"
+    header_table += "<th>PONumber</th>\n"
+    header_table += "<th>Type</th>\n"
+    header_table += "<th>Description</th>\n"
     header_table += "<th>Vendor Name</th>\n"
     header_table += "<th>Vendor Location</th>\n"
     header_table += "<th>Quote Requested</th>\n"
     header_table += "<th>Quote Number</th>\n"
-    header_table += "<th>PO Status</th>\n"
+    header_table += "<th>Status</th>\n"
     header_table += "<th>PO Date</th>\n"
     header_table += "<th>PO Approved Date</th>\n"
     header_table += "<th>PO Approved By</th>\n"
@@ -754,27 +761,28 @@ def get_po_data():
     header_table += "</table>\n"
 
     # Construct HTML table for PO Lines data
-    lines_table = "<table>\n"
+    lines_table ="<center><h6>PO LINES</h6></center>"
+    lines_table += "<table>\n"
     lines_table += "<tr>\n"
     lines_table += "<th>Sno.</th>\n"
-    lines_table += "<th>PO Header Number</th>\n"
-    lines_table += "<th>PO Line Number</th>\n"
+    lines_table += "<th>Header Number</th>\n"
+    lines_table += "<th>Line Number</th>\n"
     lines_table += "<th>Item Number</th>\n"
-    lines_table += "<th>PO Line Description</th>\n"
+    lines_table += "<th>Line Description</th>\n"
     lines_table += "<th>Quantity</th>\n"
     lines_table += "<th>Unit Price</th>\n"
     lines_table += "<th>Line Tax Amount</th>\n"
     lines_table += "<th>Support Start Date</th>\n"
     lines_table += "<th>Support End Date</th>\n"
     lines_table += "<th>Need By Date</th>\n"
-    lines_table += "<th>PO Line Status</th>\n"
+    lines_table += "<th>Line Status</th>\n"
     lines_table += "<th>Ship Location</th>\n"
     lines_table += "<th>Invoice Number</th>\n"
     lines_table += "<th>Invoice Line Number</th>\n"
     lines_table += "<th>Invoice Date</th>\n"
     lines_table += "<th>Invoice Paid</th>\n"
     lines_table += "<th>Invoice Amount</th>\n"
-    lines_table += "<th>PO Line Comments</th>\n"
+    lines_table += "<th>Line Comments</th>\n"
     lines_table += "<th>Creation Date</th>\n"
     lines_table += "<th>Created By</th>\n"
     lines_table += "<th>Last Update Date</th>\n"
@@ -993,27 +1001,27 @@ def extract():
          return f"Error during execution: {str(e)}"
 
 
-# @app.route("/insert_data", methods=["POST"])
-# def insert_data():
-#     try:
-#         # Receive data from the client
-#         data = request.get_json()
-#         # Extract data fields
-#         # name = data.get("name")
-#         username = data.get("username")
-#         email = data.get("email")
-#         password = data.get("password")
-#         phonenumber = data.get("phonenumber")
+@app.route("/insert_data", methods=["POST"])
+def insert_data():
+    try:
+        # Receive data from the client
+        data = request.get_json()
+        # Extract data fields
+        name = data.get("name")
+        email = data.get("email")
+        phonenumber = data.get("phonenumber")
+        username = data.get("username")
+        password = data.get("password")
         
-#         # Execute your SQL query to insert data into the database
-#         cursor.execute("INSERT INTO Users ( username, email, password,phonenumber) VALUES (?, ?, ?, ?);",
-#                        (username, email, phonenumber,password))
-#         conn.commit()
+        # Execute your SQL query to insert data into the database
+        cursor.execute("INSERT INTO users1 (name, email, phonenumber, username, password) VALUES (?, ?, ?, ?, ?);",
+                       (name, email, phonenumber, username, password));
+        conn.commit()
 
-#         return jsonify({"message": "registered successfully"})
+        return jsonify({"message": "registered successfully"})
     
-#     except Exception as e:
-#         return jsonify({"error": str(e)})
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route("/insert_data1", methods=["POST"])
 def insert_data1():
