@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>3S-Technologies|Lookup Details</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -36,7 +37,7 @@
         .grid1 {
             display: grid;
             /* margin-right: 30px; */
-            box-shadow: 1px 1px 1px 1px black;
+            /* box-shadow: 1px 1px 1px 1px black; */
             /* background-color: lightgray; */
             padding: 10px;
             margin-left: 5px;
@@ -53,7 +54,7 @@
             margin: 5px;
             margin-left: 250px;
             width: 1400px;
-            border: 1px solid black;
+            /* border: 1px solid black; */
             /* justify-content: space-between; */
             box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 
@@ -74,13 +75,16 @@
             white-space: nowrap;
             /* background-color: lightgray; */
             text-align: left;
-            border: 1px solid black;
+            border: 2px solid black;
+            
         }
 
         table {
             width: 1400px;
-            /* border: 2px solid black; */
+            border: 2px solid black;
             max-height: 300px;
+
+            
         }
 
         th {
@@ -97,8 +101,7 @@
         }
 
         .matter {
-            /* overflow-x: scroll; */
-            overflow-y: scroll;
+            /* overflow-y: scroll; */
             overflow-x: scroll;
             width: 1400px;
             /* margin-left: 200px; */
@@ -187,6 +190,14 @@
 
 <body>
 
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid mb-3 pt-3">
+            <a href="/main"><img src="/static/banner.png" alt=""></a>
+            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
+            <a class="navbar-brand text" href="/lookup_details">LOOKUP DETAILS</a>
+            <a class="navbar-brand" href="/logout">Logout</a>
+        </div>
+    </nav>
     <div class="sidebar" id="sidebar">
         <ul>
             <li><a href="/main">Home</a></li>
@@ -194,17 +205,12 @@
             <li><a href="/inventory">Inventory</a></li>
             <li><a href="/purchase_orders">Purchase Orders</a></li>
             <li><a href="/lookup_details">Lookup Details</a></li>
+            <!-- <li><a href="/import_data">Upload Data</a></li> -->
         </ul>
     </div>
-    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-        <div class="container-fluid mb-3 pt-3">
-            <a href="/main"><img src="/static/banner.png" alt=""></a>
-            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
-            <a class="navbar-brand" href="/lookup_details">LOOKUP DETAILS</a>
-            <a class="navbar-brand" href="/logout">Logout</a>
-        </div>
-    </nav>
-    <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+    <div>
+        <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    </div>
     <!-- <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">LOOKUP -->
         <!-- DETAILS</h3> -->
     <div class="filters-lookup_type" id="filters">
@@ -263,7 +269,7 @@
                         <button class="additem" style="margin: 5px; width: 105px;"> Add Type</button>
                     </form>
                     <form action="/update2" method="post">
-                        <button style="margin: 5px; width: 105px;">Update Type</button>
+                        <button style="margin: 5px; width: 110px;">Update Type</button>
                     </form>
                     <form action="/upload2" method="post">
                         <button style="margin: 5px; width: 105px;">Import Type</button>
@@ -379,11 +385,16 @@
             </form>
         </div>
     </div>
+    <div style="justify-content: end; display: flex;">
+        <button id="previousBtn" class="np" onclick="handleButtonClick('previous')">&laquo;Previous</button>
+        <button id="nextBtn" class="np" onclick="handleButtonClick('next')">Next &raquo;</button>
+    
+</div>
     <div class="container1">
         <div id="typeDataContainer" class="matter">
+            <center><h6>Lookup Type</h6></center>
             <table>
                 <tr>
-
                     <th>Type Number</th>
                     <th>Lookup Type</th>
                     <th>Type Description</th>
@@ -394,6 +405,7 @@
                     <th>Last Updated By</th>
                 </tr>
             </table>
+            <center><h6>Lookup Value</h6></center>
             <table>
                 <tr>
 
@@ -434,14 +446,7 @@
         </div>
     </div> -->
 
-    <div style="justify-content: space-between; display: flex;">
-        <div>
-            <button id="previousBtn" class="np" onclick="handleButtonClick('previous')">&laquo;Previous</button>
-        </div>
-        <div>
-            <button id="nextBtn" class="np" onclick="handleButtonClick('next')">Next &raquo;</button>
-        </div>
-    </div>
+    
 
 
     <script src="/static/index.js"></script>
@@ -501,7 +506,7 @@
 
         function resetFilters() {
             // Reset all filter fields to empty
-            document.getElementById("search_lookup_type_number").value = "";
+            document.getElementById("search_lookup_type_number").value = "1";
             document.getElementById("search_lookup_type").value = "";
             document.getElementById("search_type_description").value = "";
             document.getElementById("search_enabled_flag").value = "";
