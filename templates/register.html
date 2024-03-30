@@ -1,127 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>3S TECHNOLOGIES|Register</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
     <style>
+        .error {
+            color: red;
+            opacity: 0;
+            /* Initially hide error messages */
+            transition: opacity 1s ease-in-out;
+            /* Apply transition for opacity change */
+        }
+
+        .error.show {
+            opacity: 1;
+            /* Show error messages */
+        }
+
         .container1 {
-            max-width: 550px;
+            /* max-width: 550px; */
             margin: 100px auto;
+            /* Adjusted margin for vertical centering */
             background-color: #fff;
-            border: 2px solid #ddd;
+            /* border: 2px solid #ddd; */
             padding: 20px;
             border-radius: 30px;
-            box-shadow: 5px 10px rgba(0, 0, 0, 0.1);
-            height: auto; /* changed height to auto */
+            /* box-shadow: 5px 10px rgba(0, 0, 0, 0.1); */
+            height: 500px;
+            width: 750px;
         }
 
         #loginForm {
             display: flex;
             flex-direction: column;
-            align-items: center; /* added to center the form */
         }
 
         .label1 {
             margin-bottom: 4px;
             font-size: large;
-            width: 100px; /* changed width to a fixed value */
-            display: inline-block; /* added */
-            text-align: right; /* added to align text to the right */
-        }
-
-        .amaan {
+            padding: 20px;
             margin: 10px;
-            font-weight: bolder;
-            display: flex; /* added */
-            align-items: center; /* added */
+            width: 1000px;
         }
 
-        .input1 {
-            height: 30px;
-            margin-left: 10px; /* added */
-            width: 300px;
+        .center {
+            /* align-items: center; */
+            /* justify-content: center; */
+            margin-left: 250px;
+            /* left: 500px; */
+            color: red
         }
 
         .button {
-            margin-top: 20px; /* adjusted margin */
+            /* width: fit-content; */
+            padding: 10px;
+            margin: 10px;
+            /* display: grid; */
+            /* text-align: center; */
+            /* background-color: red; */
         }
 
         .button button {
             height: 40px;
-            width: 100px; /* adjusted width */
+            width: 70px;
             background-color: aliceblue;
             color: black;
             border-radius: 25px;
-            cursor: pointer;
+
         }
 
         .button button:hover {
             background-color: black;
             color: aliceblue;
+            cursor: pointer;
+
+        }
+
+        .username {
+            height: 20px;
+        }
+
+        .amaan {
+            margin: 2px;
+            font-weight: bolder;
+        }
+
+        .input1 {
+            display: inline-block;
+        }
+
+        span {
+            color: red;
         }
     </style>
 </head>
+
 <body>
     <div class="container1">
         <form id="loginForm" action="/main" method="post">
-            <h2>Register</h2>
+            <h2 class="center">Register</h2>
             <div class="amaan">
-                <label for="username" class="label1">Username:</label>
-                <input type="text" id="name" class="input1" name="username" required>
+                <label for="name" class="label1">Name:</label>
+                <input type="text" id="name" class="input1" name="name" required
+                    style="height: 30px; margin: 10px;width: 300px;">
+                <span id="nameError" class="error"></span><br>
             </div>
             <div class="amaan">
                 <label for="email" class="label1">Email:</label>
-                <input type="email" id="email" class="input1" name="email" required>
+                <input type="email" id="email" class="input" name="email" required
+                    style="height: 30px; margin: 10px;width: 300px;">
+                <span id="emailError" class="error"></span><br>
+            </div>
+            <div class="amaan">
+                <label for="phoneNumber" class="label1">Phone:</label>
+                <input type="text" id="phonenumber" class="input1" name="phonenumber" required
+                    style="height: 30px; margin: 10px;width: 300px;">
+                <span id="phoneError" class="error"></span><br>
+            </div>
+            <div class="amaan">
+                <label for="username" class="label1">Username:</label>
+                <input type="text" id="username" class="input1" name="username" required
+                    style="height: 30px; margin: 10px;width: 300px; margin-left: -20px;">
             </div>
             <div class="amaan">
                 <label for="password" class="label1">Password:</label>
-                <input type="password" id="password" class="input1" name="password" required>
+                <input type="password" id="password" class="input1" name="password" required
+                    style="height: 30px; margin: 10px;width: 300px; margin-left: -18px;">
             </div>
             <!-- <div class="amaan">
-                <label for="re-password" class="label1">Confirm Password:</label>
-                <input type="password" id="re-password" class="input1" name="re-password" required>
+                <label for="re-password" class="label1">Re-Password:</label>
+                <input type="password" id="re-password" class="input1" name="re-password" required
+                    style="height: 30px; margin: 10px;width: 300px;">
             </div> -->
-            <div class="amaan">
-                <label for="phoneNumber" class="label1">Phone:</label>
-                <input type="text" id="phonenumber" class="input1" name="phonenumber" required>
-            </div>
-            <div class="button">
-                <input type="button" value="Register" onclick="submitForm()">
-                <a href="/"><input type="button" value="Go back to login page"></a>
-            </div>
+            <center>
+                <div class="button">
+                    <input type="submit" value="Register" class="button" style="height: fit-content;">
+                    <a href="/"><input type="button" value="go back to login page" class="button"
+                            style="height: fit-content;"></a>
+                </div>
+            </center>
         </form>
+
     </div>
-
     <script>
-        function submitForm() {
-            var username = document.getElementById("username").value;
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            var phonenumber = document.getElementById("phonenumber").value;
+        const form = document.getElementById('loginForm');
 
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phonenumber').value.trim();
+
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const phoneError = document.getElementById('phoneError');
+
+            // Regular expressions for validation
+            const nameRegex = /^[a-zA-Z\s]*$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^[789]\d{9}$/;
+
+            // Validate name
+            if (!name.match(nameRegex)) {
+                nameError.textContent = 'Please enter a valid name';
+                nameError.classList.add('show'); // Show error message
+                setTimeout(() => {
+                    nameError.classList.remove('show'); // Remove error message after 2 seconds
+                }, 2000);
+            } else {
+                nameError.textContent = '';
+                nameError.classList.remove('show'); // Hide error message
+            }
+
+            // Validate email
+            if (!email.match(emailRegex)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.add('show'); // Show error message
+                setTimeout(() => {
+                    emailError.classList.remove('show'); // Remove error message after 2 seconds
+                }, 2000);
+            } else {
+                emailError.textContent = '';
+                emailError.classList.remove('show'); // Hide error message
+            }
+
+            // Validate phone
+            if (!phone.match(phoneRegex)) {
+                phoneError.textContent = 'Please enter a valid phone number';
+                phoneError.classList.add('show'); // Show error message
+                setTimeout(() => {
+                    phoneError.classList.remove('show'); // Remove error message after 2 seconds
+                }, 2000);
+            } else {
+                phoneError.textContent = '';
+                phoneError.classList.remove('show'); // Hide error message
+            }
+
+            // If all fields are valid, submit the form
+            if (name.match(nameRegex) && email.match(emailRegex) && phone.match(phoneRegex)) {
+                submitForm();
+            }
+        });
+        function submitForm() {
+            // Get data from the form
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var phonenumber = document.getElementById("phonenumber").value;
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // AJAX request to send data to the server for insertion
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Optionally, you can handle the response from the server
                     console.log(xhr.responseText);
                     alert("Form submitted successfully!");
-                    document.getElementById("username").value = '';
+                    // Clear the form fields after successful insertion
+                    document.getElementById("name").value = '';
                     document.getElementById("email").value = '';
-                    document.getElementById("password").value = '';
                     document.getElementById("phonenumber").value = '';
+                    document.getElementById("username").value = '';
+                    document.getElementById("password").value = '';
                 }
             };
             xhr.open("POST", "/insert_data", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
+            // Send data as JSON
             var data = {
-                "username": username,
+                "name": name,
                 "email": email,
-                "password": password,
                 "phonenumber": phonenumber,
+                "username": username,
+                "password": password,
             };
             xhr.send(JSON.stringify(data));
         }
     </script>
 </body>
+
 </html>
