@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>3S TECHNOLOGIES|Items</title>
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <style>
         /* .filters-item_details {
             /* margin-top: -27px;
@@ -20,13 +21,15 @@
         .search {
             display: flex;
             justify-content: center;
-            /* justify-content: space-around; */
+            /* justify-content: center; */
             margin-bottom: 20px;
             margin-left: 250px;
             max-height: 350px;
             /* margin-top: 100px; */
             /* box-shadow: 0 5px #888888; */
             width: 1400px;
+            /* background-color: #fff; */
+            /* color: aliceblue; */
         }
 
         .pad-15 {
@@ -36,10 +39,11 @@
         .grid1 {
             display: grid;
             /* margin-right: 30px; */
-            box-shadow: 1px 1px 1px 1px black;
+            /* box-shadow: 1px 1px 1px 1px black; */
             /* background-color: lightgray; */
             padding: 10px;
             margin-left: 5px;
+            /* color: white; */
         }
 
         .search input {
@@ -84,7 +88,7 @@
         }
 
         th {
-            border: 2px solid black;
+            border: 1px solid black;
             border-collapse: collapse;
             background-color: lightgray;
             width: 1200px;
@@ -94,7 +98,7 @@
             /* width:100% */
             white-space: nowrap;
             color: black;
-            
+
         }
 
         .matter {
@@ -106,20 +110,6 @@
             height: auto;
             max-height: 300px;
         }
-
-        /* .matter::-webkit-scrollbar {
-            width: 0;
-            height: 0;
-        }
-
-        .matter::-webkit-scrollbar-track {
-            background: transparent;
-            
-        }
-
-        .matter::-webkit-scrollbar-thumb {
-            background: transparent;
-        } */
 
         .button-container {
             display: flex;
@@ -183,12 +173,47 @@
             margin-top: 90px;
 
         }
-        
+
+        .table-container {
+            max-height: 300px;
+            max-width: 1400px;
+            /* Adjust this value as needed */
+            overflow-y: scroll;
+            margin-left: 260px;
+            margin-top: 50px;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+
+        }
+
+        /* Fixed header for the table */
+        #itemDataTable th {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #fff;
+            /* Adjust background color as needed */
+        }
+
+        /* Adjust table width to match the container width */
+        #itemDataTable {
+            width: 1400px;
+            /* margin-left: 200px; */
+        }
         
     </style>
 </head>
 
 <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid mb-3 pt-3">
+            <div class="logo-container">
+            <a href="/main"><img src="/static/banner.png" alt=""></a></div>
+            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
+            <a class="navbar-brand text" href="/item_details">ITEM DETAILS</a>
+            <a class="navbar-brand " href="/logout">Logout</a>
+        </div>
+    </nav>
+
     <div class="sidebar" id="sidebar">
         <ul>
             <li><a href="/main">Home</a></li>
@@ -196,18 +221,13 @@
             <li><a href="/inventory">Inventory</a></li>
             <li><a href="/purchase_orders">Purchase Orders</a></li>
             <li><a href="/lookup_details">Lookup Details</a></li>
+            <!-- <li><a href="/import_data">Upload Data</a></li> -->
         </ul>
     </div>
-    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-        <div class="container-fluid mb-3 pt-3">
-            <a href="/main"><img src="/static/banner.png" alt=""></a>
-            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
-            <a class="navbar-brand" href="/item_details">ITEM DETAILS</a>
-            <a class="navbar-brand" href="/logout">Logout</a>
-            
-        </div>
-    </nav>
-    <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+
+    <div>
+        <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    </div>
     <!-- <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;font-size: 20px;margin-left: 200PX;">ITEM DETAILS -->
     </h3>
     <div class="filters-item_details" id="filters">
@@ -260,8 +280,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
     <div class="button-container">
         <div>
@@ -277,10 +295,10 @@
                 <button onclick="toggleAddBar()">Add Items</button>
             </div> -->
         <form action="/update" method="post">
-            <button style="margin: 5px;">Update</button>
+            <button style="margin: 5px;" >Update</button>
         </form>
         <form action="/upload" method="post">
-            <button style="margin: 5px;">Import</button>
+            <button style="margin: 5px;" >Import</button>
         </form>
         <form action="/extract" method="post">
             <button style="margin: 5px;">Export</button>
@@ -360,7 +378,31 @@
             </div>
         </form>
     </div>
-    <div class="container1">
+    <div class="table-container">
+        <table id="itemDataTable">
+            <!-- Your table content here -->
+            <!-- <table>
+                <tr>
+                    <th>Sno.</th>
+                    <th>ITEM NUMBER</th>
+                    <th>ITEM DESCRIPTION</th>
+                    <th>ITEM TYPE</th>
+                    <th>ITEM CATEGORY</th>
+                    <th>CPU</th>
+                    <th>MEMORY</th>
+                    <th>DISKS</th>
+                    <th>UOM</th>
+                    <th>ENABLED FLAG</th>
+                    <th>CREATION DATE</th>
+                    <th>CREATED BY</th>
+                    <th>LAST UPDATE DATE</th>
+                    <th>LAST UPDATED BY</th>
+                </tr>
+            </table> -->
+        </table>
+    </div>
+
+    <!-- <div class="container1">
         <div id="itemDataContainer" class="matter">
             <table>
                 <tr>
@@ -381,7 +423,7 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </div> -->
 
 
     <script src="/static/index.js"></script>
@@ -404,7 +446,9 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     // Update the content of the data container with the fetched item data
-                    document.getElementById("itemDataContainer").innerHTML = xhr.responseText;
+                    // document.getElementById("itemDataContainer").innerHTML = xhr.responseText;
+                    document.getElementById("itemDataTable").innerHTML = xhr.responseText;
+
                 }
             };
 
