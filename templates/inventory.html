@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>3S TECHNOLOGIES|Inventory</title>
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        /* .filters-inventory {
+        /* .filters-item_details {
             /* margin-top: -27px;
             margin-left: 190px;
             padding-left: 50px; 
@@ -23,7 +25,7 @@
             margin-bottom: 20px;
             margin-left: 250px;
             max-height: 350px;
-
+            /* margin-top: 100px; */
             /* box-shadow: 0 5px #888888; */
             width: 1400px;
         }
@@ -35,10 +37,11 @@
         .grid1 {
             display: grid;
             /* margin-right: 30px; */
-            box-shadow: 1px 1px 1px 1px black;
+            /* box-shadow: 1px 1px 1px 1px black; */
             /* background-color: lightgray; */
             padding: 10px;
             margin-left: 5px;
+            /* color: white; */
         }
 
         .search input {
@@ -49,13 +52,13 @@
 
         .container1 {
             /* margin-top: 10px; */
-            margin: 50px;
+            margin: 10px;
             margin-left: 250px;
             width: 1400px;
             border: 1px solid black;
             /* justify-content: space-between; */
             box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-            
+
 
         }
 
@@ -79,11 +82,11 @@
         table {
             width: 1400px;
             /* border: 2px solid black; */
-            max-height: 500px;
+            max-height: 300px;
         }
 
         th {
-            border: 2px solid black;
+            border: 1px solid black;
             border-collapse: collapse;
             background-color: lightgray;
             width: 1200px;
@@ -93,6 +96,7 @@
             /* width:100% */
             white-space: nowrap;
             color: black;
+
         }
 
         .matter {
@@ -102,22 +106,8 @@
             width: 1400px;
             /* margin-left: 200px; */
             height: auto;
-            max-height: 500px;
+            max-height: 300px;
         }
-
-        /* .matter::-webkit-scrollbar {
-            width: 0;
-            height: 0;
-        }
-
-        .matter::-webkit-scrollbar-track {
-            background: transparent;
-            
-        }
-
-        .matter::-webkit-scrollbar-thumb {
-            background: transparent;
-        } */
 
         .button-container {
             display: flex;
@@ -125,7 +115,7 @@
             /* Adjust as needed */
             /* align-items: center; */
             margin-left: 720px;
-            
+
             /* Adjust as needed */
         }
 
@@ -179,13 +169,44 @@
 
         .toggle-btn {
             margin-top: 90px;
-            /* position: fixed; */
+
         }
 
+        .table-container {
+            max-height: 300px;
+            max-width: 1400px;
+            /* Adjust this value as needed */
+            overflow-y: scroll;
+            margin-left: 260px;
+            margin-top: 50px;
+        }
+
+        /* Fixed header for the table */
+        #inventoryDataTable th {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #fff;
+            /* Adjust background color as needed */
+        }
+
+        /* Adjust table width to match the container width */
+        #inventoryDataTable {
+            width: 1400px;
+            /* margin-left: 200px; */
+        }
     </style>
 </head>
 
 <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid mb-3 pt-3">
+            <a href="/main"><img src="/static/banner.png" alt=""></a>
+            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
+            <a class="navbar-brand text" href="/inventory">INVENTORY</a>
+            <a class="navbar-brand" href="/logout">Logout</a>
+        </div>
+    </nav>
     <div class="sidebar" id="sidebar">
         <ul>
             <li><a href="/main">Home</a></li>
@@ -193,17 +214,11 @@
             <li><a href="/inventory">Inventory</a></li>
             <li><a href="/purchase_orders">Purchase Orders</a></li>
             <li><a href="/lookup_details">Lookup Details</a></li>
+            <!-- <li><a href="/import_data">Upload Data</a></li> -->
         </ul>
     </div>
-    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-        <div class="container-fluid mb-3 pt-3">
-            <a href="/main"><img src="/static/banner.png" alt=""></a>
-            <!-- <a class="navbar-brand" href="/main">3S TECHNOLOGIES</a> -->
-            <a class="navbar-brand" href="/inventory">INVENTORY</a>
-            <a class="navbar-brand" href="/logout">Logout</a>
-        </div>
-    </nav>
-    <button class="toggle-btn" onclick="toggleSidebar()">Menu</button>
+
+    <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
     <!-- <h3 style="margin-top: 30px; text-align: center;margin-top: -10PX;margin-left: 200PX;font-size: 20PX;">INVENTORY DETAILS</h3> -->
     <div class="filters-inventory" id="filters">
         <div class="box1">
@@ -261,7 +276,7 @@
                         <input type="text" name="search" id="search_last_po_price">
                     </div>
                 </div>
-                
+
             </div>
             <div class="button-container">
                 <div>
@@ -274,7 +289,7 @@
                     <button class="additem" style="margin: 5px;"> Add Items</button>
                 </form>
                 <form action="/update1" method="post">
-                    <button  style="margin: 5px;">Update</button>
+                    <button style="margin: 5px;">Update</button>
                 </form>
                 <form action="/upload1" method="post">
                     <button class="additem" style="margin: 5px;"> Import</button>
@@ -293,7 +308,7 @@
                 <label for="INSTALL_LOCATION">Install Location:</label>
                 <input type="text" name="INSTALL_LOCATION" id="INSTALL_LOCATION">
             </div>
-            
+
             <div class="label-input-pair">
                 <label for="PROJECT_CODE">Project Code:</label>
                 <input type="text" name="PROJECT_CODE" id="PROJECT_CODE">
@@ -360,7 +375,13 @@
             </div>
         </form>
     </div>
-    <div class="container1">
+    <div class="table-container">
+        <table id="inventoryDataTable">
+            <!-- Your table content here -->
+        </table>
+    </div>
+
+    <!-- <div class="container1">
         <div id="inventoryDataContainer" class="matter">
             <table>
                 <tr>
@@ -383,7 +404,7 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </div> -->
 
     <script src="/static/index.js"></script>
 
@@ -404,7 +425,9 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     // Update the content of the data container with the fetched item data
-                    document.getElementById("inventoryDataContainer").innerHTML = xhr.responseText;
+                    // document.getElementById("inventoryDataContainer").innerHTML = xhr.responseText;
+                    document.getElementById("inventoryDataTable").innerHTML = xhr.responseText;
+
                 }
             };
             var url = `/get_inventory_data?inventory_id=${encodeURIComponent(inventory_id)}&install_location=${encodeURIComponent(install_location)}&project_code=${encodeURIComponent(project_code)}&quantity=${encodeURIComponent(quantity)}&ip_address=${encodeURIComponent(ip_address)}&subnet_mask=${encodeURIComponent(subnet_mask)}&gateway=${encodeURIComponent(gateway)}&comments=${encodeURIComponent(comments)}&last_po_num=${encodeURIComponent(last_po_num)}&last_po_price=${encodeURIComponent(last_po_price)}`;
@@ -472,7 +495,7 @@
                     document.getElementById("NOTES").value = '';
                     document.getElementById("CREATION_DATE").value = '';
                     document.getElementById("LAST_UPDATE_DATE").value = '';
-                    
+
                 }
             };
             xhr.open("POST", "/insert_data4", true);
@@ -505,7 +528,7 @@
         document.getElementById('RENEWAL_DATE').valueAsDate = new Date();
         document.getElementById('CREATION_DATE').valueAsDate = new Date();
     </script>
-    
+
 </body>
 
 </html>
