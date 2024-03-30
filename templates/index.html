@@ -4,67 +4,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3S-Technologies||signin</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <!-- <link rel="stylesheet" href="/static/style.css"> -->
-    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/static/style.css"> -->
     <style>
-        .login-container {
-            max-width: 500px;
-            margin: 100px auto;
-            /* Adjusted margin for vertical centering */
-            background-color: #fff;
-            border: 2px solid #ddd;
-            padding: 20px;
-            border-radius: 30px;
-            box-shadow: 5px 10px rgba(0, 0, 0, 0.1);
-            height: 350px;
+        * {
+            /* margin: 0; */
+            /* padding: 0; */
+            /* box-sizing: border-box; */
+            font-family: 'Poppins', sans-serif;
         }
 
-        #loginForm {
+        body {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* background: #222; */
         }
 
-        .label1 {
-            margin-bottom: 8px;
-            font-size: large;
-            padding: 20px;
-            margin: 10px;
+        @property --a {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 0deg;
         }
 
-        .center {
-            /* align-items: center; */
-            /* justify-content: center; */
-            text-align: center;
-            color: rgb(255, 4, 201);
+        .box {
+            position: relative;
+            width: 600px;
+            min-height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: repeating-conic-gradient(from var(--a), #01dbc2 0%, #01dbc2 10%, transparent 10%, transparent 50%);
+            animation: animate 6s linear infinite;
         }
 
-        .button {
-            /* width: fit-content; */
-            padding: 10px;
-            margin: 10px;
-            /* display: grid; */
-            /* text-align: center; */
-            /* background-color: red; */
+        @keyframes animate {
+            0% {
+                --a: 0deg;
+            }
+
+            100% {
+                --a: 360deg;
+            }
         }
 
-        .button button {
-            height: 40px;
-            width: 70px;
-            background-color: aliceblue;
+        .box::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-conic-gradient(from var(--a), red 0%, red 10%, transparent 10%, transparent 50%);
+            animation: animate 6s linear infinite;
+            animation-delay: -1.5s;
+        }
+
+        .box::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border: 20px solid #222;
+            background: white;
+        }
+
+        form {
+            position: relative;
+            z-index: 1000;
+        }
+
+        form h2 {
             color: black;
-            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-top: 50px;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .inputBx {
+            position: relative;
+            margin-bottom: 40px;
+            width: 340px;
+        }
+
+        .inputBx span {
+            position: absolute;
+            inset: -2px;
+            z-index: 1;
+        }
+
+        .inputBx span::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            /* background: repeating-conic-gradient(from var(--a), #01dbc2 0%, #01dbc2 10%, transparent 10%, transparent 50%); */
+            animation: animate 6s linear infinite;
+            box-shadow: 0 0 0 2px #000;
+        }
+
+        .inputBx:nth-child(2) span::before {
+            animation-delay: -1.5s;
+        }
+
+        .inputBx span::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #292929;
+        }
+
+        .inputBx input {
+            position: relative;
+            z-index: 100000;
+            outline: none;
+            border: none;
+            width: 100%;
+            padding: 8px 14px;
+            /* background: transparent; */
+            color: black;
+            /* text-transform: uppercase; */
+            letter-spacing: 0.1em;
+        }
+
+        .inputBx input::placeholder {
+            color: black;
+            opacity: 0.8;
 
         }
 
-        .button button:hover {
-            background-color: black;
-            color: aliceblue;
+        .inputBx input[type="submit"] {
+            background: blue;
             cursor: pointer;
-
+            /* box-shadow: 0 0 0 4px #01dbc2; */
+            width: 100%;
+            font-weight: 500;
+            color: white;
+            /* filter: drop-shadow(0 0 15px #01dbc2); */
+            /* Updated styles for the button */
+            padding: 10px 0;
+            /* Adjust padding for better appearance */
+            border: none;
+            /* Remove border */
+            border-radius: 5px;
+            /* Add border-radius for rounded corners */
+            /* text-transform: uppercase; */
+            letter-spacing: 0.1em;
         }
 
-        .username {
-            height: 20px;
+        .group {
+            position: relative;
+            top: -10px;
+            padding-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .group a {
+            text-decoration: none;
+            color: #fff8;
+            letter-spacing: 0.1em;
+            font-size: 0.75em;
+        }
+
+        .group a:nth-child(2),
+        .group a:hover {
+            color: #01dbc2;
+            filter: drop-shadow(0 0 5px #01dbc2);
         }
 
         .amaan {
@@ -74,32 +185,38 @@
 
         p {
             text-align: center;
+            color: red;
         }
+        
     </style>
 </head>
+
 <body>
-    <div class="login-container">
+    <div class="box">
+        
         <form id="loginForm" action="/main" method="post">
-            <h2 class="center">Login</h2>
-            <div class="amaan">
-                <label for="username" class="label1">Username:</label>
-                <input type="text" id="username" class="username" name="username" required
-                    style="height: 30px; margin: 10px;width: 300px;">
+            <h2>Login</h2>
+            <div class="inputBx">
+                <span></span>
+                <input type="text" id="username" class="username" name="username" placeholder="username" required>
+
             </div>
-            <div class="amaan">
-                <label for="password" class="label1">Password:</label>
-                <input type="password" id="password" name="password" required
-                    style="height: 30px; margin: 10px;width: 300px;">
+            <div class="inputBx">
+                <span></span>
+                <input type="password" id="password" name="password" placeholder="password" required>
+
             </div>
-            <center>
-                <div class="button">
-                    <button type="submit" style="margin: 10PX;">Login</button><br>
-                    <!-- <a href="/register">Register</a> -->
-                </div>
-            </center>
+
+            <div class="inputBx">
+                <input type="submit" value="Sign in">
+            </div>
             {% if message %}
-            <p class="error-message" id="error-message">{{ message }}</p>
+            <p class="error-message error" id="error-message">{{ message }}</p>
             {% endif %}
+            <div style="margin-top: 50px;">
+                <h6>For Registering New Users <a href="/register">Click Here</a></h6>
+            </div>
+
         </form>
     </div>
 </body>
