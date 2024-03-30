@@ -1,9 +1,90 @@
+* {
+    /* margin: 0; */
+    /* padding: 0; */
+    /* box-sizing: border-box; */
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* background-color: #f3f3f3; */
+    /* background-image: url('https://c0.wallpaperflare.com/preview/988/670/340/smoke-abstract-shapes.jpg'); */
+    animation: gradientAnimation 40s ease infinite;
+    /* opacity: 40%; */
+}
+
+.text {
+    /* font-size: 48px; */
+    /* font-weight: bold; */
+    background: linear-gradient(to right, #ff6b6b, #ffc0cb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: animateText 8s infinite;
+}
+
+/* .logo-container {
+    position: relative;
+    animation: spin 2s infinite linear;
+} */
+
+/* @keyframes spin {
+    from {
+        transform: rotate(-5deg);
+    }
+
+    to {
+        transform: rotate(5deg);
+    }
+} */
+
+@keyframes animateText {
+    0% {
+        color: #ff6b6b;
+    }
+
+    /* Start color */
+    25% {
+        color: yellow;
+    }
+
+    /* Middle color */
+    50% {
+        color: aqua;
+    }
+
+    /* End color */
+    75% {
+        color: purple;
+    }
+
+    100% {
+        color: peach;
+    }
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .sidebar {
     height: 100%;
     width: 250px;
     position: fixed;
-    top: 0;
-    left: -250px; /* Initially hidden */
+    top: 93px;
+    /* left: -250px;  */
+    /* Initially hidden */
     background-color: #111;
     padding-top: 200px;
     transition: left 0.3s ease;
@@ -12,18 +93,21 @@
 .sidebar h2 {
     color: white;
     text-align: center;
-    padding-top: 50px;
+    /* padding-top: 50px; */
 }
 
 .sidebar ul {
     list-style-type: none;
     padding: 0;
+    margin-top: -120px;
+    margin-left: 20px;
 }
 
 .sidebar ul li {
-    padding: 10px;
+    padding: 5px;
     /* text-align: center; */
     justify-content: center;
+    font-size: 18px;
 }
 
 .sidebar ul li a {
@@ -32,14 +116,19 @@
 }
 
 .sidebar ul li a:hover {
-    background-color: #555;
+    background-color: white;
+    color: black;
 }
+
+/* .sidebar ul li a:focus {
+    background-color: aqua;
+} */
 
 .content {
     margin-left: 0;
     padding: 20px;
     transition: margin-left 0.3s ease;
-    
+
 }
 
 .hidden {
@@ -53,17 +142,20 @@
     z-index: 999;
 }
 
-.center{
+.center {
     text-align: center;
     font-weight: bolder;
 }
-button:hover{
+
+button:hover {
     background-color: black;
     color: wheat;
 }
-input:focus{
+
+input:focus {
     border: 3px solid cyan;
 }
+
 /* input:hover{
     border: 3px solid cyan;
 } */
@@ -74,15 +166,20 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background-color: #ffffff;
 }
+
 tr:hover {
     background-color: #f2f2f2;
 }
-img{
+
+img {
     width: 170px;
 }
-.np{
+input{
+    background-color: whitesmoke;
+}
+.np {
     font-size: larger;
-    margin-left: 250px;
-    margin-right: 55px;
+    /* margin-left: 250px; */
+    margin-right: 50px;
     margin-top: 10px;
 }
