@@ -3,12 +3,14 @@ from tkinter import ttk, font
 import pyodbc
 from datetime import datetime
 import sys
+from tkinter import Tk, Label, Entry, Button, ttk
+import tkinter.font as tkFont
 
 app = tk.Tk()
 app.geometry("700x500")
 app.title("INSERT INVENTORY ONHAND")
 
-instruction_label = ttk.Label(app, text="INSERT THE BELOW FIELDS INTO THE INVENTORY ON HAND", foreground="black", font=font.Font(size=11), background="#CCCCCC")
+instruction_label = ttk.Label(app, text="ADD INVENTORY ON HAND", foreground="black", font=font.Font(size=12, weight='bold'))
 instruction_label.place(relx=0.1, rely=0.1)
 
 
@@ -26,6 +28,7 @@ scrollable_frame.bind(
     lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
 )
 
+
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 canvas.configure(yscrollcommand=scrollbar.set)
 
@@ -34,12 +37,16 @@ scrollbar.pack(side="right", fill="y")
 
 # Function to add labels and entry fields to the scrollable frame
 def add_label_and_entry(label_text, row):
-    label = ttk.Label(scrollable_frame, text=label_text)
+    label = ttk.Label(scrollable_frame, text=label_text, font=custom_font)
     label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
 
-    entry = ttk.Entry(scrollable_frame)
+    entry = ttk.Entry(scrollable_frame, font=custom_font)
     entry.grid(row=row, column=1, padx=10, pady=5)  # Adjusted padx and pady for spacing
     return entry
+
+
+# Create a custom font
+custom_font = tkFont.Font(family="Verdana", size=10)
 
 # Labels and entry fields
 labels_and_entries = [
@@ -62,11 +69,11 @@ for label_text, row in labels_and_entries:
     entry = add_label_and_entry(label_text, row)
     entry_fields.append(entry)
 
-def insert_inventory_onhand():
+def insert():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                         'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
-                      'Database=InfraDB;'
+                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
+                        'Database=InfraDB1;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -84,7 +91,7 @@ def insert_inventory_onhand():
 
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute("""
-            INSERT INTO Inventory_Onhand
+            INSERT INTO Inventory_Onhand1 
             (ITEM_ID, INSTALL_LOCATION, PROJECT_CODE, QUANTITY, IP_ADDRESS, SUBNET_MASK, GATEWAY, COMMENTS, 
             LAST_PO_NUM, LAST_PO_PRICE, RENEWAL_DATE, NOTES, CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -96,7 +103,14 @@ def insert_inventory_onhand():
         reset()
 
     except pyodbc.Error as ex:
-        print("CONNECTION FAILED", ex)
+        error_message = str(ex)
+        if 'FK__Inventory__ITEM___60A75C0F' in error_message: 
+            error_label = ttk.Label(app, text="INVALID ITEM NUMBER        ", foreground="red")
+            error_label.place(relx=0.1, rely=0.95)  # Adjusted y-position
+        else:
+            error_label = ttk.Label(app, text="CONNECTION FAILED: " + error_message, foreground="red")
+            error_label.place(relx=0.1, rely=0.95)  # Adjusted y-position
+
 
 def reset():
     # Reset all entry fields to empty strings
@@ -111,20 +125,18 @@ button_frame = tk.Frame(app)
 button_frame.place(relx=0.1, rely=0.8, relwidth=0.8)
 
 # Button and info label
-insert_button = tk.Button(button_frame, text="ADD", command=insert_inventory_onhand,
-                          foreground="black", background="#64b5f6", font=font.Font(size=10,weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="ADD", command=insert,
+                          foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
 reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
-                         foreground="black", background="#64b5f6", font=font.Font(size=10,weight="bold"), width=7, height=1)
+                         foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
 cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
-                          foreground="black", background="#64b5f6", font=font.Font(size=10,weight="bold"), width=7, height=1)
-cancel_button.grid(row=0, column=4, pady=(10, 5), padx=50)
+                          foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
+cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
-info_label_inventory = ttk.Label(app, text="3S Technologies - Inventory Onhand")
-info_label_inventory.place(relx=0.1, rely=0.95)  # Adjusted y-position
 
 app.mainloop()
