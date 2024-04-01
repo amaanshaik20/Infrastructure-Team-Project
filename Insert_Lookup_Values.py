@@ -3,13 +3,18 @@ from tkinter import ttk, font
 import pyodbc
 from datetime import datetime
 import sys
+from tkinter import  ttk
+import tkinter.font as tkFont
+import tkinter as tk
+from tkinter import ttk, font
+import tkinter.font as tkFont
 
 app = tk.Tk()
 app.geometry("700x500")
 app.title("INSERT LOOKUP")
 
 # Label above the frame
-instruction_label = ttk.Label(app, text="INSERT THE BELOW FIELDS INTO THE LOOKUP VALUES", foreground="black", font=font.Font(size=11), background="#CCCCCC")
+instruction_label = ttk.Label(app, text="ADD LOOKUP VALUES", foreground="black", font=font.Font(size=11,weight='bold'))
 instruction_label.place(relx=0.1, rely=0.1)
 
 
@@ -35,24 +40,29 @@ scrollbar.pack(side="right", fill="y")
 
 # Function to add labels and entry fields to the scrollable frame
 def add_label_and_entry(label_text, row):
-    label = ttk.Label(scrollable_frame, text=label_text)
+    label = ttk.Label(scrollable_frame, text=label_text, font=custom_font)
     label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
 
-    if label_text == "ENABLED FLAG:":
-        entry = ttk.Combobox(scrollable_frame, values=['Y', 'N'])
+    if label_text == "ENABLED FLAG*":
+        entry = ttk.Combobox(scrollable_frame, values=['Y', 'N'], font=custom_font, width=18)
+        entry.grid(row=row, column=1, padx=10, pady=5, sticky='w')  # Adjusted padx and pady for spacing
     else:
-        entry = ttk.Entry(scrollable_frame)
-        
-    entry.grid(row=row, column=1, padx=10, pady=5)  # Adjusted padx and pady for spacing
+        entry = ttk.Entry(scrollable_frame, font=custom_font, width=20)
+        entry.grid(row=row, column=1, padx=10, pady=5, sticky='w')  # Adjusted padx and pady for spacing
     return entry
+
+
+
+# Create a custom font
+custom_font = tkFont.Font(family="Verdana", size=10)
 
 # Labels and entry fields
 labels_and_entries = [
-    ("LOOKUP TYPE ID:", 17),
-    ("LOOKUP CODE", 18),
-    ("LOOKUP VALUE:", 19),
-    ("VALUE DESCRIPTION:", 20),
-    ("ENABLED FLAG:", 21)
+    ("LOOKUP TYPE ID*", 17),
+    ("LOOKUP CODE*", 18),
+    ("LOOKUP VALUE*", 19),
+    ("VALUE DESCRIPTION", 20),
+    ("ENABLED FLAG*", 21)
 ]
 
 #ENTRY FIELDS
@@ -61,11 +71,11 @@ for label_text, row in labels_and_entries:
     entry = add_label_and_entry(label_text, row)
     entry_fields.append(entry)
 
-def insert_inventory_onhand():
+def insert():
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                        'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
-                      'Database=InfraDB;'
+                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
+                        'Database=InfraDB1;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -83,7 +93,7 @@ def insert_inventory_onhand():
 
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute("""
-            INSERT INTO Lookup_Values
+            INSERT INTO Lookup_Values1 
             (LOOKUP_TYPE_ID, LOOKUP_CODE, LOOKUP_VALUE, VALUE_DESCRIPTION, ENABLED_FLAG, 
             CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -94,7 +104,13 @@ def insert_inventory_onhand():
         reset()
 
     except pyodbc.Error as ex:
-        print("CONNECTION FAILED", ex)
+        error_message = str(ex)
+        if 'FK__Lookup_Va__LOOKU__52593CB8' in error_message: 
+            error_label = ttk.Label(app, text="INVALID LOOKUP TYPE NUMBER        ", foreground="red")
+            error_label.place(relx=0.1, rely=0.95)  # Adjusted y-position
+        else:
+            error_label = ttk.Label(app, text="CONNECTION FAILED: " + error_message, foreground="red")
+            error_label.place(relx=0.1, rely=0.95)  # Adjusted y-position
 
 def reset():
     # Reset all entry fields to empty strings
@@ -113,20 +129,19 @@ def get_bold_font():
     return font.Font(weight="bold")
 
 # Create buttons with bold text
-insert_button = tk.Button(button_frame, text="ADD", command=insert_inventory_onhand,
-                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
+insert_button = tk.Button(button_frame, text="ADD", command=insert,
+                          foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
 reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
-                         foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
+                         foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
 cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
-                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight="bold"), width=7, height=1)
+                          foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
 
-info_label_inventory = ttk.Label(app, text="3S Technologies - LOOKUP TYPE")
-info_label_inventory.place(relx=0.1, rely=0.95)  # Adjusted y-position
+
 
 app.mainloop()
