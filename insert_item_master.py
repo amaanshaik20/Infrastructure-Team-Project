@@ -3,14 +3,19 @@ from tkinter import ttk, font
 import pyodbc
 from datetime import datetime
 import sys
+from tkinter import  ttk
+import tkinter.font as tkFont
+import tkinter as tk
+from tkinter import ttk, font
+import tkinter.font as tkFont
 
 app = tk.Tk()
 app.geometry("700x550")
 app.title("INSERT ITEM MASTER")
 
-instruction_label = ttk.Label(app, text="INSERT THE BELOW FIELDS INTO THE ITEM MASTER", foreground="black", font=font.Font(size=11), background="#CCCCCC")
-instruction_label.place(relx=0.1, rely=0.1)
 
+instruction_label = ttk.Label(app, text="ADD ITEM MASTER", foreground="black", font=font.Font(size=12, weight='bold'))
+instruction_label.place(relx=0.1, rely=0.1)
 
 # Create a frame to hold the labels and entry fields with a scrollbar
 frame = tk.Frame(app, borderwidth=2, relief="groove", border=2, bg="grey")
@@ -33,16 +38,19 @@ scrollbar.pack(side="right", fill="y")
 
 # Function to add labels and entry fields to the scrollable frame
 def add_label_and_entry(label_text, row):
-    label = ttk.Label(scrollable_frame, text=label_text)
+    label = ttk.Label(scrollable_frame, text=label_text, font=custom_font)
     label.grid(row=row, column=0, sticky='w', padx=10, pady=5)  # Adjusted padx and pady for spacing
 
     if label_text == "ENABLED FLAG*":
-        entry = ttk.Combobox(scrollable_frame, values=['Y', 'N'])
+        entry = ttk.Combobox(scrollable_frame, values=['Y', 'N'], font=custom_font)
     else:
-        entry = ttk.Entry(scrollable_frame)
+        entry = ttk.Entry(scrollable_frame, font=custom_font)
         
     entry.grid(row=row, column=1, padx=10, pady=5)  # Adjusted padx and pady for spacing
     return entry
+
+# Create a custom font
+custom_font = tkFont.Font(family="Verdana", size=10)  # Changed font family and increased font size
 
 # Labels and entry fields
 labels_and_entries = [
@@ -63,13 +71,16 @@ for label_text, row in labels_and_entries:
     entry = add_label_and_entry(label_text, row)
     entry_fields.append(entry)
 
-def insert_item_master():
+
+
+
+def insert():
     info_label_item = None  # Declare info_label_item outside try block
     
     try:
         connection = pyodbc.connect('Driver={SQL Server};'
-                         'Server=LAPTOP-687KHBP5\SQLEXPRESS;'
-                      'Database=InfraDB;'
+                        'Server=AJAS-SAMSUNG-BO\MSSQLSERVER01;'
+                        'Database=InfraDB1;'
                         'Trusted_Connection=yes;')
         connection.autocommit = True
 
@@ -87,7 +98,7 @@ def insert_item_master():
 
         # Use parameterized query to avoid SQL injection and handle date conversion
         connection.execute("""
-            INSERT INTO ITEM_MASTER 
+            INSERT INTO ITEM_MASTER1 
             (ITEM_NUMBER, ITEM_DESCRIPTION, ITEM_TYPE, MANUFACTURER_CODE, ITEM_CATEGORY, 
             CPU, MEMORY, DISKS, UOM, ENABLED_FLAG, 
             CREATION_DATE, CREATED_BY_USER, LAST_UPDATE_DATE, LAST_UPDATED_BY_USER) 
@@ -124,20 +135,17 @@ button_frame.place(relx=0.1, rely=0.8, relwidth=0.8)
 def get_bold_font():
     return font.Font(weight="bold")
 
-insert_button = tk.Button(button_frame, text="ADD", command=insert_item_master,
-                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight='bold'), width=7, height=1)
+insert_button = tk.Button(button_frame, text="ADD", command=insert,
+                          foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 insert_button.grid(row=0, column=0, pady=(10, 5), padx=50)
 
 reset_button = tk.Button(button_frame, text="CLEAR", command=reset,
-                         foreground="black", background="#64b5f6", font=font.Font(size=10, weight='bold'), width=7, height=1)
+                         foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 reset_button.grid(row=0, column=1, pady=(10, 5), padx=50)
 
 cancel_button = tk.Button(button_frame, text="CANCEL", command=cancel,
-                          foreground="black", background="#64b5f6", font=font.Font(size=10, weight='bold'), width=7, height=1)
+                          foreground="black", font=font.Font(size=10, weight="bold"), width=7, height=1, background="#e0e0e0")
 cancel_button.grid(row=0, column=2, pady=(10, 5), padx=50)
 
-
-info_label_inventory = ttk.Label(app, text="3S Technologies - ITEM MASTER")
-info_label_inventory.place(relx=0.1, rely=0.95)  # Adjusted y-position
 
 app.mainloop()
