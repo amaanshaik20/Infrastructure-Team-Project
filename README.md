@@ -1,8 +1,5 @@
-# Inventory-Project---Display
-
 # Required Libraries and Frameworks to install
-# use below commands in terminal to install
-
+**use below commands in terminal to install**
 pip install flask
 
 pip install pandas
